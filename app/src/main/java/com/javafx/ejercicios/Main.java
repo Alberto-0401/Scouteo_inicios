@@ -1,4 +1,4 @@
-package com.javafx.A_holamundofxml;
+package com.javafx.ejercicios;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author Molina
+ * @author Juan
  */
 public class Main extends Application {
 
@@ -18,11 +18,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primeraEscena) throws Exception { //puede lanzar excep'
-        Parent root = FXMLLoader.load(getClass().getResource("/ejemplo_holamundo.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/ejercicio1.fxml"));
 
         Scene scene = new Scene(root);
         primeraEscena.setScene(scene);
-        primeraEscena.setTitle("Primer Ejemplo JavaFX - Hola Mundo");
+        primeraEscena.setTitle("Ejercicio 1");
         primeraEscena.show();
         
         

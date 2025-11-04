@@ -23,7 +23,7 @@ java { //Se indica la versión de JDK que ha de utilizar
 }
 
 application { //Definimos clase principal del proyecto
-    mainClass = 'com.javafx.A_holamundofxml.Main'
+    mainClass = 'com.javafx.ejercicios.Main'
 }
 
 sourceSets {
