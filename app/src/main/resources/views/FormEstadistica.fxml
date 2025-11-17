@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.javafx.ejercicios.FormEstadisticaController"
+      fx:controller="com.javafx.scouteo.controller.FormEstadisticaController"
       spacing="15" style="-fx-padding: 20; -fx-background-color: white;"
       prefWidth="550" prefHeight="600">
     

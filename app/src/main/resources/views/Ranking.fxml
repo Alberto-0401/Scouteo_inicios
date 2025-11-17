@@ -7,12 +7,14 @@
 <?import javafx.collections.FXCollections?>
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.javafx.ejercicios.RankingController"
-      spacing="15" style="-fx-padding: 20;" prefWidth="850" prefHeight="600">
+      fx:controller="com.javafx.scouteo.controller.RankingController"
+      spacing="15" prefWidth="850" prefHeight="600">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
 
     <HBox spacing="10" alignment="CENTER_LEFT">
-        <Label text="RANKING DE JUGADORES" style="-fx-font-size: 20px; -fx-font-weight: bold;" prefWidth="700"/>
-        <Button text="← Volver" onAction="#volverDashboard"/>
+        <Label text="RANKING DE JUGADORES" HBox.hgrow="ALWAYS"/>
     </HBox>
     
     <Separator/>

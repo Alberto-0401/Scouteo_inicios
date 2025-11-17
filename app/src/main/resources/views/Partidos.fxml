@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.javafx.scouteo.controller.PartidosController"
+      spacing="15">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="GESTIÓN DE PARTIDOS Y ESTADÍSTICAS" HBox.hgrow="ALWAYS"/>
+    </HBox>
+
+    <Separator/>
+
+    <!-- Tabla de partidos -->
+    <Label text="Listado de Partidos"/>
+
+    <TableView fx:id="tablaPartidos" prefHeight="400" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colId" prefWidth="50" text="ID"/>
+            <TableColumn fx:id="colFecha" prefWidth="100" text="Fecha"/>
+            <TableColumn fx:id="colRival" prefWidth="200" text="Rival"/>
+            <TableColumn fx:id="colResultado" prefWidth="80" text="Resultado"/>
+            <TableColumn fx:id="colLocalVisitante" prefWidth="100" text="Local/Visitante"/>
+            <TableColumn fx:id="colAcciones" prefWidth="150" text="Acciones"/>
+        </columns>
+    </TableView>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label fx:id="lblTotal" text="Total: 0 partidos"/>
+    </HBox>
+
+</VBox>

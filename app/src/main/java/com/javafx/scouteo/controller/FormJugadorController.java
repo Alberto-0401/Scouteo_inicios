@@ -1,4 +1,4 @@
-package com.javafx.ejercicios;
+package com.javafx.scouteo.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -44,17 +44,18 @@ public class FormJugadorController {
 
     @FXML
     void cancelar(ActionEvent event) {
-
+        javafx.stage.Stage stage = (javafx.stage.Stage) txtNombre.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
     void guardar(ActionEvent event) {
-
+        lblError.setText("Guardar (no implementado)");
     }
 
     @FXML
     void seleccionarFoto(ActionEvent event) {
-
+        lblNombreFoto.setText("Seleccionar foto (no implementado)");
     }
 
 }

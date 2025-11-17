@@ -1,4 +1,4 @@
-package com.javafx.ejercicios;
+package com.javafx.scouteo;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -8,14 +8,14 @@ import javafx.stage.Stage;
 
 
 public class Main extends Application {
-                                                                                 
+
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
-    public void start(Stage primeraEscena) throws Exception { //puede lanzar excep'
-        Parent root = FXMLLoader.load(getClass().getResource("/Dashboard.fxml"));
+    public void start(Stage primeraEscena) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("/views/Dashboard.fxml"));
 
         Scene scene = new Scene(root);
         primeraEscena.setScene(scene);

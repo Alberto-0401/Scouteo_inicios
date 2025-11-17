@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.javafx.scouteo.controller.InfoClubController"
+      spacing="20">
+    <padding>
+        <Insets top="30" right="30" bottom="30" left="30"/>
+    </padding>
+
+    <Label text="INFORMACIÓN DEL CLUB"/>
+
+    <Separator/>
+
+    <!-- Información básica del club -->
+    <GridPane hgap="20" vgap="15" prefWidth="600">
+        <columnConstraints>
+            <ColumnConstraints percentWidth="30"/>
+            <ColumnConstraints percentWidth="70"/>
+        </columnConstraints>
+
+        <Label text="Nombre del Club:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <Label fx:id="lblNombreClub" text="" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <Label text="Fundación:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <Label fx:id="lblFundacion" text="" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+        <Label text="Ciudad:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <Label fx:id="lblCiudad" text="" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+        <Label text="Estadio:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <Label fx:id="lblEstadio" text="" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+        <Label text="Entrenador:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+        <Label fx:id="lblEntrenador" text="" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+        <Label text="Categoría:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+        <Label fx:id="lblCategoria" text="" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+    </GridPane>
+
+    <Separator/>
+
+    <!-- Estadísticas generales del club -->
+    <VBox spacing="15">
+        <Label text="ESTADÍSTICAS GENERALES"/>
+
+        <HBox spacing="20">
+            <VBox spacing="5">
+                <Label text="Total Plantilla"/>
+                <Label fx:id="lblTotalPlantilla" text="0"/>
+            </VBox>
+
+            <VBox spacing="5">
+                <Label text="Victorias"/>
+                <Label fx:id="lblVictorias" text="0"/>
+            </VBox>
+
+            <VBox spacing="5">
+                <Label text="Empates"/>
+                <Label fx:id="lblEmpates" text="0"/>
+            </VBox>
+
+            <VBox spacing="5">
+                <Label text="Derrotas"/>
+                <Label fx:id="lblDerrotas" text="0"/>
+            </VBox>
+        </HBox>
+    </VBox>
+
+    <Separator/>
+
+    <!-- Botón de configuración -->
+    <HBox alignment="CENTER_LEFT">
+        <Button text="Editar Información del Club" onAction="#editarInfoClub"/>
+    </HBox>
+
+</VBox>

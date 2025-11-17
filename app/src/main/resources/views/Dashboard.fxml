@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.PieChart?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.javafx.scouteo.controller.DashboardController"
+            prefWidth="1100" prefHeight="700">
+
+    <!-- Panel Lateral Izquierdo (Fijo) -->
+    <left>
+        <VBox spacing="20" prefWidth="320">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <Label text="SCOUTEO"/>
+
+            <Separator/>
+
+            <!-- Resumen en tarjetas -->
+            <VBox spacing="15">
+                <Label text="RESUMEN"/>
+
+                <VBox spacing="5">
+                    <Label text="Total Jugadores"/>
+                    <Label fx:id="lblTotalJugadores" text="0"/>
+                </VBox>
+
+                <VBox spacing="5">
+                    <Label text="Partidos Jugados"/>
+                    <Label fx:id="lblTotalPartidos" text="0"/>
+                </VBox>
+
+                <VBox spacing="5">
+                    <Label text="Goles Totales"/>
+                    <Label fx:id="lblTotalGoles" text="0"/>
+                </VBox>
+            </VBox>
+
+            <Separator/>
+
+            <!-- Gráfico de jugadores por posición -->
+            <VBox spacing="10">
+                <Label text="Distribución por Posición"/>
+                <PieChart fx:id="chartPosiciones" prefHeight="200"/>
+            </VBox>
+
+        </VBox>
+    </left>
+
+    <!-- Panel Central con Navegación -->
+    <center>
+        <VBox spacing="0">
+            <!-- Barra de navegación -->
+            <HBox spacing="10">
+                <Button fx:id="btnInfoClub" text="Info Club" onAction="#mostrarInfoClub"/>
+                <Button fx:id="btnListadoJugadores" text="Jugadores" onAction="#mostrarListadoJugadores"/>
+                <Button fx:id="btnRanking" text="Ranking" onAction="#mostrarRanking"/>
+                <Button fx:id="btnPartidos" text="Partidos" onAction="#mostrarPartidos"/>
+            </HBox>
+
+            <!-- StackPane para cambiar entre vistas -->
+            <StackPane fx:id="contenedorCentral" VBox.vgrow="ALWAYS">
+                <!-- Las vistas se cargarán dinámicamente aquí -->
+            </StackPane>
+        </VBox>
+    </center>
+
+</BorderPane>

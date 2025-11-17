@@ -1,5 +1,6 @@
-package com.javafx.ejercicios;
+package com.javafx.scouteo.controller;
 
+import com.javafx.scouteo.dao.RankingDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -44,9 +45,12 @@ public class RankingController {
     @FXML
     private Label lblTotal;
 
+    private RankingDAO rankingDAO;
+
     @FXML
     public void initialize() {
-        // Configurar columnas
+        rankingDAO = new RankingDAO();
+
         colPosicion.setCellValueFactory(new PropertyValueFactory<>("posicion"));
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colDorsal.setCellValueFactory(new PropertyValueFactory<>("dorsal"));
@@ -55,16 +59,20 @@ public class RankingController {
         colGoles.setCellValueFactory(new PropertyValueFactory<>("goles"));
         colAsistencias.setCellValueFactory(new PropertyValueFactory<>("asistencias"));
         colPromedio.setCellValueFactory(new PropertyValueFactory<>("promedio"));
-        
-        // Valores por defecto
+
         cmbOrdenar.setValue("Goles");
         cmbPosicion.setValue("Todas");
-        
+
         cargarDatos();
     }
 
     private void cargarDatos() {
-        ObservableList<JugadorRanking> datos = FXCollections.observableArrayList();
+        String ordenarPor = cmbOrdenar.getValue() != null ? cmbOrdenar.getValue() : "Goles";
+        String posicion = cmbPosicion.getValue() != null ? cmbPosicion.getValue() : "Todas";
+
+        ObservableList<JugadorRanking> datos = FXCollections.observableArrayList(
+            rankingDAO.obtenerRanking(ordenarPor, posicion)
+        );
 
         tablaRanking.setItems(datos);
         lblTotal.setText("Mostrando " + datos.size() + " jugadores");
@@ -72,14 +80,9 @@ public class RankingController {
 
     @FXML
     private void aplicarFiltros() {
-
-        cargarDatos();
+        System.out.println("Aplicar filtros (no implementado)");
     }
 
-    @FXML
-    private void volverDashboard() {
-        // TODO: Implementar navegación
-    }
 
     public static class JugadorRanking {
         private Integer posicion;

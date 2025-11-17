@@ -1,4 +1,4 @@
-package com.javafx.ejercicios;
+package com.javafx.scouteo.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -75,7 +75,7 @@ public class EstadisticasJugadorController {
     }
 
     private void cargarJugadores() {
-        // TODO: Cargar desde base de datos
+        
     }
 
     @FXML
@@ -91,7 +91,6 @@ public class EstadisticasJugadorController {
             return;
         }
         
-        // TODO: Cargar desde base de datos
         ObservableList<EstadisticaPartido> datos = FXCollections.observableArrayList();
         
         // Calcular totales
@@ -108,10 +107,7 @@ public class EstadisticasJugadorController {
 
     @FXML
     private void volverDashboard() {
-        // TODO: Implementar navegación
     }
-    
-    // Clase auxiliar para la tabla
     public static class EstadisticaPartido {
         private String fecha;
         private String rival;
@@ -135,7 +131,6 @@ public class EstadisticasJugadorController {
             this.tarjetasRojas = tarjetasRojas;
         }
         
-        // Getters
         public String getFecha() { return fecha; }
         public String getRival() { return rival; }
         public String getResultado() { return resultado; }

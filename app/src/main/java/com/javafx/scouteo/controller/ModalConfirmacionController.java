@@ -1,4 +1,4 @@
-package com.javafx.ejercicios;
+package com.javafx.scouteo.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

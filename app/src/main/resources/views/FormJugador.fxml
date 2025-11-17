@@ -8,7 +8,7 @@
 <?import javafx.collections.FXCollections?>
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.javafx.ejercicios.FormJugadorController"
+      fx:controller="com.javafx.scouteo.controller.FormJugadorController"
       spacing="15" style="-fx-padding: 20; -fx-background-color: white;"
       prefWidth="500" prefHeight="550">
     
