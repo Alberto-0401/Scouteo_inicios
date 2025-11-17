@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="546.0" prefWidth="773.0" spacing="10" style="-fx-padding: 15;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.ejercicios.ListadoJugadoresController">
+    
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label prefHeight="27.0" prefWidth="662.0" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="GESTIÓN DE JUGADORES" />
+        <Button onAction="#volverDashboard" text="← Volver" />
+    </HBox>
+    
+    <Separator />
+    
+    <!-- Barra de búsqueda y filtros -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label prefHeight="18.0" prefWidth="52.0" text="Buscar:" />
+        <TextField fx:id="txtBuscar" prefWidth="200" promptText="Nombre del jugador..." />
+        
+        <Label prefHeight="18.0" prefWidth="65.0" text="Posición:" />
+        <ComboBox fx:id="cmbPosicion" prefWidth="120" promptText="Todas">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Todas" />
+                    <String fx:value="POR" />
+                    <String fx:value="DEF" />
+                    <String fx:value="MED" />
+                    <String fx:value="DEL" />
+                </FXCollections>
+            </items>
+        </ComboBox>
+
+        <Label prefWidth="200" text="" />
+        <Button onAction="#abrirFormularioNuevo" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="+ AÑADIR JUGADOR" />
+    </HBox>
+    
+    <!-- Tabla de jugadores -->
+    <TableView fx:id="tablaJugadores" prefHeight="400">
+        <columns>
+            <TableColumn fx:id="colId" prefWidth="50" text="ID" />
+            <TableColumn fx:id="colNombre" prefWidth="120" text="Nombre" />
+            <TableColumn fx:id="colApellidos" prefWidth="150" text="Apellidos" />
+            <TableColumn fx:id="colDorsal" prefWidth="60" text="Dorsal" />
+            <TableColumn fx:id="colPosicion" prefWidth="80" text="Posición" />
+            <TableColumn fx:id="colCategoria" prefWidth="100" text="Categoría" />
+            <TableColumn fx:id="colEdad" prefWidth="60" text="Edad" />
+            <TableColumn fx:id="colAcciones" prefWidth="121.5999633789063" text="Acciones" />
+        </columns>
+    </TableView>
+    
+    <!-- Footer con información -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label fx:id="lblTotal" prefWidth="150" text="Total: 0 jugadores" />
+    </HBox>
+    
+</VBox>

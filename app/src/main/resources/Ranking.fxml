@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.javafx.ejercicios.RankingController"
+      spacing="15" style="-fx-padding: 20;" prefWidth="850" prefHeight="600">
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="RANKING DE JUGADORES" style="-fx-font-size: 20px; -fx-font-weight: bold;" prefWidth="700"/>
+        <Button text="← Volver" onAction="#volverDashboard"/>
+    </HBox>
+    
+    <Separator/>
+    
+    <!-- Filtros -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Ordenar por:"/>
+        <ComboBox fx:id="cmbOrdenar" prefWidth="200">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Goles"/>
+                    <String fx:value="Asistencias"/>
+                    <String fx:value="Partidos Jugados"/>
+                    <String fx:value="Promedio Goles"/>
+                </FXCollections>
+            </items>
+        </ComboBox>
+
+        <Label text="Posición:"/>
+        <ComboBox fx:id="cmbPosicion" prefWidth="150">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Todas"/>
+                    <String fx:value="POR"/>
+                    <String fx:value="DEF"/>
+                    <String fx:value="MED"/>
+                    <String fx:value="DEL"/>
+                </FXCollections>
+            </items>
+        </ComboBox>
+
+        <Button text="Aplicar Filtros" onAction="#aplicarFiltros"/>
+    </HBox>
+    
+    <!-- Tabla de ranking -->
+    <TableView fx:id="tablaRanking" prefHeight="450">
+        <columns>
+            <TableColumn fx:id="colPosicion" text="#" prefWidth="50"/>
+            <TableColumn fx:id="colNombre" text="Jugador" prefWidth="200"/>
+            <TableColumn fx:id="colDorsal" text="Dorsal" prefWidth="60"/>
+            <TableColumn fx:id="colPosicionJuego" text="Posición" prefWidth="80"/>
+            <TableColumn fx:id="colPartidos" text="Partidos" prefWidth="80"/>
+            <TableColumn fx:id="colGoles" text="Goles" prefWidth="80"/>
+            <TableColumn fx:id="colAsistencias" text="Asistencias" prefWidth="100"/>
+            <TableColumn fx:id="colPromedio" text="Prom. Goles" prefWidth="100"/>
+        </columns>
+    </TableView>
+    
+    <Label fx:id="lblTotal" text="Mostrando 0 jugadores"/>
+    
+</VBox>

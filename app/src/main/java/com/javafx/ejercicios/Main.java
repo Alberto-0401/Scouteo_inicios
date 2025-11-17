@@ -6,23 +6,21 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-/**
- *
- * @author Juan
- */
-public class Main extends Application {
 
+public class Main extends Application {
+                                                                                 
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
     public void start(Stage primeraEscena) throws Exception { //puede lanzar excep'
-        Parent root = FXMLLoader.load(getClass().getResource("/ejercicio1.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/Dashboard.fxml"));
 
         Scene scene = new Scene(root);
         primeraEscena.setScene(scene);
-        primeraEscena.setTitle("Ejercicio 1");
+        primeraEscena.setTitle("Pruebas");
+        primeraEscena.setResizable(false);
         primeraEscena.show();
         
         
