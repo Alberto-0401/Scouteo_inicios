@@ -19,12 +19,13 @@ public class RankingDAO {
         };
 
         String sql = "SELECT j.nombre, j.apellidos, j.dorsal, j.posicion, " +
-                     "COUNT(e.id_estadistica) as total_partidos, " +
+                     "COUNT(DISTINCT jp.id_partido) as total_partidos, " +
                      "COALESCE(SUM(e.goles), 0) as total_goles, " +
                      "COALESCE(SUM(e.asistencias), 0) as total_asistencias, " +
-                     "CASE WHEN COUNT(e.id_estadistica) > 0 THEN COALESCE(SUM(e.goles), 0) / COUNT(e.id_estadistica) ELSE 0 END as promedio_goles " +
+                     "CASE WHEN COUNT(DISTINCT jp.id_partido) > 0 THEN COALESCE(SUM(e.goles), 0) / COUNT(DISTINCT jp.id_partido) ELSE 0 END as promedio_goles " +
                      "FROM jugadores j " +
-                     "LEFT JOIN estadisticas_partido e ON j.id_jugador = e.id_jugador " +
+                     "LEFT JOIN jugadores_partidos jp ON j.id_jugador = jp.id_jugador " +
+                     "LEFT JOIN estadisticas_partido e ON jp.id_estadistica = e.id_estadistica " +
                      (posicionFiltro.equals("Todas") ? "" : "WHERE j.posicion = ? ") +
                      "GROUP BY j.id_jugador, j.nombre, j.apellidos, j.dorsal, j.posicion " +
                      "ORDER BY " + columnaOrden + " DESC";

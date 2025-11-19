@@ -60,6 +60,7 @@
                 <Button fx:id="btnListadoJugadores" text="Jugadores" onAction="#mostrarListadoJugadores"/>
                 <Button fx:id="btnRanking" text="Ranking" onAction="#mostrarRanking"/>
                 <Button fx:id="btnPartidos" text="Partidos" onAction="#mostrarPartidos"/>
+                <Button fx:id="btnConvocatorias" text="Convocatorias" onAction="#mostrarConvocatorias"/>
             </HBox>
 
             <!-- StackPane para cambiar entre vistas -->

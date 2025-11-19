@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.javafx.scouteo.controller.ConvocatoriasController"
+      spacing="15">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="CONVOCATORIAS Y PARTICIPACIONES" HBox.hgrow="ALWAYS"/>
+    </HBox>
+
+    <Separator/>
+
+    <!-- Tabla de convocatorias/participaciones -->
+    <Label text="Jugadores convocados por partido"/>
+
+    <TableView fx:id="tablaConvocatorias" prefHeight="400" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colPartido" prefWidth="200" text="Partido"/>
+            <TableColumn fx:id="colFecha" prefWidth="100" text="Fecha"/>
+            <TableColumn fx:id="colJugador" prefWidth="180" text="Jugador"/>
+            <TableColumn fx:id="colDorsal" prefWidth="60" text="Dorsal"/>
+            <TableColumn fx:id="colPosicion" prefWidth="80" text="Posición"/>
+            <TableColumn fx:id="colTitular" prefWidth="70" text="Titular"/>
+            <TableColumn fx:id="colConvocado" prefWidth="90" text="Convocado"/>
+        </columns>
+    </TableView>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label fx:id="lblTotal" text="Total: 0 convocatorias"/>
+    </HBox>
+
+</VBox>

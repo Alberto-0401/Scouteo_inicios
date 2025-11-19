@@ -8,16 +8,18 @@ public class Partido {
     private String rival;
     private String resultado;
     private String localVisitante;
+    private String observaciones;
 
     public Partido() {
     }
 
-    public Partido(Integer idPartido, LocalDate fechaPartido, String rival, String resultado, String localVisitante) {
+    public Partido(Integer idPartido, LocalDate fechaPartido, String rival, String resultado, String localVisitante, String observaciones) {
         this.idPartido = idPartido;
         this.fechaPartido = fechaPartido;
         this.rival = rival;
         this.resultado = resultado;
         this.localVisitante = localVisitante;
+        this.observaciones = observaciones;
     }
 
     // Getters y Setters
@@ -59,5 +61,13 @@ public class Partido {
 
     public void setLocalVisitante(String localVisitante) {
         this.localVisitante = localVisitante;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
     }
 }

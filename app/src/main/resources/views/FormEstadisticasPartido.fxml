@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.javafx.scouteo.controller.FormEstadisticasPartidoController"
+      spacing="15" style="-fx-padding: 20; -fx-background-color: white;"
+      prefWidth="700" prefHeight="600">
+
+    <Label fx:id="lblTitulo" text="AÑADIR ESTADÍSTICAS"
+           style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+    <Separator/>
+
+    <Label text="Seleccione el jugador y añada sus estadísticas para este partido"
+           style="-fx-font-size: 12px;"/>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Jugador:"/>
+        <ComboBox fx:id="cmbJugadores" prefWidth="300" promptText="Seleccione un jugador"/>
+    </HBox>
+
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                style="-fx-background-color: white; -fx-border-color: transparent;">
+        <VBox spacing="15">
+
+            <Label text="Estadísticas del Partido" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+
+            <GridPane hgap="15" vgap="10">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="33"/>
+                    <ColumnConstraints percentWidth="33"/>
+                    <ColumnConstraints percentWidth="33"/>
+                </columnConstraints>
+
+                <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <Label text="Goles"/>
+                    <Spinner fx:id="spnGoles" editable="true" prefWidth="150"
+                             initialValue="0" min="0" max="10"/>
+                </VBox>
+
+                <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                    <Label text="Asistencias"/>
+                    <Spinner fx:id="spnAsistencias" editable="true" prefWidth="150"
+                             initialValue="0" min="0" max="10"/>
+                </VBox>
+
+                <VBox spacing="5" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                    <Label text="Minutos Jugados"/>
+                    <Spinner fx:id="spnMinutos" editable="true" prefWidth="150"
+                             initialValue="0" min="0" max="120"/>
+                </VBox>
+
+                <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <Label text="Paradas (Portero)"/>
+                    <Spinner fx:id="spnParadas" editable="true" prefWidth="150"
+                             initialValue="0" min="0" max="20"/>
+                </VBox>
+
+                <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <Label text="Recuperaciones"/>
+                    <Spinner fx:id="spnRecuperaciones" editable="true" prefWidth="150"
+                             initialValue="0" min="0" max="50"/>
+                </VBox>
+
+                <VBox spacing="5" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                    <Label text="Tarjetas Amarillas"/>
+                    <Spinner fx:id="spnTarjetasAmarillas" editable="true" prefWidth="150"
+                             initialValue="0" min="0" max="2"/>
+                </VBox>
+
+                <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                    <Label text="Tarjetas Rojas"/>
+                    <Spinner fx:id="spnTarjetasRojas" editable="true" prefWidth="150"
+                             initialValue="0" min="0" max="1"/>
+                </VBox>
+
+                <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <Label text="Valoración (1-10)"/>
+                    <Spinner fx:id="spnValoracion" editable="true" prefWidth="150"
+                             initialValue="5.0" min="1.0" max="10.0" amountToStepBy="0.5"/>
+                </VBox>
+            </GridPane>
+
+            <Separator/>
+
+            <Label text="Observaciones (Opcional)" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+
+            <TextArea fx:id="txtObservaciones" promptText="Observaciones sobre el desempeño del jugador..."
+                      prefRowCount="3" wrapText="true"/>
+
+        </VBox>
+    </ScrollPane>
+
+    <Separator/>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Label fx:id="lblError" text="" style="-fx-text-fill: red; -fx-font-size: 11px;" prefWidth="350"/>
+        <Button text="Cancelar" onAction="#cancelar" prefWidth="100"
+                style="-fx-background-color: #9E9E9E; -fx-text-fill: white;"/>
+        <Button text="Guardar" onAction="#guardar" prefWidth="100"
+                style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold;"/>
+    </HBox>
+
+</VBox>

@@ -12,7 +12,8 @@
     </padding>
 
     <HBox spacing="10" alignment="CENTER_LEFT">
-        <Label text="GESTIÓN DE PARTIDOS Y ESTADÍSTICAS" HBox.hgrow="ALWAYS"/>
+        <Label text="LISTADO DE PARTIDOS" HBox.hgrow="ALWAYS"/>
+        <Button text="+ NUEVO PARTIDO" onAction="#abrirFormularioNuevo"/>
     </HBox>
 
     <Separator/>
@@ -26,7 +27,7 @@
             <TableColumn fx:id="colFecha" prefWidth="100" text="Fecha"/>
             <TableColumn fx:id="colRival" prefWidth="200" text="Rival"/>
             <TableColumn fx:id="colResultado" prefWidth="80" text="Resultado"/>
-            <TableColumn fx:id="colLocalVisitante" prefWidth="100" text="Local/Visitante"/>
+            <TableColumn fx:id="colLocalVisitante" prefWidth="120" text="Local/Visit."/>
             <TableColumn fx:id="colAcciones" prefWidth="150" text="Acciones"/>
         </columns>
     </TableView>

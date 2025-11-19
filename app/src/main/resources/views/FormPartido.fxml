@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.javafx.scouteo.controller.FormPartidoController"
+      spacing="15" style="-fx-padding: 20; -fx-background-color: white;"
+      prefWidth="550" prefHeight="450">
+
+    <Label text="CREAR NUEVO PARTIDO"
+           style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+    <Separator/>
+
+    <ScrollPane fitToWidth="true"
+                style="-fx-background-color: white; -fx-border-color: transparent;">
+        <VBox spacing="12">
+
+            <Label text="Datos del Partido" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+
+            <HBox spacing="10">
+                <VBox spacing="5">
+                    <Label text="Fecha *"/>
+                    <DatePicker fx:id="dpFechaPartido" prefWidth="225"/>
+                </VBox>
+
+                <VBox spacing="5">
+                    <Label text="Rival *"/>
+                    <TextField fx:id="txtRival" promptText="Ej: Real Madrid CF" prefWidth="225"/>
+                </VBox>
+            </HBox>
+
+            <HBox spacing="10">
+                <VBox spacing="5">
+                    <Label text="Resultado"/>
+                    <TextField fx:id="txtResultado" promptText="Ej: 3-1" prefWidth="100"/>
+                </VBox>
+
+                <VBox spacing="5">
+                    <Label text="Local/Visitante *"/>
+                    <ComboBox fx:id="cmbLocalVisitante" prefWidth="150">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="LOCAL"/>
+                                <String fx:value="VISITANTE"/>
+                            </FXCollections>
+                        </items>
+                    </ComboBox>
+                </VBox>
+            </HBox>
+
+            <Separator/>
+
+            <Label text="Observaciones (Opcional)" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+
+            <TextArea fx:id="txtObservaciones" promptText="Observaciones del partido..."
+                      prefRowCount="4" wrapText="true"/>
+
+        </VBox>
+    </ScrollPane>
+
+    <Separator/>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Label fx:id="lblError" text="" style="-fx-text-fill: red; -fx-font-size: 11px;" prefWidth="260"/>
+        <Button text="Cancelar" onAction="#cancelar" prefWidth="100"
+                style="-fx-background-color: #9E9E9E; -fx-text-fill: white;"/>
+        <Button text="Guardar" onAction="#guardar" prefWidth="100"
+                style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold;"/>
+    </HBox>
+
+</VBox>

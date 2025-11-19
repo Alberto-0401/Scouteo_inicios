@@ -42,6 +42,9 @@ public class DashboardController {
     @FXML
     private Button btnPartidos;
 
+    @FXML
+    private Button btnConvocatorias;
+
     private Jugador jugadorSeleccionado;
     private JugadorDAO jugadorDAO;
     private PartidoDAO partidoDAO;
@@ -108,6 +111,12 @@ public class DashboardController {
         actualizarEstiloBotones(btnPartidos);
     }
 
+    @FXML
+    private void mostrarConvocatorias() {
+        cargarVista("/views/Convocatorias.fxml");
+        actualizarEstiloBotones(btnConvocatorias);
+    }
+
     public void mostrarPartidosConJugador(Jugador jugador) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Partidos.fxml"));
@@ -143,6 +152,7 @@ public class DashboardController {
         btnListadoJugadores.setDisable(false);
         btnRanking.setDisable(false);
         btnPartidos.setDisable(false);
+        btnConvocatorias.setDisable(false);
 
         botonActivo.setDisable(true);
     }
