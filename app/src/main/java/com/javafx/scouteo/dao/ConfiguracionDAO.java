@@ -32,24 +32,4 @@ public class ConfiguracionDAO {
         return config;
     }
 
-    public boolean actualizar(Configuracion config) {
-        String sql = "UPDATE configuracion SET nombre_club = ?, localidad = ?, presidente = ?, email = ?, telefono = ?, temporada_actual = ? WHERE id_config = ?";
-
-        try (Connection conn = ConexionBD.getConexion();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, config.getNombreClub());
-            pstmt.setString(2, config.getLocalidad());
-            pstmt.setString(3, config.getPresidente());
-            pstmt.setString(4, config.getEmail());
-            pstmt.setString(5, config.getTelefono());
-            pstmt.setString(6, config.getTemporadaActual());
-            pstmt.setInt(7, config.getIdConfig());
-
-            return pstmt.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
 }

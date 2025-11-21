@@ -75,64 +75,6 @@ public class JugadorDAO {
         return jugador;
     }
 
-    public boolean insertar(Jugador jugador, Date fechaNacimiento) {
-        String sql = "INSERT INTO jugadores (nombre, apellidos, fecha_nacimiento, dorsal, posicion, categoria, altura, peso, foto) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        try (Connection conn = ConexionBD.getConexion();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, jugador.getNombre());
-            pstmt.setString(2, jugador.getApellidos());
-            pstmt.setDate(3, fechaNacimiento);
-            pstmt.setInt(4, jugador.getDorsal());
-            pstmt.setString(5, jugador.getPosicion());
-            pstmt.setString(6, jugador.getCategoria());
-            pstmt.setNull(7, Types.DOUBLE); // altura
-            pstmt.setNull(8, Types.DOUBLE); // peso
-            pstmt.setNull(9, Types.VARCHAR); // foto
-
-            return pstmt.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean actualizar(Jugador jugador, Date fechaNacimiento) {
-        String sql = "UPDATE jugadores SET nombre = ?, apellidos = ?, fecha_nacimiento = ?, dorsal = ?, posicion = ?, categoria = ? WHERE id_jugador = ?";
-
-        try (Connection conn = ConexionBD.getConexion();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, jugador.getNombre());
-            pstmt.setString(2, jugador.getApellidos());
-            pstmt.setDate(3, fechaNacimiento);
-            pstmt.setInt(4, jugador.getDorsal());
-            pstmt.setString(5, jugador.getPosicion());
-            pstmt.setString(6, jugador.getCategoria());
-            pstmt.setInt(7, jugador.getId());
-
-            return pstmt.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean eliminar(int id) {
-        String sql = "DELETE FROM jugadores WHERE id_jugador = ?";
-
-        try (Connection conn = ConexionBD.getConexion();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, id);
-            return pstmt.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
     public int contarTotal() {
         String sql = "SELECT COUNT(*) as total FROM jugadores";
         try (Connection conn = ConexionBD.getConexion();
