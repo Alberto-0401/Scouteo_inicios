@@ -19,7 +19,7 @@ public class Main extends Application {
 
         Scene scene = new Scene(root);
         primeraEscena.setScene(scene);
-        primeraEscena.setTitle("Pruebas");
+        primeraEscena.setTitle("SCOUTEO");
         primeraEscena.setResizable(false);
         primeraEscena.show();
         

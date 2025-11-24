@@ -9,23 +9,23 @@
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.javafx.scouteo.controller.FormJugadorController"
-      spacing="15" style="-fx-padding: 20; -fx-background-color: white;"
-      prefWidth="500" prefHeight="550">
-    
+      spacing="15" prefWidth="500" prefHeight="550">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
     <!-- Título -->
-    <Label fx:id="lblTitulo" text="NUEVO JUGADOR" 
-           style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
-    
+    <Label fx:id="lblTitulo" text="NUEVO JUGADOR"/>
+
     <Separator/>
-    
+
     <!-- Formulario -->
-    <ScrollPane fitToWidth="true"
-                style="-fx-background-color: white; -fx-border-color: transparent;">
+    <ScrollPane fitToWidth="true">
         <VBox spacing="12">
-            
+
             <!-- DATOS PERSONALES -->
-            <Label text="Datos Personales" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
-            
+            <Label text="Datos Personales"/>
+
             <HBox spacing="10">
                 <VBox spacing="5">
                     <Label text="Nombre *"/>
@@ -37,7 +37,7 @@
                     <TextField fx:id="txtApellidos" promptText="Ej: García López" prefWidth="225"/>
                 </VBox>
             </HBox>
-            
+
             <HBox spacing="10">
                 <VBox spacing="5">
                     <Label text="Fecha de Nacimiento *"/>
@@ -49,12 +49,12 @@
                     <TextField fx:id="txtDorsal" promptText="1-99" prefWidth="80"/>
                 </VBox>
             </HBox>
-            
+
             <Separator/>
-            
+
             <!-- DATOS DEPORTIVOS -->
-            <Label text="Datos Deportivos" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
-            
+            <Label text="Datos Deportivos"/>
+
             <HBox spacing="10">
                 <VBox spacing="5">
                     <Label text="Posición *"/>
@@ -85,47 +85,44 @@
                     </ComboBox>
                 </VBox>
             </HBox>
-            
+
             <Separator/>
-            
+
             <!-- DATOS FÍSICOS -->
-            <Label text="Datos Físicos (Opcionales)" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
-            
+            <Label text="Datos Físicos (Opcionales)"/>
+
             <HBox spacing="10">
                 <VBox spacing="5">
                     <Label text="Altura (cm)"/>
                     <TextField fx:id="txtAltura" promptText="Ej: 145.5" prefWidth="120"/>
                 </VBox>
-                
+
                 <VBox spacing="5">
                     <Label text="Peso (kg)"/>
                     <TextField fx:id="txtPeso" promptText="Ej: 35.2" prefWidth="120"/>
                 </VBox>
             </HBox>
-            
+
             <Separator/>
-            
+
             <!-- FOTOGRAFÍA -->
-            <Label text="Fotografía (Opcional)" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
-            
+            <Label text="Fotografía (Opcional)"/>
+
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <Button text="Seleccionar Imagen" onAction="#seleccionarFoto"/>
-                <Label fx:id="lblNombreFoto" text="Ninguna imagen seleccionada" 
-                       style="-fx-text-fill: gray; -fx-font-size: 11px;"/>
+                <Label fx:id="lblNombreFoto" text="Ninguna imagen seleccionada"/>
             </HBox>
-            
+
         </VBox>
     </ScrollPane>
-    
+
     <!-- Botones de acción -->
     <Separator/>
-    
+
     <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Label fx:id="lblError" text="" style="-fx-text-fill: red; -fx-font-size: 11px;" prefWidth="260"/>
-        <Button text="Cancelar" onAction="#cancelar" prefWidth="100"
-                style="-fx-background-color: #9E9E9E; -fx-text-fill: white;"/>
-        <Button text="Guardar" onAction="#guardar" prefWidth="100"
-                style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold;"/>
+        <Label fx:id="lblError" text="" prefWidth="260"/>
+        <Button text="Cancelar" onAction="#cancelar" prefWidth="100"/>
+        <Button text="Guardar" onAction="#guardar" prefWidth="100"/>
     </HBox>
-    
+
 </VBox>

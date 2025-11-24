@@ -80,7 +80,7 @@ public class RankingController {
 
     @FXML
     private void aplicarFiltros() {
-        System.out.println("Aplicar filtros (no implementado)");
+        cargarDatos();
     }
 
 

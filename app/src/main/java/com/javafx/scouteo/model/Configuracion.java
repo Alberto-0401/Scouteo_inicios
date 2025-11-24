@@ -7,7 +7,7 @@ public class Configuracion {
     private String presidente;
     private String email;
     private String telefono;
-    private String escudo;
+    private byte[] escudo;
     private String temporadaActual;
 
     public Configuracion() {
@@ -62,11 +62,11 @@ public class Configuracion {
         this.telefono = telefono;
     }
 
-    public String getEscudo() {
+    public byte[] getEscudo() {
         return escudo;
     }
 
-    public void setEscudo(String escudo) {
+    public void setEscudo(byte[] escudo) {
         this.escudo = escudo;
     }
 

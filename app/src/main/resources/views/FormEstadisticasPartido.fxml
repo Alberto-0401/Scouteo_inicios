@@ -6,27 +6,26 @@
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.javafx.scouteo.controller.FormEstadisticasPartidoController"
-      spacing="15" style="-fx-padding: 20; -fx-background-color: white;"
-      prefWidth="700" prefHeight="600">
+      spacing="15" prefWidth="700" prefHeight="600">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
 
-    <Label fx:id="lblTitulo" text="AÑADIR ESTADÍSTICAS"
-           style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+    <Label fx:id="lblTitulo" text="AÑADIR ESTADÍSTICAS"/>
 
     <Separator/>
 
-    <Label text="Seleccione el jugador y añada sus estadísticas para este partido"
-           style="-fx-font-size: 12px;"/>
+    <Label text="Seleccione el jugador y añada sus estadísticas para este partido"/>
 
     <HBox spacing="10" alignment="CENTER_LEFT">
         <Label text="Jugador:"/>
         <ComboBox fx:id="cmbJugadores" prefWidth="300" promptText="Seleccione un jugador"/>
     </HBox>
 
-    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
-                style="-fx-background-color: white; -fx-border-color: transparent;">
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
         <VBox spacing="15">
 
-            <Label text="Estadísticas del Partido" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+            <Label text="Estadísticas del Partido"/>
 
             <GridPane hgap="15" vgap="10">
                 <columnConstraints>
@@ -86,7 +85,7 @@
 
             <Separator/>
 
-            <Label text="Observaciones (Opcional)" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+            <Label text="Observaciones (Opcional)"/>
 
             <TextArea fx:id="txtObservaciones" promptText="Observaciones sobre el desempeño del jugador..."
                       prefRowCount="3" wrapText="true"/>
@@ -97,11 +96,9 @@
     <Separator/>
 
     <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Label fx:id="lblError" text="" style="-fx-text-fill: red; -fx-font-size: 11px;" prefWidth="350"/>
-        <Button text="Cancelar" onAction="#cancelar" prefWidth="100"
-                style="-fx-background-color: #9E9E9E; -fx-text-fill: white;"/>
-        <Button text="Guardar" onAction="#guardar" prefWidth="100"
-                style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold;"/>
+        <Label fx:id="lblError" text="" prefWidth="350"/>
+        <Button text="Cancelar" onAction="#cancelar" prefWidth="100"/>
+        <Button text="Guardar" onAction="#guardar" prefWidth="100"/>
     </HBox>
 
 </VBox>

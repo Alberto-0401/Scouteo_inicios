@@ -28,6 +28,7 @@ public class FormPartidoController {
 
     private PartidoDAO partidoDAO;
     private PartidosController partidosController;
+    private Partido partidoEditar;
 
     @FXML
     public void initialize() {
@@ -39,20 +40,38 @@ public class FormPartidoController {
         this.partidosController = controller;
     }
 
+    public void setPartidoEditar(Partido partido) {
+        this.partidoEditar = partido;
+        if (partido != null) {
+            dpFechaPartido.setValue(partido.getFechaPartido());
+            txtRival.setText(partido.getRival());
+            txtResultado.setText(partido.getResultado());
+            cmbLocalVisitante.setValue(partido.getLocalVisitante());
+            txtObservaciones.setText(partido.getObservaciones());
+        }
+    }
+
     @FXML
     private void guardar() {
         if (!validarCampos()) {
             return;
         }
 
-        Partido partido = new Partido();
+        Partido partido = (partidoEditar != null) ? partidoEditar : new Partido();
         partido.setFechaPartido(dpFechaPartido.getValue());
         partido.setRival(txtRival.getText().trim());
         partido.setResultado(txtResultado.getText().trim());
         partido.setLocalVisitante(cmbLocalVisitante.getValue());
         partido.setObservaciones(txtObservaciones.getText().trim());
 
-        if (partidoDAO.insertar(partido)) {
+        boolean exito;
+        if (partidoEditar != null) {
+            exito = partidoDAO.actualizar(partido);
+        } else {
+            exito = partidoDAO.insertar(partido) > 0;
+        }
+
+        if (exito) {
             if (partidosController != null) {
                 partidosController.cargarPartidos();
             }

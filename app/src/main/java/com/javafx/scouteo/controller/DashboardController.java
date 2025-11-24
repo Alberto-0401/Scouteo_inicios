@@ -81,7 +81,7 @@ public class DashboardController {
     }
 
     @FXML
-    private void mostrarListadoJugadores() {
+    public void mostrarListadoJugadores() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ListadoJugadores.fxml"));
             Node vista = loader.load();
@@ -132,6 +132,24 @@ public class DashboardController {
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Error al cargar Partidos.fxml");
+        }
+    }
+
+    public void mostrarEstadisticasJugador(Jugador jugador) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/EstadisticasJugador.fxml"));
+            Node vista = loader.load();
+
+            // Obtener el controlador y pasarle el jugador y dashboard
+            EstadisticasJugadorController controller = loader.getController();
+            controller.setDashboardController(this);
+            controller.setJugador(jugador);
+
+            contenedorCentral.getChildren().clear();
+            contenedorCentral.getChildren().add(vista);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Error al cargar EstadisticasJugador.fxml");
         }
     }
 

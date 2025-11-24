@@ -8,19 +8,19 @@
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.javafx.scouteo.controller.FormPartidoController"
-      spacing="15" style="-fx-padding: 20; -fx-background-color: white;"
-      prefWidth="550" prefHeight="450">
+      spacing="15" prefWidth="550" prefHeight="450">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
 
-    <Label text="CREAR NUEVO PARTIDO"
-           style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+    <Label text="CREAR NUEVO PARTIDO"/>
 
     <Separator/>
 
-    <ScrollPane fitToWidth="true"
-                style="-fx-background-color: white; -fx-border-color: transparent;">
+    <ScrollPane fitToWidth="true">
         <VBox spacing="12">
 
-            <Label text="Datos del Partido" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+            <Label text="Datos del Partido"/>
 
             <HBox spacing="10">
                 <VBox spacing="5">
@@ -55,7 +55,7 @@
 
             <Separator/>
 
-            <Label text="Observaciones (Opcional)" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+            <Label text="Observaciones (Opcional)"/>
 
             <TextArea fx:id="txtObservaciones" promptText="Observaciones del partido..."
                       prefRowCount="4" wrapText="true"/>
@@ -66,11 +66,9 @@
     <Separator/>
 
     <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Label fx:id="lblError" text="" style="-fx-text-fill: red; -fx-font-size: 11px;" prefWidth="260"/>
-        <Button text="Cancelar" onAction="#cancelar" prefWidth="100"
-                style="-fx-background-color: #9E9E9E; -fx-text-fill: white;"/>
-        <Button text="Guardar" onAction="#guardar" prefWidth="100"
-                style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold;"/>
+        <Label fx:id="lblError" text="" prefWidth="260"/>
+        <Button text="Cancelar" onAction="#cancelar" prefWidth="100"/>
+        <Button text="Guardar" onAction="#guardar" prefWidth="100"/>
     </HBox>
 
 </VBox>

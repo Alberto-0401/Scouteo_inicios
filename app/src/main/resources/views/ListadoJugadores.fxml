@@ -15,12 +15,12 @@
 
 <VBox prefHeight="546.0" prefWidth="773.0" spacing="10" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.scouteo.controller.ListadoJugadoresController">
     <padding>
-        <Insets top="15" right="15" bottom="15" left="15"/>
+        <Insets bottom="15" left="15" right="15" top="15" />
     </padding>
     
     <!-- Header -->
     <HBox alignment="CENTER_LEFT" spacing="10">
-        <Label text="GESTIÓN DE JUGADORES" HBox.hgrow="ALWAYS"/>
+        <Label text="GESTIÓN DE JUGADORES" HBox.hgrow="ALWAYS" />
     </HBox>
     
     <Separator />
@@ -43,7 +43,8 @@
             </items>
         </ComboBox>
 
-        <Label prefWidth="200" text="" />
+        <Button onAction="#limpiarFiltros" prefHeight="26.0" prefWidth="73.0" text="Limpiar" />
+        <Label prefWidth="100" text="" />
         <Button onAction="#abrirFormularioNuevo" text="+ AÑADIR JUGADOR" />
     </HBox>
     

@@ -8,79 +8,83 @@
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.javafx.scouteo.controller.ConfiguracionController"
-      spacing="15" style="-fx-padding: 20;">
-    
+      spacing="15">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
     <!-- Header -->
     <HBox spacing="10" alignment="CENTER_LEFT">
-        <Label text="CONFIGURACIÓN DEL CLUB" style="-fx-font-size: 18px; -fx-font-weight: bold;" prefWidth="500"/>
+        <Label text="CONFIGURACIÓN DEL CLUB" prefWidth="500"/>
         <Button text="← Volver" onAction="#volverDashboard"/>
     </HBox>
-    
+
     <Separator/>
-    
+
     <!-- Contenido -->
     <HBox spacing="30">
-        
+
         <!-- Escudo del club -->
-        <VBox spacing="10" alignment="TOP_CENTER" style="-fx-padding: 20;">
-            <Label text="Escudo del Club" style="-fx-font-weight: bold;"/>
-            <StackPane style="-fx-border-color: #CCCCCC; -fx-border-width: 2; -fx-background-color: #F5F5F5;">
+        <VBox spacing="10" alignment="TOP_CENTER">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <Label text="Escudo del Club"/>
+            <StackPane>
                 <ImageView fx:id="imgEscudo" fitWidth="150" fitHeight="150" preserveRatio="true"/>
             </StackPane>
             <Button text="Cambiar Escudo" onAction="#cambiarEscudo"/>
         </VBox>
-        
+
         <!-- Datos del club -->
         <VBox spacing="15">
-            
-            <Label text="Datos Institucionales" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
-            
+
+            <Label text="Datos Institucionales"/>
+
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <Label text="Nombre del Club:" prefWidth="150"/>
                 <TextField fx:id="txtNombreClub" prefWidth="300"/>
             </HBox>
-            
+
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <Label text="Localidad:" prefWidth="150"/>
                 <TextField fx:id="txtLocalidad" prefWidth="300"/>
             </HBox>
-            
+
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <Label text="Presidente:" prefWidth="150"/>
                 <TextField fx:id="txtPresidente" prefWidth="300"/>
             </HBox>
-            
+
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <Label text="Email:" prefWidth="150"/>
                 <TextField fx:id="txtEmail" prefWidth="300"/>
             </HBox>
-            
+
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <Label text="Teléfono:" prefWidth="150"/>
                 <TextField fx:id="txtTelefono" prefWidth="300"/>
             </HBox>
-            
+
             <Separator/>
-            
-            <Label text="Temporada" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
-            
+
+            <Label text="Temporada"/>
+
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <Label text="Temporada Actual:" prefWidth="150"/>
                 <TextField fx:id="txtTemporada" promptText="AAAA/AA" prefWidth="150"/>
-                <Label text="(Ej: 2024/25)" style="-fx-text-fill: gray; -fx-font-size: 11px;"/>
+                <Label text="(Ej: 2024/25)"/>
             </HBox>
-            
+
         </VBox>
     </HBox>
-    
+
     <Separator/>
-    
+
     <!-- Botones de acción -->
     <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Label fx:id="lblMensaje" text="" style="-fx-text-fill: green; -fx-font-size: 12px;" prefWidth="480"/>
-        <Button text="Guardar Cambios" onAction="#guardarCambios"
-                style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold;"
-                prefWidth="150"/>
+        <Label fx:id="lblMensaje" text="" prefWidth="480"/>
+        <Button text="Guardar Cambios" onAction="#guardarCambios" prefWidth="150"/>
     </HBox>
-    
+
 </VBox>

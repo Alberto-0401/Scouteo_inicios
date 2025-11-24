@@ -3,6 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.javafx.scouteo.controller.ConvocatoriasController"
@@ -12,23 +14,34 @@
     </padding>
 
     <HBox spacing="10" alignment="CENTER_LEFT">
-        <Label text="CONVOCATORIAS Y PARTICIPACIONES" HBox.hgrow="ALWAYS"/>
+        <Label text="CONVOCATORIAS Y PARTICIPACIONES"/>
     </HBox>
 
     <Separator/>
 
-    <!-- Tabla de convocatorias/participaciones -->
-    <Label text="Jugadores convocados por partido"/>
+    <!-- Filtros y acciones -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Partido:"/>
+        <ComboBox fx:id="cmbPartido" prefWidth="250" promptText="Todos los partidos"/>
 
-    <TableView fx:id="tablaConvocatorias" prefHeight="400" VBox.vgrow="ALWAYS">
+        <Button text="Filtrar" onAction="#filtrar"/>
+        <Button text="Limpiar" onAction="#limpiarFiltro"/>
+
+        <Label prefWidth="100"/>
+
+    </HBox>
+
+    <!-- Tabla de convocatorias/participaciones -->
+    <TableView fx:id="tablaConvocatorias" prefHeight="350" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn fx:id="colPartido" prefWidth="200" text="Partido"/>
-            <TableColumn fx:id="colFecha" prefWidth="100" text="Fecha"/>
-            <TableColumn fx:id="colJugador" prefWidth="180" text="Jugador"/>
-            <TableColumn fx:id="colDorsal" prefWidth="60" text="Dorsal"/>
-            <TableColumn fx:id="colPosicion" prefWidth="80" text="Posición"/>
+            <TableColumn fx:id="colPartido" prefWidth="150" text="Partido"/>
+            <TableColumn fx:id="colFecha" prefWidth="90" text="Fecha"/>
+            <TableColumn fx:id="colJugador" prefWidth="150" text="Jugador"/>
+            <TableColumn fx:id="colDorsal" prefWidth="50" text="Dorsal"/>
+            <TableColumn fx:id="colPosicion" prefWidth="60" text="Pos."/>
+            <TableColumn fx:id="colConvocado" prefWidth="80" text="Convocado"/>
             <TableColumn fx:id="colTitular" prefWidth="70" text="Titular"/>
-            <TableColumn fx:id="colConvocado" prefWidth="90" text="Convocado"/>
+            <TableColumn fx:id="colAcciones" prefWidth="120" text="Acciones"/>
         </columns>
     </TableView>
 

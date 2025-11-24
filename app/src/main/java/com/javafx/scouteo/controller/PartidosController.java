@@ -65,14 +65,27 @@ public class PartidosController {
         colResultado.setCellValueFactory(new PropertyValueFactory<>("resultado"));
         colLocalVisitante.setCellValueFactory(new PropertyValueFactory<>("localVisitante"));
 
-        // Columna de acciones con botón
+        // Columna de acciones con botones
         colAcciones.setCellFactory(param -> new TableCell<>() {
-            private final Button btnEstadisticas = new Button("+ Estadísticas");
+            private final Button btnEstadisticas = new Button("📊");
+            private final Button btnEditar = new Button("✏️");
+            private final Button btnEliminar = new Button("🗑️");
+            private final HBox contenedor = new HBox(5, btnEstadisticas, btnEditar, btnEliminar);
 
             {
                 btnEstadisticas.setOnAction(event -> {
                     Partido partido = getTableView().getItems().get(getIndex());
                     abrirFormEstadisticas(partido);
+                });
+
+                btnEditar.setOnAction(event -> {
+                    Partido partido = getTableView().getItems().get(getIndex());
+                    abrirFormularioEditar(partido);
+                });
+
+                btnEliminar.setOnAction(event -> {
+                    Partido partido = getTableView().getItems().get(getIndex());
+                    eliminarPartido(partido);
                 });
             }
 
@@ -82,7 +95,7 @@ public class PartidosController {
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    setGraphic(btnEstadisticas);
+                    setGraphic(contenedor);
                 }
             }
         });
@@ -114,6 +127,43 @@ public class PartidosController {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void abrirFormularioEditar(Partido partido) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/FormPartido.fxml"));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(loader.load()));
+            stage.setTitle("Editar Partido");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+
+            FormPartidoController controller = loader.getController();
+            controller.setPartidosController(this);
+            controller.setPartidoEditar(partido);
+
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void eliminarPartido(Partido partido) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmar eliminación");
+        alert.setHeaderText("Eliminar partido");
+        alert.setContentText("¿Eliminar el partido contra " + partido.getRival() + "?\nEsto también eliminará las convocatorias y estadísticas asociadas.");
+
+        if (alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
+            if (partidoDAO.eliminar(partido.getIdPartido())) {
+                cargarPartidos();
+            } else {
+                Alert error = new Alert(Alert.AlertType.ERROR);
+                error.setTitle("Error");
+                error.setContentText("Error al eliminar el partido");
+                error.showAndWait();
+            }
         }
     }
 
