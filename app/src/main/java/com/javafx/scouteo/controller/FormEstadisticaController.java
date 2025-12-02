@@ -8,9 +8,11 @@ import com.javafx.scouteo.dao.JugadorDAO;
 import com.javafx.scouteo.dao.PartidoDAO;
 import com.javafx.scouteo.dao.EstadisticaPartidoDAO;
 import com.javafx.scouteo.dao.JugadorPartidoDAO;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Control;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -18,7 +20,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.collections.FXCollections;
+import org.controlsfx.validation.ValidationResult;
+import org.controlsfx.validation.ValidationSupport;
+import org.controlsfx.validation.Validator;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class FormEstadisticaController {
@@ -82,6 +89,7 @@ public class FormEstadisticaController {
     private EstadisticaPartidoDAO estadisticaDAO;
     private JugadorPartidoDAO jugadorPartidoDAO;
     private List<Jugador> listaJugadores;
+    private List<ValidationSupport> validadores;
 
     // Para modo edicion
     private EstadisticaPartido estadisticaEditar;
@@ -105,6 +113,123 @@ public class FormEstadisticaController {
         // Listener para valoracion
         txtValoracion.textProperty().addListener((obs, oldVal, newVal) -> {
             actualizarLabelValoracion(newVal);
+        });
+
+        configurarValidaciones();
+    }
+
+    private void configurarValidaciones() {
+        // Validador para Jugador
+        ValidationSupport vsJugador = new ValidationSupport();
+        Validator<String> jugadorValidator = Validator.createPredicateValidator(
+                texto -> texto != null && !texto.trim().isEmpty(),
+                "Debe seleccionar un jugador"
+        );
+        vsJugador.registerValidator(cmbJugador, jugadorValidator);
+
+        // Validador para Minutos
+        ValidationSupport vsMinutos = new ValidationSupport();
+        Validator<String> minutosValidator = Validator.createPredicateValidator(valor -> {
+            if (valor == null || valor.isEmpty()) {
+                return false;
+            }
+            try {
+                int minutos = Integer.parseInt(valor);
+                return minutos >= 0 && minutos <= 120;
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        }, "Los minutos deben ser un número entre 0 y 120");
+        vsMinutos.registerValidator(txtMinutos, minutosValidator);
+
+        // Validador para Valoración
+        ValidationSupport vsValoracion = new ValidationSupport();
+        Validator<String> valoracionValidator = Validator.createPredicateValidator(valor -> {
+            if (valor == null || valor.isEmpty()) {
+                return false;
+            }
+            try {
+                double val = Double.parseDouble(valor);
+                return val >= 0 && val <= 10;
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        }, "La valoración debe ser un número entre 0 y 10");
+        vsValoracion.registerValidator(txtValoracion, valoracionValidator);
+
+        // Validador para Goles (opcional)
+        ValidationSupport vsGoles = new ValidationSupport();
+        vsGoles.registerValidator(txtGoles, false, (Control c, String texto) -> {
+            if (texto != null && !texto.trim().isEmpty()) {
+                try {
+                    int goles = Integer.parseInt(texto);
+                    if (goles < 0 || goles > 20) {
+                        return ValidationResult.fromError(c, "Los goles deben estar entre 0 y 20");
+                    }
+                } catch (NumberFormatException e) {
+                    return ValidationResult.fromError(c, "Los goles deben ser un número válido");
+                }
+            }
+            return ValidationResult.fromInfo(c, "OK");
+        });
+
+        // Validador para Asistencias (opcional)
+        ValidationSupport vsAsistencias = new ValidationSupport();
+        vsAsistencias.registerValidator(txtAsistencias, false, (Control c, String texto) -> {
+            if (texto != null && !texto.trim().isEmpty()) {
+                try {
+                    int asist = Integer.parseInt(texto);
+                    if (asist < 0 || asist > 20) {
+                        return ValidationResult.fromError(c, "Las asistencias deben estar entre 0 y 20");
+                    }
+                } catch (NumberFormatException e) {
+                    return ValidationResult.fromError(c, "Las asistencias deben ser un número válido");
+                }
+            }
+            return ValidationResult.fromInfo(c, "OK");
+        });
+
+        // Validador para Tarjetas Amarillas
+        ValidationSupport vsAmarillas = new ValidationSupport();
+        vsAmarillas.registerValidator(txtAmarillas, false, (Control c, String texto) -> {
+            if (texto != null && !texto.trim().isEmpty()) {
+                try {
+                    int tarj = Integer.parseInt(texto);
+                    if (tarj < 0 || tarj > 2) {
+                        return ValidationResult.fromError(c, "Las tarjetas amarillas deben estar entre 0 y 2");
+                    }
+                } catch (NumberFormatException e) {
+                    return ValidationResult.fromError(c, "Debe ser un número válido");
+                }
+            }
+            return ValidationResult.fromInfo(c, "OK");
+        });
+
+        // Validador para Tarjetas Rojas
+        ValidationSupport vsRojas = new ValidationSupport();
+        vsRojas.registerValidator(txtRojas, false, (Control c, String texto) -> {
+            if (texto != null && !texto.trim().isEmpty()) {
+                try {
+                    int tarj = Integer.parseInt(texto);
+                    if (tarj < 0 || tarj > 1) {
+                        return ValidationResult.fromError(c, "Las tarjetas rojas deben estar entre 0 y 1");
+                    }
+                } catch (NumberFormatException e) {
+                    return ValidationResult.fromError(c, "Debe ser un número válido");
+                }
+            }
+            return ValidationResult.fromInfo(c, "OK");
+        });
+
+        // Registro de todos los validadores
+        validadores = new ArrayList<>();
+        validadores.addAll(Arrays.asList(vsJugador, vsMinutos, vsValoracion, vsGoles, vsAsistencias, vsAmarillas, vsRojas));
+
+        // Inicializar decoración en un nuevo hilo
+        Platform.runLater(() -> {
+            for (ValidationSupport validationSupport : validadores) {
+                validationSupport.initInitialDecoration();
+            }
         });
     }
 
@@ -213,35 +338,19 @@ public class FormEstadisticaController {
     void guardar(ActionEvent event) {
         lblError.setText("");
 
-        // Validaciones
-        if (cmbJugador.getValue() == null) {
-            lblError.setText("Selecciona un jugador");
+        // Validar con los validadores de ControlsFX
+        boolean todoOK = true;
+        for (ValidationSupport validationSupport : validadores) {
+            todoOK = todoOK && validationSupport.getValidationResult().getErrors().isEmpty();
+        }
+
+        if (!todoOK) {
+            lblError.setText("Por favor, corrija los errores del formulario");
             return;
         }
 
-        int minutos;
-        try {
-            minutos = Integer.parseInt(txtMinutos.getText().trim());
-            if (minutos < 0 || minutos > 120) {
-                lblError.setText("Minutos debe estar entre 0 y 120");
-                return;
-            }
-        } catch (NumberFormatException e) {
-            lblError.setText("Minutos debe ser un numero valido");
-            return;
-        }
-
-        double valoracion;
-        try {
-            valoracion = Double.parseDouble(txtValoracion.getText().trim());
-            if (valoracion < 0 || valoracion > 10) {
-                lblError.setText("Valoracion debe estar entre 0 y 10");
-                return;
-            }
-        } catch (NumberFormatException e) {
-            lblError.setText("Valoracion debe ser un numero valido");
-            return;
-        }
+        int minutos = Integer.parseInt(txtMinutos.getText().trim());
+        double valoracion = Double.parseDouble(txtValoracion.getText().trim());
 
         // Crear o actualizar estadistica
         EstadisticaPartido est = (estadisticaEditar != null) ? estadisticaEditar : new EstadisticaPartido();

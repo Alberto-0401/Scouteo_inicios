@@ -2,9 +2,18 @@ package com.javafx.scouteo.controller;
 
 import com.javafx.scouteo.dao.PartidoDAO;
 import com.javafx.scouteo.model.Partido;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.controlsfx.validation.ValidationResult;
+import org.controlsfx.validation.ValidationSupport;
+import org.controlsfx.validation.Validator;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class FormPartidoController {
 
@@ -29,11 +38,67 @@ public class FormPartidoController {
     private PartidoDAO partidoDAO;
     private PartidosController partidosController;
     private Partido partidoEditar;
+    private List<ValidationSupport> validadores;
 
     @FXML
     public void initialize() {
         partidoDAO = new PartidoDAO();
         cmbLocalVisitante.setValue("LOCAL");
+        configurarValidaciones();
+    }
+
+    private void configurarValidaciones() {
+        // Validador para Fecha
+        ValidationSupport vsFecha = new ValidationSupport();
+        vsFecha.registerValidator(dpFechaPartido, (Control c, LocalDate fecha) -> {
+            if (fecha == null) {
+                return ValidationResult.fromWarning(c, "La fecha del partido es obligatoria");
+            }
+            return ValidationResult.fromInfo(c, "OK");
+        });
+
+        // Validador para Rival
+        ValidationSupport vsRival = new ValidationSupport();
+        vsRival.registerValidator(txtRival, (Control c, String texto) -> {
+            if (texto == null || texto.trim().isEmpty()) {
+                return ValidationResult.fromWarning(c, "El rival no debe estar vacío");
+            } else if (texto.length() < 3 || texto.length() > 100) {
+                return ValidationResult.fromError(c, "El rival debe tener entre 3 y 100 caracteres");
+            } else {
+                return ValidationResult.fromInfo(c, "OK");
+            }
+        });
+
+        // Validador para Resultado (opcional pero con formato)
+        ValidationSupport vsResultado = new ValidationSupport();
+        vsResultado.registerValidator(txtResultado, false, (Control c, String texto) -> {
+            if (texto != null && !texto.trim().isEmpty()) {
+                // Formato esperado: X-Y
+                if (!texto.matches("\\d+-\\d+")) {
+                    return ValidationResult.fromError(c, "El formato debe ser X-Y (ej: 2-1)");
+                }
+            }
+            return ValidationResult.fromInfo(c, "OK");
+        });
+
+        // Validador para Local/Visitante
+        ValidationSupport vsLocal = new ValidationSupport();
+        Validator<String> localValidator = Validator.createPredicateValidator(
+                texto -> texto != null && !texto.trim().isEmpty(),
+                "Debe seleccionar Local o Visitante"
+        );
+        vsLocal.registerValidator(cmbLocalVisitante, localValidator);
+
+        // Registro de todos los validadores
+        validadores = new ArrayList<>();
+        validadores.addAll(Arrays.asList(vsFecha, vsRival, vsResultado, vsLocal));
+
+        // Inicializar decoración en un nuevo hilo
+        Platform.runLater(() -> {
+            for (ValidationSupport validationSupport : validadores) {
+                validationSupport.initInitialDecoration();
+            }
+        });
     }
 
     public void setPartidosController(PartidosController controller) {
@@ -53,7 +118,16 @@ public class FormPartidoController {
 
     @FXML
     private void guardar() {
-        if (!validarCampos()) {
+        lblError.setText("");
+
+        // Validar con los validadores de ControlsFX
+        boolean todoOK = true;
+        for (ValidationSupport validationSupport : validadores) {
+            todoOK = todoOK && validationSupport.getValidationResult().getErrors().isEmpty();
+        }
+
+        if (!todoOK) {
+            lblError.setText("Por favor, corrija los errores del formulario");
             return;
         }
 
@@ -84,29 +158,6 @@ public class FormPartidoController {
     @FXML
     private void cancelar() {
         cerrarVentana();
-    }
-
-    private boolean validarCampos() {
-        if (dpFechaPartido.getValue() == null) {
-            lblError.setText("La fecha es obligatoria");
-            dpFechaPartido.requestFocus();
-            return false;
-        }
-
-        if (txtRival.getText().trim().isEmpty()) {
-            lblError.setText("El rival es obligatorio");
-            txtRival.requestFocus();
-            return false;
-        }
-
-        if (cmbLocalVisitante.getValue() == null || cmbLocalVisitante.getValue().isEmpty()) {
-            lblError.setText("Debe seleccionar Local o Visitante");
-            cmbLocalVisitante.requestFocus();
-            return false;
-        }
-
-        lblError.setText("");
-        return true;
     }
 
     private void cerrarVentana() {
