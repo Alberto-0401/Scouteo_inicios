@@ -67,12 +67,20 @@ public class PartidosController {
 
         // Columna de acciones con botones
         colAcciones.setCellFactory(param -> new TableCell<>() {
-            private final Button btnEstadisticas = new Button("📊");
-            private final Button btnEditar = new Button("✏️");
-            private final Button btnEliminar = new Button("🗑️");
+            private final Button btnEstadisticas = new Button("\u2630");  // ☰ Estadísticas
+            private final Button btnEditar = new Button("\u270E");        // ✎ Editar
+            private final Button btnEliminar = new Button("\u2716");      // ✖ Eliminar
             private final HBox contenedor = new HBox(5, btnEstadisticas, btnEditar, btnEliminar);
 
             {
+                // Configurar tamaños mínimos para que se vean los iconos
+                btnEstadisticas.setMinWidth(40);
+                btnEstadisticas.setPrefWidth(40);
+                btnEditar.setMinWidth(40);
+                btnEditar.setPrefWidth(40);
+                btnEliminar.setMinWidth(40);
+                btnEliminar.setPrefWidth(40);
+
                 btnEstadisticas.setOnAction(event -> {
                     Partido partido = getTableView().getItems().get(getIndex());
                     abrirFormEstadisticas(partido);

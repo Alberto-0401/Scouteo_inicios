@@ -33,15 +33,18 @@
 
     <!-- Tabla de convocatorias/participaciones -->
     <TableView fx:id="tablaConvocatorias" prefHeight="350" VBox.vgrow="ALWAYS">
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+        </columnResizePolicy>
         <columns>
-            <TableColumn fx:id="colPartido" prefWidth="150" text="Partido"/>
-            <TableColumn fx:id="colFecha" prefWidth="90" text="Fecha"/>
-            <TableColumn fx:id="colJugador" prefWidth="150" text="Jugador"/>
-            <TableColumn fx:id="colDorsal" prefWidth="50" text="Dorsal"/>
-            <TableColumn fx:id="colPosicion" prefWidth="60" text="Pos."/>
-            <TableColumn fx:id="colConvocado" prefWidth="80" text="Convocado"/>
-            <TableColumn fx:id="colTitular" prefWidth="70" text="Titular"/>
-            <TableColumn fx:id="colAcciones" prefWidth="120" text="Acciones"/>
+            <TableColumn fx:id="colPartido" prefWidth="130" text="Partido"/>
+            <TableColumn fx:id="colFecha" prefWidth="75" text="Fecha"/>
+            <TableColumn fx:id="colJugador" prefWidth="110" text="Jugador"/>
+            <TableColumn fx:id="colDorsal" prefWidth="45" maxWidth="50" text="Dor"/>
+            <TableColumn fx:id="colPosicion" prefWidth="45" text="Pos."/>
+            <TableColumn fx:id="colConvocado" prefWidth="75" text="Conv."/>
+            <TableColumn fx:id="colTitular" prefWidth="55" text="Tit."/>
+            <TableColumn fx:id="colAcciones" prefWidth="110" minWidth="110" text="Acciones"/>
         </columns>
     </TableView>
 

@@ -80,12 +80,19 @@ public class ListadoJugadoresController {
 
         // Configurar columna de acciones con botones
         colAcciones.setCellFactory(param -> new TableCell<>() {
-            private final Button btnEstadisticas = new Button("\ud83d\udcca");
-            private final Button btnEditar = new Button("\u270f\ufe0f");
-            private final Button btnEliminar = new Button("\ud83d\uddd1\ufe0f");
+            private final Button btnEstadisticas = new Button("\u2630");  // ☰ Menú/Estadísticas
+            private final Button btnEditar = new Button("\u270E");        // ✎ Editar
+            private final Button btnEliminar = new Button("\u2716");      // ✖ Eliminar
             private final HBox contenedor = new HBox(5, btnEstadisticas, btnEditar, btnEliminar);
 
             {
+                // Configurar tamaños mínimos para que se vean los iconos
+                btnEstadisticas.setMinWidth(39);
+                btnEstadisticas.setPrefWidth(39);
+                btnEditar.setMinWidth(39);
+                btnEditar.setPrefWidth(39);
+                btnEliminar.setMinWidth(39);
+                btnEliminar.setPrefWidth(39);
 
                 btnEstadisticas.setOnAction(event -> {
                     Jugador jugador = getTableView().getItems().get(getIndex());

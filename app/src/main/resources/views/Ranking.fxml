@@ -51,15 +51,18 @@
     
     <!-- Tabla de ranking -->
     <TableView fx:id="tablaRanking" prefHeight="450">
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+        </columnResizePolicy>
         <columns>
-            <TableColumn fx:id="colPosicion" text="#" prefWidth="50"/>
-            <TableColumn fx:id="colNombre" text="Jugador" prefWidth="200"/>
-            <TableColumn fx:id="colDorsal" text="Dorsal" prefWidth="60"/>
-            <TableColumn fx:id="colPosicionJuego" text="Posición" prefWidth="80"/>
-            <TableColumn fx:id="colPartidos" text="Partidos" prefWidth="80"/>
-            <TableColumn fx:id="colGoles" text="Goles" prefWidth="80"/>
-            <TableColumn fx:id="colAsistencias" text="Asistencias" prefWidth="100"/>
-            <TableColumn fx:id="colPromedio" text="Prom. Goles" prefWidth="100"/>
+            <TableColumn fx:id="colPosicion" text="#" prefWidth="35" maxWidth="40"/>
+            <TableColumn fx:id="colNombre" text="Jugador" prefWidth="150"/>
+            <TableColumn fx:id="colDorsal" text="Dor" prefWidth="45" maxWidth="50"/>
+            <TableColumn fx:id="colPosicionJuego" text="Pos." prefWidth="50"/>
+            <TableColumn fx:id="colPartidos" text="Part." prefWidth="50"/>
+            <TableColumn fx:id="colGoles" text="Goles" prefWidth="55"/>
+            <TableColumn fx:id="colAsistencias" text="Asist." prefWidth="60"/>
+            <TableColumn fx:id="colPromedio" text="Prom." prefWidth="60"/>
         </columns>
     </TableView>
     

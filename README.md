@@ -1,1 +1,5 @@
-"# DI-T2-2" 
+<<<<<<< Updated upstream
+--BBDD y validaciones 
+=======
+SCOUTEO app para gestionar equipo de fútbol
+>>>>>>> Stashed changes

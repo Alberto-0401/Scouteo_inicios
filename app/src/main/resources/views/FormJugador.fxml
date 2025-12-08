@@ -9,13 +9,13 @@
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.javafx.scouteo.controller.FormJugadorController"
-      spacing="15" prefWidth="500" prefHeight="550">
+      spacing="15" prefWidth="500" prefHeight="550" stylesheets="@../scouteo.css" styleClass="form-container">
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
 
     <!-- Título -->
-    <Label fx:id="lblTitulo" text="NUEVO JUGADOR"/>
+    <Label fx:id="lblTitulo" text="NUEVO JUGADOR" styleClass="label-title"/>
 
     <Separator/>
 
@@ -24,28 +24,28 @@
         <VBox spacing="12">
 
             <!-- DATOS PERSONALES -->
-            <Label text="Datos Personales"/>
+            <Label text="Datos Personales" styleClass="label-subtitle"/>
 
             <HBox spacing="10">
                 <VBox spacing="5">
-                    <Label text="Nombre *"/>
+                    <Label text="Nombre *" styleClass="form-label"/>
                     <TextField fx:id="txtNombre" promptText="Ej: Juan" prefWidth="225"/>
                 </VBox>
 
                 <VBox spacing="5">
-                    <Label text="Apellidos *"/>
+                    <Label text="Apellidos *" styleClass="form-label"/>
                     <TextField fx:id="txtApellidos" promptText="Ej: García López" prefWidth="225"/>
                 </VBox>
             </HBox>
 
             <HBox spacing="10">
                 <VBox spacing="5">
-                    <Label text="Fecha de Nacimiento *"/>
+                    <Label text="Fecha de Nacimiento *" styleClass="form-label"/>
                     <DatePicker fx:id="dpFechaNacimiento" prefWidth="200"/>
                 </VBox>
 
                 <VBox spacing="5">
-                    <Label text="Dorsal *"/>
+                    <Label text="Dorsal *" styleClass="form-label"/>
                     <TextField fx:id="txtDorsal" promptText="1-99" prefWidth="80"/>
                 </VBox>
             </HBox>
@@ -53,11 +53,11 @@
             <Separator/>
 
             <!-- DATOS DEPORTIVOS -->
-            <Label text="Datos Deportivos"/>
+            <Label text="Datos Deportivos" styleClass="label-subtitle"/>
 
             <HBox spacing="10">
                 <VBox spacing="5">
-                    <Label text="Posición *"/>
+                    <Label text="Posición *" styleClass="form-label"/>
                     <ComboBox fx:id="cmbPosicion" prefWidth="225">
                         <items>
                             <FXCollections fx:factory="observableArrayList">
@@ -71,7 +71,7 @@
                 </VBox>
 
                 <VBox spacing="5">
-                    <Label text="Categoría *"/>
+                    <Label text="Categoría *" styleClass="form-label"/>
                     <ComboBox fx:id="cmbCategoria" prefWidth="225">
                         <items>
                             <FXCollections fx:factory="observableArrayList">
@@ -89,16 +89,16 @@
             <Separator/>
 
             <!-- DATOS FÍSICOS -->
-            <Label text="Datos Físicos (Opcionales)"/>
+            <Label text="Datos Físicos (Opcionales)" styleClass="label-subtitle"/>
 
             <HBox spacing="10">
                 <VBox spacing="5">
-                    <Label text="Altura (cm)"/>
+                    <Label text="Altura (cm)" styleClass="form-label"/>
                     <TextField fx:id="txtAltura" promptText="Ej: 145.5" prefWidth="120"/>
                 </VBox>
 
                 <VBox spacing="5">
-                    <Label text="Peso (kg)"/>
+                    <Label text="Peso (kg)" styleClass="form-label"/>
                     <TextField fx:id="txtPeso" promptText="Ej: 35.2" prefWidth="120"/>
                 </VBox>
             </HBox>
@@ -106,11 +106,11 @@
             <Separator/>
 
             <!-- FOTOGRAFÍA -->
-            <Label text="Fotografía (Opcional)"/>
+            <Label text="Fotografía (Opcional)" styleClass="label-subtitle"/>
 
             <HBox spacing="10" alignment="CENTER_LEFT">
-                <Button text="Seleccionar Imagen" onAction="#seleccionarFoto"/>
-                <Label fx:id="lblNombreFoto" text="Ninguna imagen seleccionada"/>
+                <Button text="Seleccionar Imagen" onAction="#seleccionarFoto" styleClass="button-secondary"/>
+                <Label fx:id="lblNombreFoto" text="Ninguna imagen seleccionada" styleClass="label-secondary"/>
             </HBox>
 
         </VBox>
@@ -120,9 +120,9 @@
     <Separator/>
 
     <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Label fx:id="lblError" text="" prefWidth="260"/>
-        <Button text="Cancelar" onAction="#cancelar" prefWidth="100"/>
-        <Button text="Guardar" onAction="#guardar" prefWidth="100"/>
+        <Label fx:id="lblError" text="" prefWidth="260" styleClass="label-error"/>
+        <Button text="Cancelar" onAction="#cancelar" prefWidth="100" styleClass="button-outline"/>
+        <Button text="Guardar" onAction="#guardar" prefWidth="100" styleClass="button-success"/>
     </HBox>
 
 </VBox>

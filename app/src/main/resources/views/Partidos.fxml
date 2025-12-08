@@ -22,13 +22,16 @@
     <Label text="Listado de Partidos"/>
 
     <TableView fx:id="tablaPartidos" prefHeight="400" VBox.vgrow="ALWAYS">
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+        </columnResizePolicy>
         <columns>
-            <TableColumn fx:id="colId" prefWidth="50" text="ID"/>
-            <TableColumn fx:id="colFecha" prefWidth="100" text="Fecha"/>
-            <TableColumn fx:id="colRival" prefWidth="200" text="Rival"/>
-            <TableColumn fx:id="colResultado" prefWidth="80" text="Resultado"/>
-            <TableColumn fx:id="colLocalVisitante" prefWidth="120" text="Local/Visit."/>
-            <TableColumn fx:id="colAcciones" prefWidth="150" text="Acciones"/>
+            <TableColumn fx:id="colId" prefWidth="35" maxWidth="40" text="ID"/>
+            <TableColumn fx:id="colFecha" prefWidth="85" text="Fecha"/>
+            <TableColumn fx:id="colRival" prefWidth="180" text="Rival"/>
+            <TableColumn fx:id="colResultado" prefWidth="65" text="Resul."/>
+            <TableColumn fx:id="colLocalVisitante" prefWidth="85" text="Local/Vis."/>
+            <TableColumn fx:id="colAcciones" prefWidth="160" minWidth="160" text="Acciones"/>
         </columns>
     </TableView>
 

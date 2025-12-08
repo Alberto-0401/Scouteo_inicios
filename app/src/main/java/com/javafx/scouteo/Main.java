@@ -18,11 +18,22 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/views/Dashboard.fxml"));
 
         Scene scene = new Scene(root);
+
+        // Cargar CSS globalmente usando el ClassLoader
+        try {
+            String css = getClass().getClassLoader().getResource("scouteo.css").toExternalForm();
+            scene.getStylesheets().add(css);
+            System.out.println("CSS cargado correctamente: " + css);
+        } catch (Exception e) {
+            System.err.println("Error al cargar CSS: " + e.getMessage());
+            e.printStackTrace();
+        }
+
         primeraEscena.setScene(scene);
-        primeraEscena.setTitle("SCOUTEO");
-        primeraEscena.setResizable(false);
+        primeraEscena.setTitle("SCOUTEO - Sistema de Gestión de Jugadores");
+        primeraEscena.setWidth(1200);
+        primeraEscena.setHeight(750);
+        primeraEscena.setResizable(false);  // No permitir redimensionar ni maximizar
         primeraEscena.show();
-        
-        
     }
 }
