@@ -8,10 +8,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
-import javafx.scene.chart.PieChart;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.Node;
+import javafx.scene.chart.PieChart;
+import javafx.scene.paint.Color;
 import java.io.IOException;
+import java.util.Map;
+import eu.hansolo.tilesfx.Tile;
+import eu.hansolo.tilesfx.TileBuilder;
+import eu.hansolo.tilesfx.chart.ChartData;
 
 public class DashboardController {
 
@@ -25,7 +31,7 @@ public class DashboardController {
     private Label lblTotalGoles;
 
     @FXML
-    private PieChart chartPosiciones;
+    private Pane chartPosiciones;
 
     @FXML
     private StackPane contenedorCentral;
@@ -70,8 +76,42 @@ public class DashboardController {
         int totalGoles = estadisticaPartidoDAO.contarTotalGoles();
         lblTotalGoles.setText(String.valueOf(totalGoles));
 
-        // TODO: Cargar distribución por posición
-        chartPosiciones.getData().clear();
+        // Cargar distribución por posición
+        cargarGraficoPosiciones();
+    }
+
+    private void cargarGraficoPosiciones() {
+        chartPosiciones.getChildren().clear();
+
+        // Obtener distribución de jugadores por posición
+        Map<String, Integer> distribucion = jugadorDAO.obtenerDistribucionPorPosicion();
+
+        // Obtener cantidades por posición
+        int porteros = distribucion.getOrDefault("POR", 0);
+        int defensas = distribucion.getOrDefault("DEF", 0);
+        int mediocampistas = distribucion.getOrDefault("MED", 0);
+        int delanteros = distribucion.getOrDefault("DEL", 0);
+
+        // Crear datos para el gráfico con TilesFX
+        ChartData dataPorteros = new ChartData("Porteros", porteros, Color.web("#ff7802ff"));
+        ChartData dataDefensas = new ChartData("Defensas", defensas, Color.web("#f3c221ff"));
+        ChartData dataMediocampistas = new ChartData("Mediocampistas", mediocampistas, Color.web("#00fd15ff"));
+        ChartData dataDelanteros = new ChartData("Delanteros", delanteros, Color.web("#1201ffff"));
+
+        // Crear el Grafico
+        Tile pieChartTile = TileBuilder.create()
+            .skinType(Tile.SkinType.DONUT_CHART)
+            .prefSize(250, 150)
+            .title("")
+            .textVisible(true)
+            .chartData(dataPorteros, dataDefensas, dataMediocampistas, dataDelanteros)
+            .animated(true)
+            .backgroundColor(Color.web("#ffffffff"))
+            .foregroundColor(Color.web("#000000ff"))
+            .textColor(Color.web("#000000ff"))
+            .build();
+
+        chartPosiciones.getChildren().add(pieChartTile);
     }
 
     @FXML

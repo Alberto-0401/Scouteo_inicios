@@ -182,6 +182,30 @@ public class JugadorDAO {
         return 0;
     }
 
+    /**
+     * Obtiene la distribución de jugadores por posición
+     * @return Mapa con posición como clave y cantidad como valor
+     */
+    public java.util.Map<String, Integer> obtenerDistribucionPorPosicion() {
+        java.util.Map<String, Integer> distribucion = new java.util.HashMap<>();
+        String sql = "SELECT posicion, COUNT(*) as cantidad FROM jugadores GROUP BY posicion";
+
+        try (Connection conn = ConexionBD.getConexion();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                String posicion = rs.getString("posicion");
+                int cantidad = rs.getInt("cantidad");
+                distribucion.put(posicion, cantidad);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return distribucion;
+    }
+
     // ==================== UPDATE ====================
 
     /**

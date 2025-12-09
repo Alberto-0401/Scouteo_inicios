@@ -86,13 +86,6 @@ public class ListadoJugadoresController {
             private final HBox contenedor = new HBox(5, btnEstadisticas, btnEditar, btnEliminar);
 
             {
-                // Configurar tamaños mínimos para que se vean los iconos
-                btnEstadisticas.setMinWidth(39);
-                btnEstadisticas.setPrefWidth(39);
-                btnEditar.setMinWidth(39);
-                btnEditar.setPrefWidth(39);
-                btnEliminar.setMinWidth(39);
-                btnEliminar.setPrefWidth(39);
 
                 btnEstadisticas.setOnAction(event -> {
                     Jugador jugador = getTableView().getItems().get(getIndex());

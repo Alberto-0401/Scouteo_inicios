@@ -1,8 +1,6 @@
 package com.javafx.scouteo.dao;
 
 import com.javafx.scouteo.model.JugadorPartido;
-import com.javafx.scouteo.model.Jugador;
-import com.javafx.scouteo.model.Partido;
 import com.javafx.scouteo.model.EstadisticaPartido;
 import com.javafx.scouteo.util.ConexionBD;
 

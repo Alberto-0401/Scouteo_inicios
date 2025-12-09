@@ -1,128 +1,134 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!-- 2. FormJugador.fxml -->
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.javafx.scouteo.controller.FormJugadorController"
-      spacing="15" prefWidth="500" prefHeight="550" stylesheets="@../scouteo.css" styleClass="form-container">
+<VBox prefHeight="550" prefWidth="500" spacing="15" styleClass="form-container" stylesheets="@../scouteo.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.scouteo.controller.FormJugadorController">
     <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
+        <Insets bottom="20" left="20" right="20" top="20" />
     </padding>
 
     <!-- Título -->
-    <Label fx:id="lblTitulo" text="NUEVO JUGADOR" styleClass="label-title"/>
+    <Label fx:id="lblTitulo" styleClass="label-title" text="NUEVO JUGADOR" />
 
-    <Separator/>
+    <Separator />
 
     <!-- Formulario -->
     <ScrollPane fitToWidth="true">
         <VBox spacing="12">
 
             <!-- DATOS PERSONALES -->
-            <Label text="Datos Personales" styleClass="label-subtitle"/>
+            <Label styleClass="label-subtitle" text="Datos Personales" />
 
             <HBox spacing="10">
                 <VBox spacing="5">
-                    <Label text="Nombre *" styleClass="form-label"/>
-                    <TextField fx:id="txtNombre" promptText="Ej: Juan" prefWidth="225"/>
+                    <Label styleClass="form-label" text="Nombre *" />
+                    <TextField fx:id="txtNombre" prefWidth="225" promptText="Ej: Juan" />
                 </VBox>
 
                 <VBox spacing="5">
-                    <Label text="Apellidos *" styleClass="form-label"/>
-                    <TextField fx:id="txtApellidos" promptText="Ej: García López" prefWidth="225"/>
+                    <Label styleClass="form-label" text="Apellidos *" />
+                    <TextField fx:id="txtApellidos" prefWidth="225" promptText="Ej: García López" />
                 </VBox>
             </HBox>
 
             <HBox spacing="10">
                 <VBox spacing="5">
-                    <Label text="Fecha de Nacimiento *" styleClass="form-label"/>
-                    <DatePicker fx:id="dpFechaNacimiento" prefWidth="200"/>
+                    <Label styleClass="form-label" text="Fecha de Nacimiento *" />
+                    <DatePicker fx:id="dpFechaNacimiento" prefWidth="200" />
                 </VBox>
 
                 <VBox spacing="5">
-                    <Label text="Dorsal *" styleClass="form-label"/>
-                    <TextField fx:id="txtDorsal" promptText="1-99" prefWidth="80"/>
+                    <Label styleClass="form-label" text="Dorsal *" />
+                    <TextField fx:id="txtDorsal" prefWidth="80" promptText="1-99" />
                 </VBox>
             </HBox>
 
-            <Separator/>
+            <Separator />
 
             <!-- DATOS DEPORTIVOS -->
-            <Label text="Datos Deportivos" styleClass="label-subtitle"/>
+            <Label styleClass="label-subtitle" text="Datos Deportivos" />
 
             <HBox spacing="10">
                 <VBox spacing="5">
-                    <Label text="Posición *" styleClass="form-label"/>
+                    <Label styleClass="form-label" text="Posición *" />
                     <ComboBox fx:id="cmbPosicion" prefWidth="225">
                         <items>
                             <FXCollections fx:factory="observableArrayList">
-                                <String fx:value="POR"/>
-                                <String fx:value="DEF"/>
-                                <String fx:value="MED"/>
-                                <String fx:value="DEL"/>
+                                <String fx:value="POR" />
+                                <String fx:value="DEF" />
+                                <String fx:value="MED" />
+                                <String fx:value="DEL" />
                             </FXCollections>
                         </items>
                     </ComboBox>
                 </VBox>
 
                 <VBox spacing="5">
-                    <Label text="Categoría *" styleClass="form-label"/>
+                    <Label styleClass="form-label" text="Categoría *" />
                     <ComboBox fx:id="cmbCategoria" prefWidth="225">
                         <items>
                             <FXCollections fx:factory="observableArrayList">
-                                <String fx:value="Benjamín"/>
-                                <String fx:value="Alevín"/>
-                                <String fx:value="Infantil"/>
-                                <String fx:value="Cadete"/>
-                                <String fx:value="Juvenil"/>
+                                <String fx:value="Benjamín" />
+                                <String fx:value="Alevín" />
+                                <String fx:value="Infantil" />
+                                <String fx:value="Cadete" />
+                                <String fx:value="Juvenil" />
                             </FXCollections>
                         </items>
                     </ComboBox>
                 </VBox>
             </HBox>
 
-            <Separator/>
+            <Separator />
 
             <!-- DATOS FÍSICOS -->
-            <Label text="Datos Físicos (Opcionales)" styleClass="label-subtitle"/>
+            <Label styleClass="label-subtitle" text="Datos Físicos (Opcionales)" />
 
             <HBox spacing="10">
                 <VBox spacing="5">
-                    <Label text="Altura (cm)" styleClass="form-label"/>
-                    <TextField fx:id="txtAltura" promptText="Ej: 145.5" prefWidth="120"/>
+                    <Label styleClass="form-label" text="Altura (cm)" />
+                    <TextField fx:id="txtAltura" prefWidth="120" promptText="Ej: 145.5" />
                 </VBox>
 
                 <VBox spacing="5">
-                    <Label text="Peso (kg)" styleClass="form-label"/>
-                    <TextField fx:id="txtPeso" promptText="Ej: 35.2" prefWidth="120"/>
+                    <Label styleClass="form-label" text="Peso (kg)" />
+                    <TextField fx:id="txtPeso" prefWidth="120" promptText="Ej: 35.2" />
                 </VBox>
             </HBox>
 
-            <Separator/>
+            <Separator />
 
             <!-- FOTOGRAFÍA -->
-            <Label text="Fotografía (Opcional)" styleClass="label-subtitle"/>
+            <Label styleClass="label-subtitle" text="Fotografía (Opcional)" />
 
-            <HBox spacing="10" alignment="CENTER_LEFT">
-                <Button text="Seleccionar Imagen" onAction="#seleccionarFoto" styleClass="button-secondary"/>
-                <Label fx:id="lblNombreFoto" text="Ninguna imagen seleccionada" styleClass="label-secondary"/>
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Button onAction="#seleccionarFoto" styleClass="button-secondary" text="Seleccionar Imagen" />
+                <Label fx:id="lblNombreFoto" styleClass="label-secondary" text="Ninguna imagen seleccionada" />
             </HBox>
 
         </VBox>
     </ScrollPane>
 
     <!-- Botones de acción -->
-    <Separator/>
+    <Separator />
 
-    <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Label fx:id="lblError" text="" prefWidth="260" styleClass="label-error"/>
-        <Button text="Cancelar" onAction="#cancelar" prefWidth="100" styleClass="button-outline"/>
-        <Button text="Guardar" onAction="#guardar" prefWidth="100" styleClass="button-success"/>
+    <HBox alignment="CENTER_RIGHT" spacing="10">
+        <Label fx:id="lblError" prefHeight="15.0" prefWidth="198.0" styleClass="label-error" text="" />
+        <Button onAction="#cancelar" prefHeight="42.0" prefWidth="116.0" styleClass="button-outline" text="Cancelar" />
+        <Button onAction="#guardar" prefHeight="39.0" prefWidth="98.0" styleClass="button-success" text="Guardar" />
     </HBox>
 
 </VBox>

@@ -1,90 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!-- 4. ConfiguracionClub.fxml -->
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.javafx.scouteo.controller.ConfiguracionController"
-      spacing="15">
+<VBox spacing="15" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.scouteo.controller.ConfiguracionController">
     <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
+        <Insets bottom="20" left="20" right="20" top="20" />
     </padding>
 
     <!-- Header -->
-    <HBox spacing="10" alignment="CENTER_LEFT">
-        <Label text="CONFIGURACIÓN DEL CLUB" prefWidth="500"/>
-        <Button text="← Volver" onAction="#volverDashboard"/>
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label prefHeight="18.0" prefWidth="572.0" text="CONFIGURACIÓN DEL CLUB" />
+        <Button onAction="#volverDashboard" prefHeight="26.0" prefWidth="73.0" text="← Volver" />
     </HBox>
 
-    <Separator/>
+    <Separator />
 
     <!-- Contenido -->
     <HBox spacing="30">
 
         <!-- Escudo del club -->
-        <VBox spacing="10" alignment="TOP_CENTER">
+        <VBox alignment="TOP_CENTER" spacing="10">
             <padding>
-                <Insets top="20" right="20" bottom="20" left="20"/>
+                <Insets bottom="20" left="20" right="20" top="20" />
             </padding>
-            <Label text="Escudo del Club"/>
+            <Label text="Escudo del Club" />
             <StackPane>
-                <ImageView fx:id="imgEscudo" fitWidth="150" fitHeight="150" preserveRatio="true"/>
+                <ImageView fx:id="imgEscudo" fitHeight="150" fitWidth="150" preserveRatio="true" />
             </StackPane>
-            <Button text="Cambiar Escudo" onAction="#cambiarEscudo"/>
+            <Button onAction="#cambiarEscudo" text="Cambiar Escudo" />
         </VBox>
 
         <!-- Datos del club -->
         <VBox spacing="15">
 
-            <Label text="Datos Institucionales"/>
+            <Label text="Datos Institucionales" />
 
-            <HBox spacing="10" alignment="CENTER_LEFT">
-                <Label text="Nombre del Club:" prefWidth="150"/>
-                <TextField fx:id="txtNombreClub" prefWidth="300"/>
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label prefWidth="150" text="Nombre del Club:" />
+                <TextField fx:id="txtNombreClub" prefWidth="300" />
             </HBox>
 
-            <HBox spacing="10" alignment="CENTER_LEFT">
-                <Label text="Localidad:" prefWidth="150"/>
-                <TextField fx:id="txtLocalidad" prefWidth="300"/>
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label prefWidth="150" text="Localidad:" />
+                <TextField fx:id="txtLocalidad" prefWidth="300" />
             </HBox>
 
-            <HBox spacing="10" alignment="CENTER_LEFT">
-                <Label text="Presidente:" prefWidth="150"/>
-                <TextField fx:id="txtPresidente" prefWidth="300"/>
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label prefWidth="150" text="Presidente:" />
+                <TextField fx:id="txtPresidente" prefWidth="300" />
             </HBox>
 
-            <HBox spacing="10" alignment="CENTER_LEFT">
-                <Label text="Email:" prefWidth="150"/>
-                <TextField fx:id="txtEmail" prefWidth="300"/>
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label prefWidth="150" text="Email:" />
+                <TextField fx:id="txtEmail" prefWidth="300" />
             </HBox>
 
-            <HBox spacing="10" alignment="CENTER_LEFT">
-                <Label text="Teléfono:" prefWidth="150"/>
-                <TextField fx:id="txtTelefono" prefWidth="300"/>
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label prefWidth="150" text="Teléfono:" />
+                <TextField fx:id="txtTelefono" prefWidth="300" />
             </HBox>
 
-            <Separator/>
+            <Separator />
 
-            <Label text="Temporada"/>
+            <Label text="Temporada" />
 
-            <HBox spacing="10" alignment="CENTER_LEFT">
-                <Label text="Temporada Actual:" prefWidth="150"/>
-                <TextField fx:id="txtTemporada" promptText="AAAA/AA" prefWidth="150"/>
-                <Label text="(Ej: 2024/25)"/>
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label prefWidth="150" text="Temporada Actual:" />
+                <TextField fx:id="txtTemporada" prefWidth="150" promptText="AAAA/AA" />
+                <Label text="(Ej: 2024/25)" />
             </HBox>
 
         </VBox>
     </HBox>
 
-    <Separator/>
+    <Separator />
 
     <!-- Botones de acción -->
-    <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Label fx:id="lblMensaje" text="" prefWidth="480"/>
-        <Button text="Guardar Cambios" onAction="#guardarCambios" prefWidth="150"/>
+    <HBox alignment="CENTER_RIGHT" spacing="10">
+        <Label fx:id="lblMensaje" prefWidth="480" text="" />
+        <Button onAction="#guardarCambios" prefWidth="150" text="Guardar Cambios" />
     </HBox>
 
 </VBox>

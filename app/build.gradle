@@ -16,6 +16,7 @@ dependencies {
     //No es necesario incluir las dependencias porque ya lo hace el plugin por nosotros
     implementation 'mysql:mysql-connector-java:8.0.33'
     implementation 'org.controlsfx:controlsfx:11.2.1'
+    implementation 'eu.hansolo:tilesfx:21.0.9'
 }
 
 java { //Se indica la versión de JDK que ha de utilizar

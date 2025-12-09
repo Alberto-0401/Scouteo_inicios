@@ -93,12 +93,6 @@ public class ConvocatoriasController {
             private final HBox contenedor = new HBox(5, btnEditar, btnEliminar);
 
             {
-                // Configurar tamaños mínimos para que se vean los iconos
-                btnEditar.setMinWidth(40);
-                btnEditar.setPrefWidth(40);
-                btnEliminar.setMinWidth(40);
-                btnEliminar.setPrefWidth(40);
-
                 btnEditar.setOnAction(event -> {
                     ConvocatoriaItem item = getTableView().getItems().get(getIndex());
                     editarConvocatoria(item);

@@ -33,7 +33,7 @@ public class Main extends Application {
         primeraEscena.setTitle("SCOUTEO - Sistema de Gestión de Jugadores");
         primeraEscena.setWidth(1200);
         primeraEscena.setHeight(750);
-        primeraEscena.setResizable(false);  // No permitir redimensionar ni maximizar
+        primeraEscena.setResizable(false);
         primeraEscena.show();
     }
 }

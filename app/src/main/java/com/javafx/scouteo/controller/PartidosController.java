@@ -73,14 +73,6 @@ public class PartidosController {
             private final HBox contenedor = new HBox(5, btnEstadisticas, btnEditar, btnEliminar);
 
             {
-                // Configurar tamaños mínimos para que se vean los iconos
-                btnEstadisticas.setMinWidth(40);
-                btnEstadisticas.setPrefWidth(40);
-                btnEditar.setMinWidth(40);
-                btnEditar.setPrefWidth(40);
-                btnEliminar.setMinWidth(40);
-                btnEliminar.setPrefWidth(40);
-
                 btnEstadisticas.setOnAction(event -> {
                     Partido partido = getTableView().getItems().get(getIndex());
                     abrirFormEstadisticas(partido);

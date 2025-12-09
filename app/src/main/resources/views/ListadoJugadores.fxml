@@ -11,27 +11,28 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="546.0" prefWidth="773.0" spacing="10" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.scouteo.controller.ListadoJugadoresController" stylesheets="@../scouteo.css">
+<VBox prefHeight="546.0" prefWidth="773.0" spacing="10" stylesheets="@../scouteo.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.scouteo.controller.ListadoJugadoresController">
     <padding>
         <Insets bottom="15" left="15" right="15" top="15" />
     </padding>
 
     <!-- Header -->
     <HBox alignment="CENTER_LEFT" spacing="10">
-        <Label text="GESTIÓN DE JUGADORES" HBox.hgrow="ALWAYS" styleClass="label-title"/>
+        <Label styleClass="label-title" text="GESTIÓN DE JUGADORES" HBox.hgrow="ALWAYS" />
     </HBox>
     
     <Separator />
     
     <!-- Barra de búsqueda y filtros -->
     <HBox alignment="CENTER_LEFT" spacing="5" styleClass="padding-small">
-        <Label text="Buscar:" styleClass="form-label"/>
-        <TextField fx:id="txtBuscar" prefWidth="200" promptText="Nombre del jugador..." HBox.hgrow="SOMETIMES"/>
+        <Label styleClass="form-label" text="Buscar:" />
+        <TextField fx:id="txtBuscar" promptText="Nombre del jugador..." HBox.hgrow="SOMETIMES" />
 
-        <Label text="Posición:" styleClass="form-label"/>
-        <ComboBox fx:id="cmbPosicion" prefWidth="120" minWidth="120">
+        <Label styleClass="form-label" text="Posición:" />
+        <ComboBox fx:id="cmbPosicion" prefWidth="120">
             <items>
                 <FXCollections fx:factory="observableArrayList">
                     <String fx:value="Todas" />
@@ -43,10 +44,10 @@
             </items>
         </ComboBox>
 
-        <Button onAction="#limpiarFiltros" text="Limpiar" styleClass="button-outline" prefWidth="100" minWidth="100"/>
+        <Button onAction="#limpiarFiltros" styleClass="button-outline" text="Limpiar" />
         <!-- Spacer que empuja el botón a la derecha -->
-        <javafx.scene.layout.Region HBox.hgrow="ALWAYS"/>
-        <Button onAction="#abrirFormularioNuevo" text="+ AÑADIR JUGADOR" styleClass="button-success" prefWidth="160" minWidth="160"/>
+        <javafx.scene.layout.Region HBox.hgrow="ALWAYS" />
+        <Button onAction="#abrirFormularioNuevo" styleClass="button-success" text="+ AÑADIR JUGADOR" />
     </HBox>
     
     <!-- Tabla de jugadores -->
@@ -55,20 +56,20 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
         </columnResizePolicy>
         <columns>
-            <TableColumn fx:id="colId" prefWidth="35" maxWidth="40" text="ID" />
-            <TableColumn fx:id="colNombre" prefWidth="100" text="Nombre" />
-            <TableColumn fx:id="colApellidos" prefWidth="120" text="Apellidos" />
-            <TableColumn fx:id="colDorsal" prefWidth="50" maxWidth="55" text="Dor" />
-            <TableColumn fx:id="colPosicion" prefWidth="65" text="Pos." />
-            <TableColumn fx:id="colCategoria" prefWidth="75" text="Categoría" />
-            <TableColumn fx:id="colEdad" prefWidth="45" maxWidth="50" text="Edad" />
-            <TableColumn fx:id="colAcciones" prefWidth="140" minWidth="140" text="Acciones" />
+            <TableColumn fx:id="colId" maxWidth="58.399964570999146" prefWidth="42.399964570999146" text="ID" />
+            <TableColumn fx:id="colNombre" prefWidth="85.60000228881836" text="Nombre" />
+            <TableColumn fx:id="colApellidos" prefWidth="88.00006103515625" text="Apellidos" />
+            <TableColumn fx:id="colDorsal" maxWidth="160.79991149902344" prefWidth="64.79997253417969" text="Dor" />
+            <TableColumn fx:id="colPosicion" prefWidth="99.20001220703125" text="Pos." />
+            <TableColumn fx:id="colCategoria" prefWidth="95.20001220703125" text="Categoría" />
+            <TableColumn fx:id="colEdad" maxWidth="85.5999755859375" prefWidth="60.800018310546875" text="Edad" />
+            <TableColumn fx:id="colAcciones" minWidth="140" prefWidth="200.0" text="Acciones" />
         </columns>
     </TableView>
     
     <!-- Footer con información -->
     <HBox alignment="CENTER_LEFT" spacing="10">
-        <Label fx:id="lblTotal" prefWidth="150" text="Total: 0 jugadores" styleClass="label-header"/>
+        <Label fx:id="lblTotal" prefWidth="150" styleClass="label-header" text="Total: 0 jugadores" />
     </HBox>
     
 </VBox>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -11,12 +12,12 @@
 
 <VBox prefHeight="588.0" prefWidth="800" spacing="15" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.scouteo.controller.EstadisticasJugadorController">
     <padding>
-        <javafx.geometry.Insets top="20" right="20" bottom="20" left="20"/>
+        <javafx.geometry.Insets bottom="20" left="20" right="20" top="20" />
     </padding>
 
     <HBox alignment="CENTER_LEFT" spacing="10">
-        <Label prefWidth="700" text="ESTADÍSTICAS POR JUGADOR" />
-        <Button onAction="#volverDashboard" prefHeight="26.0" prefWidth="138.0" text="← Volver" />
+        <Label prefHeight="18.0" prefWidth="626.0" text="ESTADÍSTICAS POR JUGADOR" />
+        <Button onAction="#volverDashboard" prefHeight="26.0" prefWidth="115.0" text="← Volver" />
     </HBox>
 
     <Separator />

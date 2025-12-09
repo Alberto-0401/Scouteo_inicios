@@ -11,7 +11,7 @@
 
     <!-- Panel Lateral Izquierdo (Fijo) -->
     <left>
-        <VBox spacing="20" prefWidth="350" styleClass="panel" style="-fx-background-color: #F5F5F5;">
+        <VBox spacing="10" prefWidth="350" styleClass="panel" style="-fx-background-color: #F5F5F5;">
             <padding>
                 <Insets top="30" right="25" bottom="30" left="25"/>
             </padding>
@@ -45,9 +45,8 @@
             <!-- Gráfico de jugadores por posición -->
             <VBox spacing="10" styleClass="panel">
                 <Label text="Distribución por Posición" styleClass="label-header"/>
-                <PieChart fx:id="chartPosiciones" prefHeight="200"/>
+                <Pane fx:id="chartPosiciones" prefHeight="250" prefWidth="300"/>
             </VBox>
-
         </VBox>
     </left>
 
