@@ -4,6 +4,7 @@ import com.javafx.scouteo.model.Jugador;
 import com.javafx.scouteo.dao.JugadorDAO;
 import com.javafx.scouteo.dao.PartidoDAO;
 import com.javafx.scouteo.dao.EstadisticaPartidoDAO;
+import com.javafx.scouteo.util.ConexionBD;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -13,6 +14,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
 import javafx.scene.paint.Color;
+import javafx.animation.FadeTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.RotateTransition;
+import javafx.util.Duration;
 import java.io.IOException;
 import java.util.Map;
 import eu.hansolo.tilesfx.Tile;
@@ -67,17 +72,58 @@ public class DashboardController {
     }
 
     private void cargarDatos() {
+        // Verificar conexión a la base de datos
+        if (!ConexionBD.isConexionValida()) {
+            lblTotalJugadores.setText("0");
+            lblTotalPartidos.setText("0");
+            lblTotalGoles.setText("0");
+            // Limpiar el gráfico
+            chartPosiciones.getChildren().clear();
+            Label errorLabel = new Label("❌ Error de conexión a la base de datos");
+            errorLabel.setStyle("-fx-text-fill: #d32f2f; -fx-font-size: 14px; -fx-font-weight: bold;");
+            chartPosiciones.getChildren().add(errorLabel);
+            return;
+        }
+
         int totalJugadores = jugadorDAO.contarTotal();
         lblTotalJugadores.setText(String.valueOf(totalJugadores));
+        animarActualizacion(lblTotalJugadores);
 
         int totalPartidos = partidoDAO.contarTotal();
         lblTotalPartidos.setText(String.valueOf(totalPartidos));
+        animarActualizacion(lblTotalPartidos);
 
         int totalGoles = estadisticaPartidoDAO.contarTotalGoles();
         lblTotalGoles.setText(String.valueOf(totalGoles));
+        animarActualizacion(lblTotalGoles);
 
         // Cargar distribución por posición
         cargarGraficoPosiciones();
+    }
+
+    /**
+     * Anima un nodo con efecto pulse cuando se actualiza
+     */
+    private void animarActualizacion(Node nodo) {
+        // Animación de escala (pulse)
+        ScaleTransition scale = new ScaleTransition(Duration.millis(200), nodo);
+        scale.setFromX(1.0);
+        scale.setFromY(1.0);
+        scale.setToX(1.15);
+        scale.setToY(1.15);
+        scale.setCycleCount(2);
+        scale.setAutoReverse(true);
+
+        // Animación de fade para que sea más suave
+        FadeTransition fade = new FadeTransition(Duration.millis(100), nodo);
+        fade.setFromValue(1.0);
+        fade.setToValue(0.7);
+        fade.setCycleCount(2);
+        fade.setAutoReverse(true);
+
+        // Ejecutar ambas animaciones al mismo tiempo
+        scale.play();
+        fade.play();
     }
 
     private void cargarGraficoPosiciones() {
@@ -132,6 +178,10 @@ public class DashboardController {
 
             contenedorCentral.getChildren().clear();
             contenedorCentral.getChildren().add(vista);
+
+            // Animación FadeIn
+            aplicarAnimacionFadeIn(vista);
+
             actualizarEstiloBotones(btnListadoJugadores);
         } catch (IOException e) {
             e.printStackTrace();
@@ -168,6 +218,10 @@ public class DashboardController {
 
             contenedorCentral.getChildren().clear();
             contenedorCentral.getChildren().add(vista);
+
+            // Animación FadeIn
+            aplicarAnimacionFadeIn(vista);
+
             actualizarEstiloBotones(btnPartidos);
         } catch (IOException e) {
             e.printStackTrace();
@@ -187,6 +241,9 @@ public class DashboardController {
 
             contenedorCentral.getChildren().clear();
             contenedorCentral.getChildren().add(vista);
+
+            // Animación FadeIn
+            aplicarAnimacionFadeIn(vista);
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Error al cargar EstadisticasJugador.fxml");
@@ -199,10 +256,23 @@ public class DashboardController {
             Node vista = loader.load();
             contenedorCentral.getChildren().clear();
             contenedorCentral.getChildren().add(vista);
+
+            // Animación FadeIn
+            aplicarAnimacionFadeIn(vista);
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Error al cargar la vista: " + rutaFXML);
         }
+    }
+
+    /**
+     * Aplica una animación de desvanecimiento (fade-in) a un nodo
+     */
+    private void aplicarAnimacionFadeIn(Node nodo) {
+        FadeTransition fade = new FadeTransition(Duration.millis(300), nodo);
+        fade.setFromValue(0.0);
+        fade.setToValue(1.0);
+        fade.play();
     }
 
     private void actualizarEstiloBotones(Button botonActivo) {
@@ -213,5 +283,13 @@ public class DashboardController {
         btnConvocatorias.setDisable(false);
 
         botonActivo.setDisable(true);
+    }
+
+    /**
+     * Método público para actualizar los datos del dashboard
+     * Se debe llamar desde otros controladores cuando se modifiquen datos
+     */
+    public void actualizarDatos() {
+        cargarDatos();
     }
 }

@@ -3,10 +3,17 @@ package com.javafx.scouteo.controller;
 import com.javafx.scouteo.model.Configuracion;
 import com.javafx.scouteo.dao.ConfiguracionDAO;
 import com.javafx.scouteo.dao.JugadorDAO;
+import com.javafx.scouteo.utils.StageUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import java.io.ByteArrayInputStream;
 
 public class InfoClubController {
+
+    @FXML
+    private ImageView imgEscudoClub;
 
     @FXML
     private Label lblNombreClub;
@@ -56,6 +63,24 @@ public class InfoClubController {
             lblCiudad.setText(config.getLocalidad());
             lblEntrenador.setText(config.getPresidente());
             lblCategoria.setText(config.getTemporadaActual());
+
+            // Cargar escudo del club
+            if (config.getEscudo() != null && config.getEscudo().length > 0) {
+                try {
+                    ByteArrayInputStream bis = new ByteArrayInputStream(config.getEscudo());
+                    Image image = new Image(bis);
+                    imgEscudoClub.setImage(image);
+                    imgEscudoClub.setVisible(true);
+                    imgEscudoClub.setManaged(true);
+                } catch (Exception e) {
+                    System.err.println("Error al cargar el escudo del club: " + e.getMessage());
+                    imgEscudoClub.setVisible(false);
+                    imgEscudoClub.setManaged(false);
+                }
+            } else {
+                imgEscudoClub.setVisible(false);
+                imgEscudoClub.setManaged(false);
+            }
         }
 
         // Datos fijos o calculables
@@ -77,6 +102,7 @@ public class InfoClubController {
         try {
             javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/views/ConfiguracionClub.fxml"));
             javafx.stage.Stage stage = new javafx.stage.Stage();
+            StageUtils.setAppIcon(stage);
             stage.setScene(new javafx.scene.Scene(loader.load()));
             stage.setTitle("Configuración del Club");
             stage.initModality(javafx.stage.Modality.APPLICATION_MODAL);

@@ -8,20 +8,21 @@
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.javafx.scouteo.controller.RankingController"
-      spacing="15" prefWidth="850" prefHeight="600">
+      spacing="15" prefWidth="850" prefHeight="600" stylesheets="@../scouteo.css">
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
 
-    <HBox spacing="10" alignment="CENTER_LEFT">
-        <Label text="RANKING DE JUGADORES" HBox.hgrow="ALWAYS"/>
+    <!-- Header -->
+    <HBox fx:id="headerRanking" spacing="10" alignment="CENTER_LEFT">
+        <Label fx:id="tituloRanking" text="RANKING DE JUGADORES" HBox.hgrow="ALWAYS"/>
     </HBox>
-    
-    <Separator/>
-    
+
+    <Separator fx:id="separadorRanking1"/>
+
     <!-- Filtros -->
-    <HBox spacing="10" alignment="CENTER_LEFT">
-        <Label text="Ordenar por:"/>
+    <HBox fx:id="filtrosRanking" spacing="10" alignment="CENTER_LEFT">
+        <Label fx:id="lblOrdenarRanking" text="Ordenar por:"/>
         <ComboBox fx:id="cmbOrdenar" prefWidth="200">
             <items>
                 <FXCollections fx:factory="observableArrayList">
@@ -33,7 +34,7 @@
             </items>
         </ComboBox>
 
-        <Label text="Posición:"/>
+        <Label fx:id="lblPosicionRanking" text="Posición:"/>
         <ComboBox fx:id="cmbPosicion" prefWidth="150">
             <items>
                 <FXCollections fx:factory="observableArrayList">
@@ -46,7 +47,7 @@
             </items>
         </ComboBox>
 
-        <Button text="Aplicar Filtros" onAction="#aplicarFiltros"/>
+        <Button fx:id="btnAplicarFiltrosRanking" text="Aplicar Filtros" onAction="#aplicarFiltros"/>
     </HBox>
     
     <!-- Tabla de ranking -->

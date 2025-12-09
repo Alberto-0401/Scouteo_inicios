@@ -3,6 +3,8 @@ package com.javafx.scouteo.controller;
 import com.javafx.scouteo.model.Jugador;
 import com.javafx.scouteo.model.Partido;
 import com.javafx.scouteo.dao.PartidoDAO;
+import com.javafx.scouteo.utils.StageUtils;
+import com.javafx.scouteo.util.ConexionBD;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -67,7 +69,7 @@ public class PartidosController {
 
         // Columna de acciones con botones
         colAcciones.setCellFactory(param -> new TableCell<>() {
-            private final Button btnEstadisticas = new Button("\u2630");  // ☰ Estadísticas
+            private final Button btnEstadisticas = new Button("📊");  // 📊 Estadísticas
             private final Button btnEditar = new Button("\u270E");        // ✎ Editar
             private final Button btnEliminar = new Button("\u2716");      // ✖ Eliminar
             private final HBox contenedor = new HBox(5, btnEstadisticas, btnEditar, btnEliminar);
@@ -102,8 +104,27 @@ public class PartidosController {
     }
 
     public void cargarPartidos() {
+        // Verificar conexión a la base de datos
+        if (!ConexionBD.isConexionValida()) {
+            Label errorLabel = new Label("❌ No es posible conectar con la base de datos");
+            errorLabel.setStyle("-fx-text-fill: #d32f2f; -fx-font-size: 14px; -fx-font-weight: bold;");
+            tablaPartidos.setPlaceholder(errorLabel);
+            listaPartidos = FXCollections.observableArrayList();
+            tablaPartidos.setItems(listaPartidos);
+            lblTotal.setText("Total: 0 partidos");
+            return;
+        }
+
         listaPartidos = FXCollections.observableArrayList(partidoDAO.obtenerTodos());
         tablaPartidos.setItems(listaPartidos);
+
+        // Placeholder para cuando no hay partidos pero la conexión es válida
+        if (listaPartidos.isEmpty()) {
+            Label emptyLabel = new Label("No hay partidos registrados");
+            emptyLabel.setStyle("-fx-text-fill: #666; -fx-font-size: 14px;");
+            tablaPartidos.setPlaceholder(emptyLabel);
+        }
+
         actualizarTotal();
     }
 
@@ -116,6 +137,7 @@ public class PartidosController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/FormPartido.fxml"));
             Stage stage = new Stage();
+            StageUtils.setAppIcon(stage);
             stage.setScene(new Scene(loader.load()));
             stage.setTitle("Nuevo Partido");
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -134,6 +156,7 @@ public class PartidosController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/FormPartido.fxml"));
             Stage stage = new Stage();
+            StageUtils.setAppIcon(stage);
             stage.setScene(new Scene(loader.load()));
             stage.setTitle("Editar Partido");
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -171,6 +194,7 @@ public class PartidosController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/FormEstadisticasPartido.fxml"));
             Stage stage = new Stage();
+            StageUtils.setAppIcon(stage);
             stage.setScene(new Scene(loader.load()));
             stage.setTitle("Añadir Estadísticas - " + partido.getRival());
             stage.initModality(Modality.APPLICATION_MODAL);

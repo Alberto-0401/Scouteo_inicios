@@ -8,14 +8,14 @@
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.javafx.scouteo.controller.FormPartidoController"
-      spacing="15" prefWidth="550" prefHeight="450">
+      spacing="15" prefWidth="550" prefHeight="450" stylesheets="@../scouteo.css">
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
 
-    <Label text="CREAR NUEVO PARTIDO"/>
+    <Label fx:id="tituloFormPartido" text="CREAR NUEVO PARTIDO"/>
 
-    <Separator/>
+    <Separator fx:id="separadorFormPartido1"/>
 
     <ScrollPane fitToWidth="true">
         <VBox spacing="12">
@@ -65,10 +65,10 @@
 
     <Separator/>
 
-    <HBox spacing="10" alignment="CENTER_RIGHT">
+    <HBox fx:id="botonesFormPartido" spacing="10" alignment="CENTER_RIGHT">
         <Label fx:id="lblError" text="" prefWidth="260"/>
-        <Button text="Cancelar" onAction="#cancelar" prefWidth="100"/>
-        <Button text="Guardar" onAction="#guardar" prefWidth="100"/>
+        <Button fx:id="btnCancelarFormPartido" text="Cancelar" onAction="#cancelar" prefWidth="100"/>
+        <Button fx:id="btnGuardarFormPartido" text="Guardar" onAction="#guardar" prefWidth="100"/>
     </HBox>
 
 </VBox>

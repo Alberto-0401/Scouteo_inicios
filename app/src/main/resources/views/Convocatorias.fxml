@@ -8,29 +8,29 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox spacing="15" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.scouteo.controller.ConvocatoriasController">
+<VBox spacing="15" stylesheets="@../scouteo.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.scouteo.controller.ConvocatoriasController">
     <padding>
         <Insets bottom="20" left="20" right="20" top="20" />
     </padding>
 
-    <HBox alignment="CENTER_LEFT" spacing="10">
-        <Label text="CONVOCATORIAS Y PARTICIPACIONES" />
+    <!-- Header -->
+    <HBox fx:id="headerConvocatorias" alignment="CENTER_LEFT" spacing="10">
+        <Label fx:id="tituloConvocatorias" text="GESTIÓN DE CONVOCATORIAS" HBox.hgrow="ALWAYS" />
     </HBox>
 
-    <Separator />
+    <Separator fx:id="separadorConvocatorias1" />
 
     <!-- Filtros y acciones -->
-    <HBox alignment="CENTER_LEFT" spacing="10">
-        <Label text="Partido:" />
+    <HBox fx:id="filtrosConvocatorias" alignment="CENTER_LEFT" spacing="10">
+        <Label fx:id="lblPartidoConv" text="Partido:" />
         <ComboBox fx:id="cmbPartido" prefWidth="250" promptText="Todos los partidos" />
-
-        <Button onAction="#filtrar" prefHeight="26.0" prefWidth="62.0" text="Filtrar" />
-        <Button onAction="#limpiarFiltro" prefHeight="26.0" prefWidth="66.0" text="Limpiar" />
-
-        <Label prefWidth="100" />
-
+        <Button fx:id="btnFiltrarConv" onAction="#filtrar" text="Filtrar" />
+        <Button fx:id="btnLimpiarConv" onAction="#limpiarFiltro" text="Limpiar" />
+        <Region HBox.hgrow="ALWAYS" />
+        <Button fx:id="btnNuevaConvocatoria" onAction="#nuevaConvocatoria" text="+ NUEVA CONVOCATORIA" />
     </HBox>
 
     <!-- Tabla de convocatorias/participaciones -->
@@ -45,12 +45,13 @@
             <TableColumn fx:id="colDorsal" maxWidth="50" prefWidth="45" text="Dor" />
             <TableColumn fx:id="colPosicion" prefWidth="45" text="Pos." />
             <TableColumn fx:id="colConvocado" prefWidth="75" text="Conv." />
-            <TableColumn fx:id="colTitular" prefWidth="55" text="Tit." />
-            <TableColumn fx:id="colAcciones" minWidth="110" prefWidth="110" text="Acciones" />
+            <TableColumn fx:id="colTitular" prefWidth="52.79998779296875" text="Tit." />
+            <TableColumn fx:id="colAcciones" minWidth="110" prefWidth="172.0" text="Acciones" />
         </columns>
     </TableView>
 
-    <HBox alignment="CENTER_LEFT" spacing="10">
+    <!-- Footer -->
+    <HBox fx:id="footerConvocatorias" alignment="CENTER_LEFT" spacing="10">
         <Label fx:id="lblTotal" text="Total: 0 convocatorias" />
     </HBox>
 

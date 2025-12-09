@@ -2,6 +2,8 @@ package com.javafx.scouteo.controller;
 
 import com.javafx.scouteo.model.Jugador;
 import com.javafx.scouteo.dao.JugadorDAO;
+import com.javafx.scouteo.utils.StageUtils;
+import com.javafx.scouteo.util.ConexionBD;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -80,7 +82,7 @@ public class ListadoJugadoresController {
 
         // Configurar columna de acciones con botones
         colAcciones.setCellFactory(param -> new TableCell<>() {
-            private final Button btnEstadisticas = new Button("\u2630");  // ☰ Menú/Estadísticas
+            private final Button btnEstadisticas = new Button("📊");  // 📊 Estadísticas
             private final Button btnEditar = new Button("\u270E");        // ✎ Editar
             private final Button btnEliminar = new Button("\u2716");      // ✖ Eliminar
             private final HBox contenedor = new HBox(5, btnEstadisticas, btnEditar, btnEliminar);
@@ -163,11 +165,34 @@ public class ListadoJugadoresController {
     }
 
     public void cargarJugadores() {
+        // Verificar conexión a la base de datos
+        if (!ConexionBD.isConexionValida()) {
+            Label errorLabel = new Label("❌ No es posible conectar con la base de datos");
+            errorLabel.setStyle("-fx-text-fill: #d32f2f; -fx-font-size: 14px; -fx-font-weight: bold;");
+            tablaJugadores.setPlaceholder(errorLabel);
+            tablaJugadores.setItems(FXCollections.observableArrayList());
+            lblTotal.setText("Total: 0 jugadores");
+            return;
+        }
+
         listaJugadores = FXCollections.observableArrayList(jugadorDAO.obtenerTodos());
         listaFiltrada = new FilteredList<>(listaJugadores, p -> true);
         tablaJugadores.setItems(listaFiltrada);
+
+        // Placeholder para cuando no hay jugadores pero la conexión es válida
+        if (listaJugadores.isEmpty()) {
+            Label emptyLabel = new Label("No hay jugadores registrados");
+            emptyLabel.setStyle("-fx-text-fill: #666; -fx-font-size: 14px;");
+            tablaJugadores.setPlaceholder(emptyLabel);
+        }
+
         aplicarFiltros();
         actualizarTotal();
+
+        // Actualizar el dashboard si existe
+        if (dashboardController != null) {
+            dashboardController.actualizarDatos();
+        }
     }
 
     private void actualizarTotal() {
@@ -184,6 +209,7 @@ public class ListadoJugadoresController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/FormJugador.fxml"));
             Stage stage = new Stage();
+            StageUtils.setAppIcon(stage);
             stage.setScene(new Scene(loader.load()));
             stage.setTitle(jugador == null ? "Nuevo Jugador" : "Editar Jugador");
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -209,6 +235,10 @@ public class ListadoJugadoresController {
         if (alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
             if (jugadorDAO.eliminar(jugador.getId())) {
                 cargarJugadores();
+                // Actualizar el dashboard si existe
+                if (dashboardController != null) {
+                    dashboardController.actualizarDatos();
+                }
             } else {
                 Alert error = new Alert(Alert.AlertType.ERROR);
                 error.setTitle("Error");
@@ -226,6 +256,7 @@ public class ListadoJugadoresController {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/EstadisticasJugador.fxml"));
                 Stage stage = new Stage();
+                StageUtils.setAppIcon(stage);
                 stage.setScene(new Scene(loader.load()));
                 stage.setTitle("Estadisticas de " + jugador.getNombre() + " " + jugador.getApellidos());
                 stage.initModality(Modality.APPLICATION_MODAL);

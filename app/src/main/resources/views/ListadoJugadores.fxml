@@ -20,18 +20,18 @@
     </padding>
 
     <!-- Header -->
-    <HBox alignment="CENTER_LEFT" spacing="10">
-        <Label styleClass="label-title" text="GESTIÓN DE JUGADORES" HBox.hgrow="ALWAYS" />
+    <HBox fx:id="headerListadoJugadores" alignment="CENTER_LEFT" spacing="10">
+        <Label fx:id="tituloListadoJugadores" text="GESTIÓN DE JUGADORES" HBox.hgrow="ALWAYS" />
     </HBox>
-    
-    <Separator />
-    
+
+    <Separator fx:id="separadorListado1" />
+
     <!-- Barra de búsqueda y filtros -->
-    <HBox alignment="CENTER_LEFT" spacing="5" styleClass="padding-small">
-        <Label styleClass="form-label" text="Buscar:" />
+    <HBox fx:id="barraFiltrosListado" alignment="CENTER_LEFT" spacing="5">
+        <Label fx:id="lblBuscarListado" text="Buscar:" />
         <TextField fx:id="txtBuscar" promptText="Nombre del jugador..." HBox.hgrow="SOMETIMES" />
 
-        <Label styleClass="form-label" text="Posición:" />
+        <Label fx:id="lblPosicionListado" text="Posición:" />
         <ComboBox fx:id="cmbPosicion" prefWidth="120">
             <items>
                 <FXCollections fx:factory="observableArrayList">
@@ -44,10 +44,10 @@
             </items>
         </ComboBox>
 
-        <Button onAction="#limpiarFiltros" styleClass="button-outline" text="Limpiar" />
+        <Button fx:id="btnLimpiarFiltrosListado" onAction="#limpiarFiltros" text="Limpiar" />
         <!-- Spacer que empuja el botón a la derecha -->
         <javafx.scene.layout.Region HBox.hgrow="ALWAYS" />
-        <Button onAction="#abrirFormularioNuevo" styleClass="button-success" text="+ AÑADIR JUGADOR" />
+        <Button fx:id="btnAnadirJugadorListado" onAction="#abrirFormularioNuevo" text="+ AÑADIR JUGADOR" />
     </HBox>
     
     <!-- Tabla de jugadores -->
@@ -68,8 +68,8 @@
     </TableView>
     
     <!-- Footer con información -->
-    <HBox alignment="CENTER_LEFT" spacing="10">
-        <Label fx:id="lblTotal" prefWidth="150" styleClass="label-header" text="Total: 0 jugadores" />
+    <HBox fx:id="footerListadoJugadores" alignment="CENTER_LEFT" spacing="10">
+        <Label fx:id="lblTotal" prefWidth="150" text="Total: 0 jugadores" />
     </HBox>
     
 </VBox>

@@ -8,6 +8,7 @@ import com.javafx.scouteo.dao.PartidoDAO;
 import com.javafx.scouteo.dao.JugadorDAO;
 import com.javafx.scouteo.dao.JugadorPartidoDAO;
 import com.javafx.scouteo.util.ConexionBD;
+import com.javafx.scouteo.utils.StageUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -127,6 +128,17 @@ public class ConvocatoriasController {
     }
 
     private void cargarConvocatorias(Integer idPartidoFiltro) {
+        // Verificar conexión a la base de datos
+        if (!ConexionBD.isConexionValida()) {
+            Label errorLabel = new Label("❌ No es posible conectar con la base de datos");
+            errorLabel.setStyle("-fx-text-fill: #d32f2f; -fx-font-size: 14px; -fx-font-weight: bold;");
+            tablaConvocatorias.setPlaceholder(errorLabel);
+            listaConvocatorias = FXCollections.observableArrayList();
+            tablaConvocatorias.setItems(listaConvocatorias);
+            lblTotal.setText("Total: 0 convocatorias");
+            return;
+        }
+
         listaConvocatorias = FXCollections.observableArrayList();
 
         String sql = "SELECT p.id_partido, p.rival, p.fecha_partido, " +
@@ -168,6 +180,14 @@ public class ConvocatoriasController {
         }
 
         tablaConvocatorias.setItems(listaConvocatorias);
+
+        // Placeholder para cuando no hay convocatorias pero la conexión es válida
+        if (listaConvocatorias.isEmpty()) {
+            Label emptyLabel = new Label("No hay convocatorias registradas");
+            emptyLabel.setStyle("-fx-text-fill: #666; -fx-font-size: 14px;");
+            tablaConvocatorias.setPlaceholder(emptyLabel);
+        }
+
         lblTotal.setText("Total: " + listaConvocatorias.size() + " convocatorias");
     }
 
@@ -225,6 +245,7 @@ public class ConvocatoriasController {
         javafx.scene.layout.GridPane grid = new javafx.scene.layout.GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
+        grid.setStyle("-fx-padding: 20;");
         grid.add(new Label("Partido:"), 0, 0);
         grid.add(cmbPartidoDialog, 1, 0);
         grid.add(new Label("Jugador:"), 0, 1);
@@ -237,6 +258,13 @@ public class ConvocatoriasController {
 
         dialog.getDialogPane().setContent(grid);
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+        dialog.getDialogPane().getStylesheets().add(getClass().getResource("/scouteo.css").toExternalForm());
+
+        // Aplicar icono al dialog cuando se muestre
+        dialog.setOnShowing(e -> {
+            Stage dialogStage = (Stage) dialog.getDialogPane().getScene().getWindow();
+            StageUtils.setAppIcon(dialogStage);
+        });
 
         Optional<ButtonType> result = dialog.showAndWait();
 
@@ -318,6 +346,13 @@ public class ConvocatoriasController {
 
         dialog.getDialogPane().setContent(vbox);
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+        dialog.getDialogPane().getStylesheets().add(getClass().getResource("/scouteo.css").toExternalForm());
+
+        // Aplicar icono al dialog cuando se muestre
+        dialog.setOnShowing(e -> {
+            Stage dialogStage = (Stage) dialog.getDialogPane().getScene().getWindow();
+            StageUtils.setAppIcon(dialogStage);
+        });
 
         Optional<ButtonType> result = dialog.showAndWait();
 
@@ -341,6 +376,10 @@ public class ConvocatoriasController {
         alert.setTitle("Confirmar eliminacion");
         alert.setHeaderText("Eliminar convocatoria");
         alert.setContentText("¿Eliminar a " + item.getJugador() + " del partido contra " + item.getPartido() + "?");
+        alert.setOnShowing(e -> {
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            StageUtils.setAppIcon(stage);
+        });
 
         if (alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
             if (jugadorPartidoDAO.eliminar(item.getIdJugador(), item.getIdPartido())) {
@@ -355,6 +394,10 @@ public class ConvocatoriasController {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setContentText(mensaje);
+        alert.setOnShowing(e -> {
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            StageUtils.setAppIcon(stage);
+        });
         alert.showAndWait();
     }
 
@@ -362,6 +405,10 @@ public class ConvocatoriasController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Info");
         alert.setContentText(mensaje);
+        alert.setOnShowing(e -> {
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            StageUtils.setAppIcon(stage);
+        });
         alert.showAndWait();
     }
 

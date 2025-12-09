@@ -1,6 +1,7 @@
 package com.javafx.scouteo.controller;
 
 import com.javafx.scouteo.dao.RankingDAO;
+import com.javafx.scouteo.util.ConexionBD;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -67,6 +68,16 @@ public class RankingController {
     }
 
     private void cargarDatos() {
+        // Verificar conexión a la base de datos
+        if (!ConexionBD.isConexionValida()) {
+            Label errorLabel = new Label("❌ No es posible conectar con la base de datos");
+            errorLabel.setStyle("-fx-text-fill: #d32f2f; -fx-font-size: 14px; -fx-font-weight: bold;");
+            tablaRanking.setPlaceholder(errorLabel);
+            tablaRanking.setItems(FXCollections.observableArrayList());
+            lblTotal.setText("Mostrando 0 jugadores");
+            return;
+        }
+
         String ordenarPor = cmbOrdenar.getValue() != null ? cmbOrdenar.getValue() : "Goles";
         String posicion = cmbPosicion.getValue() != null ? cmbPosicion.getValue() : "Todas";
 
@@ -75,6 +86,14 @@ public class RankingController {
         );
 
         tablaRanking.setItems(datos);
+
+        // Placeholder para cuando no hay datos pero la conexión es válida
+        if (datos.isEmpty()) {
+            Label emptyLabel = new Label("No hay jugadores con estadísticas");
+            emptyLabel.setStyle("-fx-text-fill: #666; -fx-font-size: 14px;");
+            tablaRanking.setPlaceholder(emptyLabel);
+        }
+
         lblTotal.setText("Mostrando " + datos.size() + " jugadores");
     }
 

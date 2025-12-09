@@ -6,26 +6,26 @@
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.javafx.scouteo.controller.FormEstadisticasPartidoController"
-      spacing="15" prefWidth="700" prefHeight="600">
+      spacing="15" prefWidth="700" prefHeight="600" stylesheets="@../scouteo.css">
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
 
     <Label fx:id="lblTitulo" text="AÑADIR ESTADÍSTICAS"/>
 
-    <Separator/>
+    <Separator fx:id="separadorFormEstPartido1"/>
 
-    <Label text="Seleccione el jugador y añada sus estadísticas para este partido"/>
+    <Label fx:id="lblInstrucciones" text="Seleccione el jugador y añada sus estadísticas para este partido"/>
 
-    <HBox spacing="10" alignment="CENTER_LEFT">
-        <Label text="Jugador:"/>
+    <HBox fx:id="selectorJugadorEstPartido" spacing="10" alignment="CENTER_LEFT">
+        <Label fx:id="lblJugadorEstPartido" text="Jugador:"/>
         <ComboBox fx:id="cmbJugadores" prefWidth="300" promptText="Seleccione un jugador"/>
     </HBox>
 
     <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
         <VBox spacing="15">
 
-            <Label text="Estadísticas del Partido"/>
+            <Label fx:id="subtituloEstadisticasPartido" text="Estadísticas del Partido"/>
 
             <GridPane hgap="15" vgap="10">
                 <columnConstraints>
@@ -85,7 +85,7 @@
 
             <Separator/>
 
-            <Label text="Observaciones (Opcional)"/>
+            <Label fx:id="lblObservaciones" text="Observaciones (Opcional)"/>
 
             <TextArea fx:id="txtObservaciones" promptText="Observaciones sobre el desempeño del jugador..."
                       prefRowCount="3" wrapText="true"/>
@@ -95,10 +95,10 @@
 
     <Separator/>
 
-    <HBox spacing="10" alignment="CENTER_RIGHT">
+    <HBox fx:id="botonesFormEstPartido" spacing="10" alignment="CENTER_RIGHT">
         <Label fx:id="lblError" text="" prefWidth="350"/>
-        <Button text="Cancelar" onAction="#cancelar" prefWidth="100"/>
-        <Button text="Guardar" onAction="#guardar" prefWidth="100"/>
+        <Button fx:id="btnCancelarEstPartido" text="Cancelar" onAction="#cancelar" prefWidth="100"/>
+        <Button fx:id="btnGuardarEstPartido" text="Guardar" onAction="#guardar" prefWidth="100"/>
     </HBox>
 
 </VBox>

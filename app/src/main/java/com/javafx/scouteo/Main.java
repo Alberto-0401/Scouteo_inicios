@@ -1,5 +1,7 @@
 package com.javafx.scouteo;
 
+import com.javafx.scouteo.utils.StageUtils;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,6 +24,7 @@ public class Main extends Application {
         // Cargar CSS globalmente usando el ClassLoader
         try {
             String css = getClass().getClassLoader().getResource("scouteo.css").toExternalForm();
+            StageUtils.setAppIcon(primeraEscena);
             scene.getStylesheets().add(css);
             System.out.println("CSS cargado correctamente: " + css);
         } catch (Exception e) {

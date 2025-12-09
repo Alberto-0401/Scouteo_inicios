@@ -21,25 +21,25 @@
     </padding>
 
     <!-- Título -->
-    <Label fx:id="lblTitulo" styleClass="label-title" text="NUEVO JUGADOR" />
+    <Label fx:id="lblTitulo" text="NUEVO JUGADOR" />
 
-    <Separator />
+    <Separator fx:id="separadorFormJugador1" />
 
     <!-- Formulario -->
     <ScrollPane fitToWidth="true">
         <VBox spacing="12">
 
             <!-- DATOS PERSONALES -->
-            <Label styleClass="label-subtitle" text="Datos Personales" />
+            <Label fx:id="subtituloDatosPersonales" text="Datos Personales" />
 
             <HBox spacing="10">
                 <VBox spacing="5">
-                    <Label styleClass="form-label" text="Nombre *" />
+                    <Label fx:id="lblNombreForm" text="Nombre *" />
                     <TextField fx:id="txtNombre" prefWidth="225" promptText="Ej: Juan" />
                 </VBox>
 
                 <VBox spacing="5">
-                    <Label styleClass="form-label" text="Apellidos *" />
+                    <Label fx:id="lblApellidosForm" text="Apellidos *" />
                     <TextField fx:id="txtApellidos" prefWidth="225" promptText="Ej: García López" />
                 </VBox>
             </HBox>
@@ -59,7 +59,7 @@
             <Separator />
 
             <!-- DATOS DEPORTIVOS -->
-            <Label styleClass="label-subtitle" text="Datos Deportivos" />
+            <Label fx:id="subtituloDatosDeportivos" text="Datos Deportivos" />
 
             <HBox spacing="10">
                 <VBox spacing="5">
@@ -95,7 +95,7 @@
             <Separator />
 
             <!-- DATOS FÍSICOS -->
-            <Label styleClass="label-subtitle" text="Datos Físicos (Opcionales)" />
+            <Label fx:id="subtituloDatosFisicos" text="Datos Físicos (Opcionales)" />
 
             <HBox spacing="10">
                 <VBox spacing="5">
@@ -112,23 +112,23 @@
             <Separator />
 
             <!-- FOTOGRAFÍA -->
-            <Label styleClass="label-subtitle" text="Fotografía (Opcional)" />
+            <Label fx:id="subtituloFotografia" text="Fotografía (Opcional)" />
 
             <HBox alignment="CENTER_LEFT" spacing="10">
-                <Button onAction="#seleccionarFoto" styleClass="button-secondary" text="Seleccionar Imagen" />
-                <Label fx:id="lblNombreFoto" styleClass="label-secondary" text="Ninguna imagen seleccionada" />
+                <Button fx:id="btnSeleccionarFoto" onAction="#seleccionarFoto" text="Seleccionar Imagen" />
+                <Label fx:id="lblNombreFoto" text="Ninguna imagen seleccionada" />
             </HBox>
 
         </VBox>
     </ScrollPane>
 
     <!-- Botones de acción -->
-    <Separator />
+    <Separator fx:id="separadorFormJugador2" />
 
-    <HBox alignment="CENTER_RIGHT" spacing="10">
-        <Label fx:id="lblError" prefHeight="15.0" prefWidth="198.0" styleClass="label-error" text="" />
-        <Button onAction="#cancelar" prefHeight="42.0" prefWidth="116.0" styleClass="button-outline" text="Cancelar" />
-        <Button onAction="#guardar" prefHeight="39.0" prefWidth="98.0" styleClass="button-success" text="Guardar" />
+    <HBox fx:id="botonesFormJugador" alignment="CENTER_RIGHT" spacing="10">
+        <Label fx:id="lblError" prefHeight="15.0" prefWidth="198.0" text="" />
+        <Button fx:id="btnCancelarFormJugador" onAction="#cancelar" prefHeight="42.0" prefWidth="116.0" text="Cancelar" />
+        <Button fx:id="btnGuardarFormJugador" onAction="#guardar" prefHeight="39.0" prefWidth="98.0" text="Guardar" />
     </HBox>
 
 </VBox>

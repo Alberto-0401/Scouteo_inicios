@@ -7,6 +7,7 @@ import com.javafx.scouteo.dao.JugadorDAO;
 import com.javafx.scouteo.dao.PartidoDAO;
 import com.javafx.scouteo.dao.JugadorPartidoDAO;
 import com.javafx.scouteo.dao.EstadisticaPartidoDAO;
+import com.javafx.scouteo.utils.StageUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -145,6 +146,7 @@ public class EstadisticasJugadorController {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/FormEstadistica.fxml"));
                     Stage stage = new Stage();
+                    StageUtils.setAppIcon(stage);
                     stage.setScene(new Scene(loader.load()));
                     stage.setTitle("Editar Estadisticas");
                     stage.initModality(Modality.APPLICATION_MODAL);

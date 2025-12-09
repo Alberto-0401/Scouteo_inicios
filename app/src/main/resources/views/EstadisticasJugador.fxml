@@ -15,34 +15,34 @@
         <javafx.geometry.Insets bottom="20" left="20" right="20" top="20" />
     </padding>
 
-    <HBox alignment="CENTER_LEFT" spacing="10">
-        <Label prefHeight="18.0" prefWidth="626.0" text="ESTADÍSTICAS POR JUGADOR" />
-        <Button onAction="#volverDashboard" prefHeight="26.0" prefWidth="115.0" text="← Volver" />
+    <HBox fx:id="headerEstadisticasJugador" alignment="CENTER_LEFT" spacing="10">
+        <Label fx:id="tituloEstadisticasJugador" prefHeight="18.0" prefWidth="626.0" text="ESTADÍSTICAS POR JUGADOR" />
+        <Button fx:id="btnVolverEstadisticas" onAction="#volverDashboard" prefHeight="26.0" prefWidth="115.0" text="← Volver" />
     </HBox>
 
-    <Separator />
+    <Separator fx:id="separadorEstadisticas1" />
 
     <!-- Selector de jugador -->
-    <HBox alignment="CENTER_LEFT" spacing="10">
-        <Label text="Seleccionar Jugador:" />
+    <HBox fx:id="selectorJugadorBox" alignment="CENTER_LEFT" spacing="10">
+        <Label fx:id="lblSeleccionarJugador" text="Seleccionar Jugador:" />
         <ComboBox fx:id="cmbJugador" prefWidth="250" promptText="Elige un jugador..." />
-        <Button onAction="#cargarEstadisticas" text="Cargar Estadísticas" />
+        <Button fx:id="btnCargarEstadisticas" onAction="#cargarEstadisticas" text="Cargar Estadísticas" />
     </HBox>
 
     <!-- Tabla de estadísticas -->
-    <Label text="Historial de Partidos" />
+    <Label fx:id="lblHistorialPartidos" text="Historial de Partidos" />
 
     <TableView fx:id="tablaEstadisticas" prefHeight="300">
         <columns>
             <TableColumn fx:id="colFecha" prefWidth="90" text="Fecha" />
             <TableColumn fx:id="colRival" prefWidth="130" text="Rival" />
             <TableColumn fx:id="colResultado" prefWidth="70" text="Resultado" />
-            <TableColumn fx:id="colMinutos" prefWidth="60" text="Min" />
-            <TableColumn fx:id="colGoles" prefWidth="50" text="Goles" />
+            <TableColumn fx:id="colMinutos" prefWidth="54.39996337890625" text="Min" />
+            <TableColumn fx:id="colGoles" prefWidth="56.00006103515625" text="Goles" />
             <TableColumn fx:id="colAsistencias" prefWidth="60" text="Asist." />
-            <TableColumn fx:id="colTarjetasA" prefWidth="40" text="T.A." />
-            <TableColumn fx:id="colTarjetasR" prefWidth="40" text="T.R." />
-            <TableColumn fx:id="colAcciones" prefWidth="80" text="Acciones" />
+            <TableColumn fx:id="colTarjetasA" prefWidth="69.60003662109375" text="T.A." />
+            <TableColumn fx:id="colTarjetasR" prefWidth="81.59991455078125" text="T.R." />
+            <TableColumn fx:id="colAcciones" prefWidth="147.199951171875" text="Acciones" />
         </columns>
     </TableView>
 

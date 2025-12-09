@@ -13,7 +13,7 @@
     -fx-primary-light: #4CAF50;
 
     /* Colores secundarios */
-    -fx-secondary-color: #1976D2;      /* Azul */      /* Naranja/Acento */
+    -fx-secondary-color: #1976D2;      /* Azul */
 
     /* Colores de fondo */
     -fx-background-base: #FAFAFA;
@@ -594,6 +594,714 @@
 .default-color2.chart-pie { -fx-pie-color: #FFC107; } /* Amarillo - Mediocampistas */
 
 .default-color3.chart-pie { -fx-pie-color: #FF5722; } /* Naranja/Rojo - Delanteros */
+
+/* ========================================
+   LABELS Y TEXTOS
+   ======================================== */
+.label-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-primary-color;
+}
+
+.label-subtitle {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-text-primary;
+}
+
+.label-header {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-text-primary;
+}
+
+.label-secondary {
+    -fx-font-size: 12px;
+    -fx-text-fill: -fx-text-secondary;
+    -fx-font-style: italic;
+}
+
+.label-error {
+    -fx-text-fill: -fx-error-color;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+/* ========================================
+   TEXT AREA
+   ======================================== */
+.text-area {
+    -fx-background-color: -fx-background-panel;
+    -fx-border-color: #BDBDBD;
+    -fx-border-radius: 5px;
+    -fx-border-width: 1px;
+    -fx-text-fill: -fx-text-primary;
+}
+
+.text-area:focused {
+    -fx-border-color: -fx-primary-color;
+    -fx-border-width: 2px;
+}
+
+.text-area .content {
+    -fx-background-color: -fx-background-panel;
+}
+
+/* ========================================
+   MODALES
+   ======================================== */
+.modal-container {
+    -fx-background-color: -fx-background-panel;
+    -fx-background-radius: 10px;
+    -fx-padding: 25px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 20, 0, 0, 5);
+}
+
+.modal-icon {
+    -fx-font-size: 48px;
+}
+
+.modal-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-text-primary;
+}
+
+.modal-message {
+    -fx-font-size: 14px;
+    -fx-text-fill: -fx-text-secondary;
+}
+
+/* ========================================
+   LISTADO JUGADORES - Estilos específicos
+   ======================================== */
+#tituloListadoJugadores {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-primary-color;
+}
+
+#headerListadoJugadores {
+    -fx-padding: 5px 0;
+}
+
+#barraFiltrosListado {
+    -fx-padding: 10px;
+    -fx-background-color: #F5F5F5;
+    -fx-background-radius: 5px;
+    -fx-spacing: 10px;
+}
+
+#lblBuscarListado, #lblPosicionListado {
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-text-primary;
+    -fx-font-size: 13px;
+}
+
+#btnLimpiarFiltrosListado {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-primary-color;
+    -fx-border-color: -fx-primary-color;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-padding: 8px 16px;
+    -fx-font-weight: bold;
+}
+
+#btnLimpiarFiltrosListado:hover {
+    -fx-background-color: -fx-primary-color;
+    -fx-text-fill: white;
+}
+
+#btnAnadirJugadorListado {
+    -fx-background-color: -fx-success-color;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 4, 0, 0, 2);
+}
+
+#btnAnadirJugadorListado:hover {
+    -fx-background-color: #388E3C;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+#footerListadoJugadores {
+    -fx-padding: 10px 0 0 0;
+}
+
+#lblTotal {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-text-secondary;
+}
+
+#separadorListado1 {
+    -fx-background-color: -fx-primary-color;
+    -fx-opacity: 0.3;
+}
+
+/* ========================================
+   FORM JUGADOR - Estilos específicos
+   ======================================== */
+#lblTitulo {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-primary-color;
+}
+
+#subtituloDatosPersonales,
+#subtituloDatosDeportivos,
+#subtituloDatosFisicos,
+#subtituloFotografia {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-text-primary;
+    -fx-padding: 5px 0;
+}
+
+#lblNombreForm,
+#lblApellidosForm {
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-text-primary;
+    -fx-font-size: 13px;
+}
+
+#lblNombreFoto {
+    -fx-font-size: 12px;
+    -fx-text-fill: -fx-text-secondary;
+    -fx-font-style: italic;
+}
+
+#lblError {
+    -fx-text-fill: -fx-error-color;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+#btnSeleccionarFoto {
+    -fx-background-color: -fx-secondary-color;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 5px;
+}
+
+#btnSeleccionarFoto:hover {
+    -fx-background-color: #1565C0;
+}
+
+#btnCancelarFormJugador {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-primary-color;
+    -fx-border-color: -fx-primary-color;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-padding: 10px 20px;
+    -fx-font-weight: bold;
+}
+
+#btnCancelarFormJugador:hover {
+    -fx-background-color: -fx-primary-color;
+    -fx-text-fill: white;
+}
+
+#btnGuardarFormJugador {
+    -fx-background-color: -fx-success-color;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 4, 0, 0, 2);
+}
+
+#btnGuardarFormJugador:hover {
+    -fx-background-color: #388E3C;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+#separadorFormJugador1,
+#separadorFormJugador2 {
+    -fx-background-color: -fx-primary-color;
+    -fx-opacity: 0.3;
+}
+
+#botonesFormJugador {
+    -fx-padding: 10px 0 0 0;
+}
+
+/* ========================================
+   MODAL CONFIRMACION - Estilos específicos
+   ======================================== */
+#modalConfirmacionContainer {
+    -fx-padding: 25px;
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 20, 0, 0, 5);
+}
+
+#iconoAdvertenciaModal {
+    -fx-font-size: 48px;
+}
+
+#lblTitulo {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-text-primary;
+}
+
+#lblMensaje {
+    -fx-text-fill: gray;
+    -fx-font-size: 14px;
+}
+
+#btnCancelarModal {
+    -fx-background-color: #9E9E9E;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+}
+
+#btnCancelarModal:hover {
+    -fx-background-color: #757575;
+}
+
+#btnConfirmar {
+    -fx-background-color: -fx-error-color;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+}
+
+#btnConfirmar:hover {
+    -fx-background-color: #D32F2F;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+/* ========================================
+   FORM ESTADISTICA - Estilos específicos
+   ======================================== */
+#tituloFormEstadistica {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-primary-color;
+}
+
+#subtituloJugador,
+#subtituloDatosPartido,
+#subtituloEstGenerales,
+#subtituloEstEspecificas,
+#subtituloValoracion {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-text-primary;
+    -fx-padding: 5px 0;
+}
+
+#selectorJugadorEstBox {
+    -fx-padding: 10px;
+    -fx-background-color: #F5F5F5;
+    -fx-background-radius: 5px;
+}
+
+#lblSeleccionar {
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-text-primary;
+}
+
+#lblPosicionJugador {
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-secondary-color;
+}
+
+#btnCancelarFormEst {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-primary-color;
+    -fx-border-color: -fx-primary-color;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-font-weight: bold;
+}
+
+#btnCancelarFormEst:hover {
+    -fx-background-color: -fx-primary-color;
+    -fx-text-fill: white;
+}
+
+#btnGuardarFormEst {
+    -fx-background-color: -fx-success-color;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+}
+
+#btnGuardarFormEst:hover {
+    -fx-background-color: #388E3C;
+}
+
+#separadorFormEst1,
+#separadorFormEst2 {
+    -fx-background-color: -fx-primary-color;
+    -fx-opacity: 0.3;
+}
+
+/* ========================================
+   FORM ESTADISTICAS PARTIDO - Estilos específicos
+   ======================================== */
+#lblTitulo {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-primary-color;
+}
+
+#lblInstrucciones {
+    -fx-text-fill: -fx-text-secondary;
+    -fx-font-size: 13px;
+}
+
+#subtituloEstadisticasPartido {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-text-primary;
+}
+
+#lblJugadorEstPartido,
+#lblObservaciones {
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-text-primary;
+}
+
+#selectorJugadorEstPartido {
+    -fx-padding: 10px;
+    -fx-background-color: #F5F5F5;
+    -fx-background-radius: 5px;
+}
+
+#btnCancelarEstPartido {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-primary-color;
+    -fx-border-color: -fx-primary-color;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-font-weight: bold;
+}
+
+#btnCancelarEstPartido:hover {
+    -fx-background-color: -fx-primary-color;
+    -fx-text-fill: white;
+}
+
+#btnGuardarEstPartido {
+    -fx-background-color: -fx-success-color;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+}
+
+#btnGuardarEstPartido:hover {
+    -fx-background-color: #388E3C;
+}
+
+#separadorFormEstPartido1 {
+    -fx-background-color: -fx-primary-color;
+    -fx-opacity: 0.3;
+}
+
+/* ========================================
+   CONFIGURACION CLUB - Estilos específicos
+   ======================================== */
+#tituloConfiguracion {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-primary-color;
+}
+
+#subtituloDatosInstitucionales,
+#subtituloTemporada {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-text-primary;
+    -fx-padding: 5px 0;
+}
+
+#seccionEscudo {
+    -fx-background-color: #F9F9F9;
+    -fx-background-radius: 10px;
+    -fx-border-color: #E0E0E0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+}
+
+#lblEscudoClub {
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-text-primary;
+}
+
+#btnCambiarEscudo {
+    -fx-background-color: -fx-secondary-color;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 5px;
+}
+
+#btnCambiarEscudo:hover {
+    -fx-background-color: #1565C0;
+}
+
+#btnVolverConfig {
+    -fx-background-color: -fx-secondary-color;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 6px 12px;
+    -fx-background-radius: 5px;
+}
+
+#btnVolverConfig:hover {
+    -fx-background-color: #1565C0;
+}
+
+#btnGuardarCambiosConfig {
+    -fx-background-color: -fx-success-color;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 4, 0, 0, 2);
+}
+
+#btnGuardarCambiosConfig:hover {
+    -fx-background-color: #388E3C;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+#lblMensaje {
+    -fx-text-fill: -fx-success-color;
+    -fx-font-weight: bold;
+}
+
+#separadorConfig1 {
+    -fx-background-color: -fx-primary-color;
+    -fx-opacity: 0.3;
+}
+
+/* ========================================
+   PARTIDOS - Estilos específicos
+   ======================================== */
+#tituloPartidos {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-primary-color;
+}
+
+#btnNuevoPartido {
+    -fx-background-color: -fx-success-color;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 4, 0, 0, 2);
+}
+
+#btnNuevoPartido:hover {
+    -fx-background-color: #388E3C;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+#separadorPartidos1 {
+    -fx-background-color: -fx-primary-color;
+    -fx-opacity: 0.3;
+}
+
+#accionesPartidos {
+    -fx-padding: 10px 0;
+}
+
+/* ========================================
+   CONVOCATORIAS - Estilos específicos
+   ======================================== */
+#tituloConvocatorias {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-primary-color;
+}
+
+#filtrosConvocatorias {
+    -fx-padding: 10px;
+    -fx-background-color: #F5F5F5;
+    -fx-background-radius: 5px;
+}
+
+#lblPartidoConv {
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-text-primary;
+}
+
+#btnFiltrarConv,
+#btnLimpiarConv {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-primary-color;
+    -fx-border-color: -fx-primary-color;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 16px;
+}
+
+#btnFiltrarConv:hover,
+#btnLimpiarConv:hover {
+    -fx-background-color: -fx-primary-color;
+    -fx-text-fill: white;
+}
+
+#btnNuevaConvocatoria {
+    -fx-background-color: -fx-success-color;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 4, 0, 0, 2);
+}
+
+#btnNuevaConvocatoria:hover {
+    -fx-background-color: #388E3C;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+#separadorConvocatorias1 {
+    -fx-background-color: -fx-primary-color;
+    -fx-opacity: 0.3;
+}
+
+/* ========================================
+   RANKING - Estilos específicos
+   ======================================== */
+#tituloRanking {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-primary-color;
+}
+
+#filtrosRanking {
+    -fx-padding: 10px;
+    -fx-background-color: #F5F5F5;
+    -fx-background-radius: 5px;
+}
+
+#lblOrdenarRanking,
+#lblPosicionRanking {
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-text-primary;
+}
+
+#btnAplicarFiltrosRanking {
+    -fx-background-color: -fx-primary-color;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 5px;
+}
+
+#btnAplicarFiltrosRanking:hover {
+    -fx-background-color: -fx-primary-dark;
+}
+
+#separadorRanking1 {
+    -fx-background-color: -fx-primary-color;
+    -fx-opacity: 0.3;
+}
+
+/* ========================================
+   INFO CLUB
+   ======================================== */
+#headerInfoClub {
+    -fx-padding: 10px 0;
+}
+
+#imgEscudoClub {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 10, 0, 0, 2);
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+}
+
+#tituloInfoClub {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-primary-color;
+}
+
+#subtituloHeaderClub {
+    -fx-font-size: 14px;
+    -fx-text-fill: -fx-text-secondary;
+}
+
+#separadorInfoClub1 {
+    -fx-background-color: -fx-primary-color;
+    -fx-opacity: 0.3;
+}
+
+#subtituloEstadisticasClub {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-primary-color;
+}
+
+#lblNombreClub,
+#lblFundacion,
+#lblCiudad,
+#lblEstadio,
+#lblEntrenador,
+#lblCategoria {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-text-primary;
+}
+
+#lblTotalPlantilla,
+#lblVictorias,
+#lblEmpates,
+#lblDerrotas {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-primary-color;
+}
+
+#botonEditarInfoClub {
+    -fx-padding: 10px 0 0 0;
+}
+
+#btnEditarInfoClub {
+    -fx-background-color: -fx-primary-color;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 12px 24px;
+    -fx-background-radius: 5px;
+}
+
+#btnEditarInfoClub:hover {
+    -fx-background-color: -fx-primary-dark;
+    -fx-effect: dropshadow(gaussian, rgba(46, 125, 50, 0.3), 8, 0, 0, 2);
+}
+
+/* ========================================
+   ANIMACIONES Y EFECTOS
+   ======================================== */
+/* Animación para botones activos */
+.button:disabled {
+    -fx-background-color: -fx-primary-dark;
+    -fx-opacity: 1.0;
+    -fx-effect: dropshadow(gaussian, rgba(46, 125, 50, 0.5), 10, 0, 0, 3);
+}
 
 /* ========================================
    UTILIDADES

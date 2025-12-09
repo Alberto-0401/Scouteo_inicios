@@ -1,80 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.javafx.scouteo.controller.InfoClubController"
-      spacing="20">
+<VBox spacing="20" stylesheets="@../scouteo.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.scouteo.controller.InfoClubController">
     <padding>
-        <Insets top="30" right="30" bottom="30" left="30"/>
+        <Insets bottom="30" left="30" right="30" top="30" />
     </padding>
 
-    <Label text="INFORMACIÓN DEL CLUB"/>
+    <HBox fx:id="headerInfoClub" alignment="CENTER_LEFT" spacing="20">
+        <VBox prefHeight="75.0" prefWidth="436.0" spacing="5" HBox.hgrow="ALWAYS">
+            <Label fx:id="tituloInfoClub" text="INFORMACIÓN DEL CLUB" />
+            <Label fx:id="subtituloHeaderClub" styleClass="subtitle-text" text="Datos generales del club" />
+        </VBox>
+      <ImageView fx:id="imgEscudoClub" fitHeight="79.0" fitWidth="100" preserveRatio="true" />
+    </HBox>
 
-    <Separator/>
+    <Separator fx:id="separadorInfoClub1" />
 
     <!-- Información básica del club -->
-    <GridPane hgap="20" vgap="15" prefWidth="600">
+    <GridPane hgap="20" prefWidth="600" vgap="15">
         <columnConstraints>
-            <ColumnConstraints percentWidth="30"/>
-            <ColumnConstraints percentWidth="70"/>
+            <ColumnConstraints percentWidth="30" />
+            <ColumnConstraints percentWidth="70" />
         </columnConstraints>
 
-        <Label text="Nombre del Club:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-        <Label fx:id="lblNombreClub" text="" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+        <Label text="Nombre del Club:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <Label fx:id="lblNombreClub" text="" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-        <Label text="Fundación:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-        <Label fx:id="lblFundacion" text="" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <Label text="Fundación:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <Label fx:id="lblFundacion" text="" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-        <Label text="Ciudad:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-        <Label fx:id="lblCiudad" text="" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <Label text="Ciudad:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <Label fx:id="lblCiudad" text="" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-        <Label text="Estadio:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-        <Label fx:id="lblEstadio" text="" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <Label text="Estadio:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <Label fx:id="lblEstadio" text="" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-        <Label text="Entrenador:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-        <Label fx:id="lblEntrenador" text="" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+        <Label text="Entrenador:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+        <Label fx:id="lblEntrenador" text="" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-        <Label text="Categoría:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
-        <Label fx:id="lblCategoria" text="" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+        <Label text="Categoría:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+        <Label fx:id="lblCategoria" text="" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+      <rowConstraints>
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+      </rowConstraints>
     </GridPane>
 
-    <Separator/>
+    <Separator />
 
     <!-- Estadísticas generales del club -->
     <VBox spacing="15">
-        <Label text="ESTADÍSTICAS GENERALES"/>
+        <Label fx:id="subtituloEstadisticasClub" text="ESTADÍSTICAS GENERALES" />
 
         <HBox spacing="20">
             <VBox spacing="5">
-                <Label text="Total Plantilla"/>
-                <Label fx:id="lblTotalPlantilla" text="0"/>
+                <Label text="Total Plantilla" />
+                <Label fx:id="lblTotalPlantilla" text="0" />
             </VBox>
 
             <VBox spacing="5">
-                <Label text="Victorias"/>
-                <Label fx:id="lblVictorias" text="0"/>
+                <Label text="Victorias" />
+                <Label fx:id="lblVictorias" text="0" />
             </VBox>
 
             <VBox spacing="5">
-                <Label text="Empates"/>
-                <Label fx:id="lblEmpates" text="0"/>
+                <Label text="Empates" />
+                <Label fx:id="lblEmpates" text="0" />
             </VBox>
 
             <VBox spacing="5">
-                <Label text="Derrotas"/>
-                <Label fx:id="lblDerrotas" text="0"/>
+                <Label text="Derrotas" />
+                <Label fx:id="lblDerrotas" text="0" />
             </VBox>
         </HBox>
     </VBox>
 
-    <Separator/>
+    <Separator />
 
     <!-- Botón de configuración -->
-    <HBox alignment="CENTER_LEFT">
-        <Button text="Editar Información del Club" onAction="#editarInfoClub"/>
+    <HBox fx:id="botonEditarInfoClub" alignment="CENTER_LEFT">
+        <Button fx:id="btnEditarInfoClub" onAction="#editarInfoClub" text="Editar Información del Club" />
     </HBox>
 
 </VBox>
