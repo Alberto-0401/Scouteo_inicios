@@ -75,6 +75,11 @@ public class PartidosController {
             private final HBox contenedor = new HBox(5, btnEstadisticas, btnEditar, btnEliminar);
 
             {
+                // Agregar tooltips a los botones
+                Tooltip.install(btnEstadisticas, new Tooltip("Ver y añadir estadísticas del partido"));
+                Tooltip.install(btnEditar, new Tooltip("Editar información del partido"));
+                Tooltip.install(btnEliminar, new Tooltip("Eliminar partido"));
+
                 btnEstadisticas.setOnAction(event -> {
                     Partido partido = getTableView().getItems().get(getIndex());
                     abrirFormEstadisticas(partido);
@@ -178,6 +183,10 @@ public class PartidosController {
         alert.setHeaderText("Eliminar partido");
         alert.setContentText("¿Eliminar el partido contra " + partido.getRival() + "?\nEsto también eliminará las convocatorias y estadísticas asociadas.");
 
+        // Agregar icono a la ventana de alerta
+        Stage alertStage = (Stage) alert.getDialogPane().getScene().getWindow();
+        StageUtils.setAppIcon(alertStage);
+
         if (alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
             if (partidoDAO.eliminar(partido.getIdPartido())) {
                 cargarPartidos();
@@ -185,6 +194,11 @@ public class PartidosController {
                 Alert error = new Alert(Alert.AlertType.ERROR);
                 error.setTitle("Error");
                 error.setContentText("Error al eliminar el partido");
+
+                // Agregar icono a la ventana de error
+                Stage errorStage = (Stage) error.getDialogPane().getScene().getWindow();
+                StageUtils.setAppIcon(errorStage);
+
                 error.showAndWait();
             }
         }

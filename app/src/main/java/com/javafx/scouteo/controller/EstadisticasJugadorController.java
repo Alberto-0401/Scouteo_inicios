@@ -208,6 +208,11 @@ public class EstadisticasJugadorController {
             alert.setTitle("Aviso");
             alert.setHeaderText(null);
             alert.setContentText("Por favor, selecciona un jugador");
+
+            // Agregar icono a la ventana de alerta
+            Stage alertStage = (Stage) alert.getDialogPane().getScene().getWindow();
+            StageUtils.setAppIcon(alertStage);
+
             alert.showAndWait();
             return;
         }

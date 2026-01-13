@@ -11,12 +11,15 @@ import javafx.scene.Scene;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.stage.Modality;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 public class ListadoJugadoresController {
@@ -41,6 +44,9 @@ public class ListadoJugadoresController {
 
     @FXML
     private TableColumn<Jugador, Integer> colEdad;
+
+    @FXML
+    private TableColumn<Jugador, Void> colFoto;
 
     @FXML
     private TableColumn<Jugador, Integer> colId;
@@ -72,6 +78,38 @@ public class ListadoJugadoresController {
     }
 
     private void configurarTabla() {
+        // Configurar columna de foto
+        colFoto.setCellFactory(param -> new TableCell<>() {
+            private final ImageView imageView = new ImageView();
+
+            {
+                imageView.setFitHeight(50);
+                imageView.setFitWidth(50);
+                imageView.setPreserveRatio(true);
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || getTableRow() == null || getTableRow().getItem() == null) {
+                    setGraphic(null);
+                } else {
+                    Jugador jugador = getTableRow().getItem();
+                    if (jugador.getFoto() != null && jugador.getFoto().length > 0) {
+                        try {
+                            Image image = new Image(new ByteArrayInputStream(jugador.getFoto()));
+                            imageView.setImage(image);
+                            setGraphic(imageView);
+                        } catch (Exception e) {
+                            setGraphic(null);
+                        }
+                    } else {
+                        setGraphic(null);
+                    }
+                }
+            }
+        });
+
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colApellidos.setCellValueFactory(new PropertyValueFactory<>("apellidos"));
@@ -88,6 +126,10 @@ public class ListadoJugadoresController {
             private final HBox contenedor = new HBox(5, btnEstadisticas, btnEditar, btnEliminar);
 
             {
+                // Agregar tooltips a los botones
+                Tooltip.install(btnEstadisticas, new Tooltip("Ver estadísticas del jugador"));
+                Tooltip.install(btnEditar, new Tooltip("Editar información del jugador"));
+                Tooltip.install(btnEliminar, new Tooltip("Eliminar jugador"));
 
                 btnEstadisticas.setOnAction(event -> {
                     Jugador jugador = getTableView().getItems().get(getIndex());
@@ -232,6 +274,10 @@ public class ListadoJugadoresController {
         alert.setHeaderText("Eliminar jugador");
         alert.setContentText("¿Esta seguro de eliminar a " + jugador.getNombre() + " " + jugador.getApellidos() + "?");
 
+        // Agregar icono a la ventana de alerta
+        Stage alertStage = (Stage) alert.getDialogPane().getScene().getWindow();
+        StageUtils.setAppIcon(alertStage);
+
         if (alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
             if (jugadorDAO.eliminar(jugador.getId())) {
                 cargarJugadores();
@@ -243,6 +289,11 @@ public class ListadoJugadoresController {
                 Alert error = new Alert(Alert.AlertType.ERROR);
                 error.setTitle("Error");
                 error.setContentText("No se pudo eliminar el jugador");
+
+                // Agregar icono a la ventana de error
+                Stage errorStage = (Stage) error.getDialogPane().getScene().getWindow();
+                StageUtils.setAppIcon(errorStage);
+
                 error.showAndWait();
             }
         }

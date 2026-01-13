@@ -173,6 +173,11 @@ public class FormEstadisticasPartidoController {
         alert.setTitle("Éxito");
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
+
+        // Agregar icono a la ventana de alerta
+        Stage alertStage = (Stage) alert.getDialogPane().getScene().getWindow();
+        StageUtils.setAppIcon(alertStage);
+
         alert.showAndWait();
     }
 

@@ -44,10 +44,10 @@
             </items>
         </ComboBox>
 
-        <Button fx:id="btnLimpiarFiltrosListado" onAction="#limpiarFiltros" text="Limpiar" />
+        <Button fx:id="btnLimpiarFiltrosListado" mnemonicParsing="true" onAction="#limpiarFiltros" text="_Limpiar" />
         <!-- Spacer que empuja el botón a la derecha -->
         <javafx.scene.layout.Region HBox.hgrow="ALWAYS" />
-        <Button fx:id="btnAnadirJugadorListado" onAction="#abrirFormularioNuevo" text="+ AÑADIR JUGADOR" />
+        <Button fx:id="btnAnadirJugadorListado" mnemonicParsing="true" onAction="#abrirFormularioNuevo" text="+ _AÑADIR JUGADOR" />
     </HBox>
     
     <!-- Tabla de jugadores -->
@@ -56,6 +56,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
         </columnResizePolicy>
         <columns>
+            <TableColumn fx:id="colFoto" maxWidth="80" minWidth="60" prefWidth="70" text="Foto" />
             <TableColumn fx:id="colId" maxWidth="58.399964570999146" prefWidth="42.399964570999146" text="ID" />
             <TableColumn fx:id="colNombre" prefWidth="85.60000228881836" text="Nombre" />
             <TableColumn fx:id="colApellidos" prefWidth="88.00006103515625" text="Apellidos" />
