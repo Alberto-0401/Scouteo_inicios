@@ -23,7 +23,7 @@
 
     <!-- Botón de acción -->
     <HBox fx:id="accionesPartidos" alignment="CENTER_LEFT" spacing="10">
-        <Button fx:id="btnNuevoPartido" onAction="#abrirFormularioNuevo" text="+ NUEVO PARTIDO" />
+        <Button fx:id="btnNuevoPartido" mnemonicParsing="true" onAction="#abrirFormularioNuevo" text="+ _NUEVO PARTIDO" />
     </HBox>
 
     <TableView fx:id="tablaPartidos" prefHeight="400" VBox.vgrow="ALWAYS">

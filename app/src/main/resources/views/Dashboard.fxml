@@ -63,6 +63,7 @@
                 <Button fx:id="btnRanking" text="Ranking" onAction="#mostrarRanking" styleClass="button-secondary" prefWidth="120"/>
                 <Button fx:id="btnPartidos" text="Partidos" onAction="#mostrarPartidos" prefWidth="120"/>
                 <Button fx:id="btnConvocatorias" text="Convocatorias" onAction="#mostrarConvocatorias" styleClass="button-secondary" prefWidth="140"/>
+                <Button fx:id="btnInformes" text="Informes" onAction="#mostrarInformes" styleClass="button-primary" prefWidth="120"/>
             </HBox>
 
             <!-- StackPane para cambiar entre vistas -->

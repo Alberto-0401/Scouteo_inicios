@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="estadisticas_completas" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="11111111-2222-3333-4444-555555555555">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="TituloInforme" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Estadísticas Completas de Jugadores"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+    j.id_jugador,
+    j.nombre,
+    j.apellidos,
+    j.dorsal,
+    j.posicion,
+    COUNT(DISTINCT jp.id_partido) as partidos_jugados,
+    COALESCE(SUM(ep.goles), 0) as total_goles,
+    COALESCE(SUM(ep.asistencias), 0) as total_asistencias,
+    COALESCE(SUM(ep.paradas), 0) as total_paradas,
+    COALESCE(SUM(ep.recuperaciones), 0) as total_recuperaciones,
+    COALESCE(SUM(ep.tarjetas_amarillas), 0) as total_amarillas,
+    COALESCE(SUM(ep.tarjetas_rojas), 0) as total_rojas,
+    COALESCE(SUM(ep.minutos_jugados), 0) as total_minutos,
+    COALESCE(ROUND(AVG(ep.valoracion), 2), 0) as valoracion_promedio
+FROM jugadores j
+LEFT JOIN jugadores_partidos jp ON j.id_jugador = jp.id_jugador
+LEFT JOIN estadisticas_partido ep ON jp.id_estadistica = ep.id_estadistica
+WHERE j.estado = 'Activo'
+GROUP BY j.id_jugador, j.nombre, j.apellidos, j.dorsal, j.posicion
+ORDER BY total_goles DESC, j.dorsal ASC]]>
+	</queryString>
+	<field name="id_jugador" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id_jugador"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_jugador"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jugadores"/>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jugadores"/>
+	</field>
+	<field name="apellidos" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="apellidos"/>
+		<property name="com.jaspersoft.studio.field.label" value="apellidos"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jugadores"/>
+	</field>
+	<field name="dorsal" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="dorsal"/>
+		<property name="com.jaspersoft.studio.field.label" value="dorsal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jugadores"/>
+	</field>
+	<field name="posicion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="posicion"/>
+		<property name="com.jaspersoft.studio.field.label" value="posicion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jugadores"/>
+	</field>
+	<field name="partidos_jugados" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="partidos_jugados"/>
+		<property name="com.jaspersoft.studio.field.label" value="partidos_jugados"/>
+	</field>
+	<field name="total_goles" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="total_goles"/>
+		<property name="com.jaspersoft.studio.field.label" value="total_goles"/>
+	</field>
+	<field name="total_asistencias" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="total_asistencias"/>
+		<property name="com.jaspersoft.studio.field.label" value="total_asistencias"/>
+	</field>
+	<field name="total_paradas" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="total_paradas"/>
+		<property name="com.jaspersoft.studio.field.label" value="total_paradas"/>
+	</field>
+	<field name="total_recuperaciones" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="total_recuperaciones"/>
+		<property name="com.jaspersoft.studio.field.label" value="total_recuperaciones"/>
+	</field>
+	<field name="total_amarillas" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="total_amarillas"/>
+		<property name="com.jaspersoft.studio.field.label" value="total_amarillas"/>
+	</field>
+	<field name="total_rojas" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="total_rojas"/>
+		<property name="com.jaspersoft.studio.field.label" value="total_rojas"/>
+	</field>
+	<field name="total_minutos" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="total_minutos"/>
+		<property name="com.jaspersoft.studio.field.label" value="total_minutos"/>
+	</field>
+	<field name="valoracion_promedio" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="valoracion_promedio"/>
+		<property name="com.jaspersoft.studio.field.label" value="valoracion_promedio"/>
+	</field>
+	<variable name="total_jugadores" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{id_jugador}]]></variableExpression>
+	</variable>
+	<variable name="suma_goles" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_goles}]]></variableExpression>
+	</variable>
+	<variable name="suma_asistencias" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_asistencias}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="10" width="802" height="40" uuid="22222222-3333-4444-5555-666666666666"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="22" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TituloInforme}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy HH:mm">
+				<reportElement x="702" y="55" width="100" height="15" uuid="33333333-4444-5555-6666-777777777777"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="5" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="40" height="30" forecolor="#FFFFFF" backcolor="#4CAF50" uuid="44444444-5555-6666-7777-888888888888"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dor.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="40" y="0" width="140" height="30" forecolor="#FFFFFF" backcolor="#4CAF50" uuid="55555555-6666-7777-8888-999999999999"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Jugador]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="180" y="0" width="45" height="30" forecolor="#FFFFFF" backcolor="#4CAF50" uuid="66666666-7777-8888-9999-aaaaaaaaaaaa"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pos.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="225" y="0" width="55" height="30" forecolor="#FFFFFF" backcolor="#4CAF50" uuid="77777777-8888-9999-aaaa-bbbbbbbbbbbb"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Part.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="280" y="0" width="55" height="30" forecolor="#FFFFFF" backcolor="#4CAF50" uuid="88888888-9999-aaaa-bbbb-cccccccccccc"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Goles]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="335" y="0" width="55" height="30" forecolor="#FFFFFF" backcolor="#4CAF50" uuid="99999999-aaaa-bbbb-cccc-dddddddddddd"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Asist.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="390" y="0" width="55" height="30" forecolor="#FFFFFF" backcolor="#4CAF50" uuid="aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Parad.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="445" y="0" width="55" height="30" forecolor="#FFFFFF" backcolor="#4CAF50" uuid="bbbbbbbb-cccc-dddd-eeee-ffffffffffff"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Recup.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="500" y="0" width="45" height="30" forecolor="#FFFFFF" backcolor="#4CAF50" uuid="cccccccc-dddd-eeee-ffff-000000000001"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[T.A.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="545" y="0" width="45" height="30" forecolor="#FFFFFF" backcolor="#4CAF50" uuid="dddddddd-eeee-ffff-0000-000000000002"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[T.R.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="590" y="0" width="70" height="30" forecolor="#FFFFFF" backcolor="#4CAF50" uuid="eeeeeeee-ffff-0000-0000-000000000003"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Minutos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="660" y="0" width="70" height="30" forecolor="#FFFFFF" backcolor="#4CAF50" uuid="ffffffff-0000-0000-0000-000000000004"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valoración]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="40" height="22" uuid="11111111-2222-3333-4444-000000000005"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dorsal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="40" y="0" width="140" height="22" uuid="22222222-3333-4444-5555-000000000006"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre} + " " + $F{apellidos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="0" width="45" height="22" uuid="33333333-4444-5555-6666-000000000007"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{posicion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="225" y="0" width="55" height="22" uuid="44444444-5555-6666-7777-000000000008"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{partidos_jugados}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="0" width="55" height="22" uuid="55555555-6666-7777-8888-000000000009"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_goles}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="335" y="0" width="55" height="22" uuid="66666666-7777-8888-9999-00000000000a"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_asistencias}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="390" y="0" width="55" height="22" uuid="77777777-8888-9999-aaaa-00000000000b"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_paradas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="445" y="0" width="55" height="22" uuid="88888888-9999-aaaa-bbbb-00000000000c"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_recuperaciones}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="500" y="0" width="45" height="22" uuid="99999999-aaaa-bbbb-cccc-00000000000d"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_amarillas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="545" y="0" width="45" height="22" uuid="aaaaaaaa-bbbb-cccc-dddd-00000000000e"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_rojas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="590" y="0" width="70" height="22" uuid="bbbbbbbb-cccc-dddd-eeee-00000000000f"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_minutos}]]></textFieldExpression>
+			</textField>
+			<textField pattern="0.00">
+				<reportElement x="660" y="0" width="70" height="22" uuid="cccccccc-dddd-eeee-ffff-000000000010"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valoracion_promedio}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="5" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="702" y="5" width="100" height="15" uuid="dddddddd-eeee-ffff-0000-000000000011"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="50" splitType="Stretch">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="10" width="280" height="30" backcolor="#E8F5E9" uuid="eeeeeeee-ffff-0000-0000-000000000012"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TOTALES - Jugadores: " + $V{total_jugadores}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="280" y="10" width="55" height="30" backcolor="#E8F5E9" uuid="ffffffff-0000-0000-0000-000000000013"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{suma_goles}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="335" y="10" width="55" height="30" backcolor="#E8F5E9" uuid="00000000-1111-2222-3333-000000000014"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{suma_asistencias}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="390" y="10" width="340" height="30" backcolor="#E8F5E9" uuid="11111111-2222-3333-4444-000000000015"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

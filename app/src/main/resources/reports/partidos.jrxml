@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="partidos" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="aaaaaaaa-bbbb-cccc-dddd-111111111111">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="TituloInforme" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Listado de Partidos"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+    p.id_partido,
+    DATE_FORMAT(p.fecha_partido, '%d/%m/%Y') as fecha_formateada,
+    p.rival,
+    p.resultado,
+    p.local_visitante,
+    p.observaciones,
+    COUNT(jp.id_jugador) as num_jugadores
+FROM partidos p
+LEFT JOIN jugadores_partidos jp ON p.id_partido = jp.id_partido
+GROUP BY p.id_partido, p.fecha_partido, p.rival, p.resultado, p.local_visitante, p.observaciones
+ORDER BY p.fecha_partido DESC]]>
+	</queryString>
+	<field name="id_partido" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id_partido"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_partido"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="partidos"/>
+	</field>
+	<field name="fecha_formateada" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="fecha_formateada"/>
+		<property name="com.jaspersoft.studio.field.label" value="fecha_formateada"/>
+	</field>
+	<field name="rival" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="rival"/>
+		<property name="com.jaspersoft.studio.field.label" value="rival"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="partidos"/>
+	</field>
+	<field name="resultado" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="resultado"/>
+		<property name="com.jaspersoft.studio.field.label" value="resultado"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="partidos"/>
+	</field>
+	<field name="local_visitante" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="local_visitante"/>
+		<property name="com.jaspersoft.studio.field.label" value="local_visitante"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="partidos"/>
+	</field>
+	<field name="observaciones" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="observaciones"/>
+		<property name="com.jaspersoft.studio.field.label" value="observaciones"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="partidos"/>
+	</field>
+	<field name="num_jugadores" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="num_jugadores"/>
+		<property name="com.jaspersoft.studio.field.label" value="num_jugadores"/>
+	</field>
+	<variable name="contador" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{id_partido}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="10" width="555" height="40" uuid="bbbbbbbb-cccc-dddd-eeee-222222222222"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TituloInforme}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy HH:mm">
+				<reportElement x="455" y="55" width="100" height="15" uuid="cccccccc-dddd-eeee-ffff-333333333333"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="5" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="70" height="30" forecolor="#FFFFFF" backcolor="#2196F3" uuid="dddddddd-eeee-ffff-aaaa-444444444444"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="70" y="0" width="130" height="30" forecolor="#FFFFFF" backcolor="#2196F3" uuid="eeeeeeee-ffff-aaaa-bbbb-555555555555"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Rival]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="200" y="0" width="70" height="30" forecolor="#FFFFFF" backcolor="#2196F3" uuid="ffffffff-aaaa-bbbb-cccc-666666666666"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Resultado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="270" y="0" width="70" height="30" forecolor="#FFFFFF" backcolor="#2196F3" uuid="aaaaaaaa-bbbb-cccc-dddd-777777777777"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="340" y="0" width="50" height="30" forecolor="#FFFFFF" backcolor="#2196F3" uuid="bbbbbbbb-cccc-dddd-eeee-888888888888"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Jugad.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="390" y="0" width="165" height="30" forecolor="#FFFFFF" backcolor="#2196F3" uuid="cccccccc-dddd-eeee-ffff-999999999999"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Observaciones]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="70" height="25" uuid="dddddddd-eeee-ffff-aaaa-aaaaaaaaaaaa"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_formateada}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="0" width="130" height="25" uuid="eeeeeeee-ffff-aaaa-bbbb-bbbbbbbbbbbb"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rival}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="0" width="70" height="25" uuid="ffffffff-aaaa-bbbb-cccc-cccccccccccc"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{resultado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="270" y="0" width="70" height="25" uuid="aaaaaaaa-bbbb-cccc-dddd-dddddddddddd"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{local_visitante}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="340" y="0" width="50" height="25" uuid="bbbbbbbb-cccc-dddd-eeee-eeeeeeeeeeee"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{num_jugadores}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="390" y="0" width="165" height="25" uuid="cccccccc-dddd-eeee-ffff-ffffffffffff"/>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{observaciones}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="5" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="455" y="5" width="100" height="15" uuid="dddddddd-eeee-ffff-aaaa-000000000001"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="35" splitType="Stretch">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="5" width="555" height="25" backcolor="#E3F2FD" uuid="eeeeeeee-ffff-aaaa-bbbb-000000000002"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Total de Partidos: " + $V{contador}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="graficos_posiciones" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="44444444-4444-4444-4444-444444444444">
+
+    <parameter name="TituloInforme" class="java.lang.String" isForPrompting="false">
+        <defaultValueExpression><![CDATA["Distribución de Jugadores por Posición"]]></defaultValueExpression>
+    </parameter>
+
+    <queryString>
+        <![CDATA[SELECT
+            j.posicion,
+            COUNT(*) as cantidad_jugadores,
+            COALESCE(SUM(ep.goles), 0) as total_goles,
+            COALESCE(SUM(ep.asistencias), 0) as total_asistencias
+        FROM jugadores j
+        LEFT JOIN jugadores_partidos jp ON j.id_jugador = jp.id_jugador
+        LEFT JOIN estadisticas_partido ep ON jp.id_estadistica = ep.id_estadistica
+        WHERE j.estado = 'Activo'
+        GROUP BY j.posicion
+        ORDER BY j.posicion]]>
+    </queryString>
+
+    <field name="posicion" class="java.lang.String"/>
+    <field name="cantidad_jugadores" class="java.lang.Long"/>
+    <field name="total_goles" class="java.math.BigDecimal"/>
+    <field name="total_asistencias" class="java.math.BigDecimal"/>
+
+    <title>
+        <band height="80">
+            <textField>
+                <reportElement x="0" y="10" width="555" height="40" uuid="44444444-4444-4444-4444-444444444445"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="20" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{TituloInforme}]]></textFieldExpression>
+            </textField>
+            <textField pattern="dd/MM/yyyy HH:mm">
+                <reportElement x="455" y="60" width="100" height="15" uuid="44444444-4444-4444-4444-444444444446"/>
+                <textElement textAlignment="Right">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+
+    <summary>
+        <band height="550">
+            <!-- Gráfico de Pastel: Distribución por Posición -->
+            <pieChart>
+                <chart evaluationTime="Report" theme="default">
+                    <reportElement x="50" y="20" width="455" height="250" uuid="44444444-4444-4444-4444-444444444447"/>
+                    <chartTitle>
+                        <font size="14" isBold="true"/>
+                        <titleExpression><![CDATA["Distribución de Jugadores por Posición"]]></titleExpression>
+                    </chartTitle>
+                    <chartSubtitle/>
+                    <chartLegend position="Right"/>
+                </chart>
+                <pieDataset>
+                    <keyExpression><![CDATA[$F{posicion}]]></keyExpression>
+                    <valueExpression><![CDATA[$F{cantidad_jugadores}]]></valueExpression>
+                </pieDataset>
+                <piePlot>
+                    <plot/>
+                    <itemLabel>
+                        <font size="10"/>
+                    </itemLabel>
+                </piePlot>
+            </pieChart>
+
+            <!-- Gráfico de Barras: Goles por Posición -->
+            <barChart>
+                <chart evaluationTime="Report" theme="default">
+                    <reportElement x="50" y="280" width="455" height="250" uuid="44444444-4444-4444-4444-444444444448"/>
+                    <chartTitle>
+                        <font size="14" isBold="true"/>
+                        <titleExpression><![CDATA["Goles y Asistencias por Posición"]]></titleExpression>
+                    </chartTitle>
+                    <chartSubtitle/>
+                    <chartLegend position="Bottom"/>
+                </chart>
+                <categoryDataset>
+                    <categorySeries>
+                        <seriesExpression><![CDATA["Goles"]]></seriesExpression>
+                        <categoryExpression><![CDATA[$F{posicion}]]></categoryExpression>
+                        <valueExpression><![CDATA[$F{total_goles}]]></valueExpression>
+                    </categorySeries>
+                    <categorySeries>
+                        <seriesExpression><![CDATA["Asistencias"]]></seriesExpression>
+                        <categoryExpression><![CDATA[$F{posicion}]]></categoryExpression>
+                        <valueExpression><![CDATA[$F{total_asistencias}]]></valueExpression>
+                    </categorySeries>
+                </categoryDataset>
+                <barPlot>
+                    <plot/>
+                    <itemLabel>
+                        <font size="9"/>
+                    </itemLabel>
+                    <categoryAxisFormat>
+                        <axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000">
+                            <labelFont>
+                                <font size="10"/>
+                            </labelFont>
+                            <tickLabelFont>
+                                <font size="9"/>
+                            </tickLabelFont>
+                        </axisFormat>
+                    </categoryAxisFormat>
+                    <valueAxisFormat>
+                        <axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000">
+                            <labelFont>
+                                <font size="10"/>
+                            </labelFont>
+                            <tickLabelFont>
+                                <font size="9"/>
+                            </tickLabelFont>
+                        </axisFormat>
+                    </valueAxisFormat>
+                </barPlot>
+            </barChart>
+        </band>
+    </summary>
+
+</jasperReport>

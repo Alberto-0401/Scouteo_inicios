@@ -115,7 +115,7 @@
             <Label fx:id="subtituloFotografia" text="Fotografía (Opcional)" />
 
             <HBox alignment="CENTER_LEFT" spacing="10">
-                <Button fx:id="btnSeleccionarFoto" onAction="#seleccionarFoto" text="Seleccionar Imagen" />
+                <Button fx:id="btnSeleccionarFoto" mnemonicParsing="true" onAction="#seleccionarFoto" text="_Seleccionar Imagen" />
                 <Label fx:id="lblNombreFoto" text="Ninguna imagen seleccionada" />
             </HBox>
 
@@ -127,8 +127,8 @@
 
     <HBox fx:id="botonesFormJugador" alignment="CENTER_RIGHT" spacing="10">
         <Label fx:id="lblError" prefHeight="15.0" prefWidth="198.0" text="" />
-        <Button fx:id="btnCancelarFormJugador" onAction="#cancelar" prefHeight="42.0" prefWidth="116.0" text="Cancelar" />
-        <Button fx:id="btnGuardarFormJugador" onAction="#guardar" prefHeight="39.0" prefWidth="98.0" text="Guardar" />
+        <Button fx:id="btnCancelarFormJugador" mnemonicParsing="true" onAction="#cancelar" prefHeight="42.0" prefWidth="116.0" text="_Cancelar" />
+        <Button fx:id="btnGuardarFormJugador" mnemonicParsing="true" onAction="#guardar" prefHeight="39.0" prefWidth="98.0" text="_Guardar" />
     </HBox>
 
 </VBox>

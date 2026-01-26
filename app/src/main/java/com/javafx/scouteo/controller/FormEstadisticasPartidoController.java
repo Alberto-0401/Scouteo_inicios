@@ -7,6 +7,8 @@ import com.javafx.scouteo.model.EstadisticaPartido;
 import com.javafx.scouteo.model.Jugador;
 import com.javafx.scouteo.model.JugadorPartido;
 import com.javafx.scouteo.model.Partido;
+import com.javafx.scouteo.utils.StageUtils;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -173,6 +175,11 @@ public class FormEstadisticasPartidoController {
         alert.setTitle("Éxito");
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
+
+        // Agregar icono a la ventana de alerta
+        Stage alertStage = (Stage) alert.getDialogPane().getScene().getWindow();
+        StageUtils.setAppIcon(alertStage);
+
         alert.showAndWait();
     }
 

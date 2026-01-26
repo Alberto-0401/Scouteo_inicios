@@ -67,8 +67,8 @@
 
     <HBox fx:id="botonesFormPartido" spacing="10" alignment="CENTER_RIGHT">
         <Label fx:id="lblError" text="" prefWidth="260"/>
-        <Button fx:id="btnCancelarFormPartido" text="Cancelar" onAction="#cancelar" prefWidth="100"/>
-        <Button fx:id="btnGuardarFormPartido" text="Guardar" onAction="#guardar" prefWidth="100"/>
+        <Button fx:id="btnCancelarFormPartido" mnemonicParsing="true" text="_Cancelar" onAction="#cancelar" prefWidth="100"/>
+        <Button fx:id="btnGuardarFormPartido" mnemonicParsing="true" text="_Guardar" onAction="#guardar" prefWidth="100"/>
     </HBox>
 
 </VBox>

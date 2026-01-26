@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.web.WebView?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.javafx.scouteo.controller.InformesController"
+            prefWidth="850" prefHeight="700" stylesheets="@../scouteo.css">
+
+    <!-- Panel Superior con Controles -->
+    <top>
+        <VBox spacing="15" styleClass="panel" style="-fx-background-color: #FFFFFF; -fx-border-color: #E0E0E0; -fx-border-width: 0 0 2 0;">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <Label text="GENERACIÓN DE INFORMES" styleClass="label-title"/>
+
+            <Separator/>
+
+            <!-- Sección: Informes Simples -->
+            <VBox spacing="10">
+                <Label text="Informes Simples" styleClass="label-subtitle"/>
+                <HBox spacing="10">
+                    <Button fx:id="btnInformeJugadores" text="Listado de Jugadores"
+                            onAction="#generarInformeJugadores" styleClass="button-primary" prefWidth="180"/>
+                    <Button fx:id="btnInformePartidos" text="Listado de Partidos"
+                            onAction="#generarInformePartidos" styleClass="button-primary" prefWidth="180"/>
+                </HBox>
+            </VBox>
+
+            <Separator/>
+
+            <!-- Sección: Informes Avanzados -->
+            <VBox spacing="10">
+                <Label text="Informes Avanzados" styleClass="label-subtitle"/>
+                <HBox spacing="10">
+                    <Button fx:id="btnInformeEstadisticas" text="Estadísticas Completas"
+                            onAction="#generarInformeEstadisticas" styleClass="button-outline" prefWidth="180"/>
+                    <Button fx:id="btnInformeGraficos" text="Informe con Gráficas"
+                            onAction="#generarInformeGraficos" styleClass="button-outline" prefWidth="180"/>
+                </HBox>
+            </VBox>
+
+            <Separator/>
+
+            <!-- Sección: Informes Filtrados -->
+            <VBox spacing="10">
+                <Label text="Informes Filtrados de Jugadores" styleClass="label-subtitle"/>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="Filtrar por:" prefWidth="80"/>
+                    <ComboBox fx:id="cmbFiltroTipo" prefWidth="150" promptText="Tipo de filtro"/>
+                    <ComboBox fx:id="cmbFiltroValor" prefWidth="150" promptText="Seleccionar valor"/>
+                    <Button text="Generar Informe Filtrado" onAction="#generarInformeFiltradoUI"
+                            styleClass="button-success" prefWidth="180"/>
+                    <Button text="Todos los Jugadores (con Logo)" onAction="#generarInformeJugadoresConLogo"
+                            styleClass="button-outline" prefWidth="200"/>
+                </HBox>
+            </VBox>
+
+            <Separator/>
+
+            <!-- Opciones de Visualización -->
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Label text="Opciones:"/>
+                <CheckBox fx:id="chkNuevaVentana" text="Abrir en nueva ventana"/>
+                <Button fx:id="btnExportarPDF" text="Exportar a PDF"
+                        onAction="#exportarPDF" styleClass="button-secondary" prefWidth="150"/>
+                <Button fx:id="btnLimpiar" text="Limpiar Vista"
+                        onAction="#limpiarVista" prefWidth="120"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- WebView Central para Visualización de Informes -->
+    <center>
+        <StackPane fx:id="webViewContainer" style="-fx-background-color: #FAFAFA;">
+            <!-- Mensaje inicial cuando no hay informe cargado -->
+            <VBox fx:id="vboxMensajeInicial" alignment="CENTER" spacing="15"
+                  style="-fx-background-color: #FAFAFA;">
+                <Label text="📊" style="-fx-font-size: 48px;"/>
+                <Label text="Selecciona un informe para previsualizar"
+                       styleClass="label-subtitle" style="-fx-text-fill: #757575;"/>
+                <Label text="Los informes se mostrarán en esta área"
+                       style="-fx-text-fill: #9E9E9E; -fx-font-size: 12px;"/>
+            </VBox>
+        </StackPane>
+    </center>
+
+    <!-- Panel Inferior con Estado -->
+    <bottom>
+        <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-background-color: #F5F5F5; -fx-border-color: #E0E0E0; -fx-border-width: 2 0 0 0;">
+            <padding>
+                <Insets top="10" right="20" bottom="10" left="20"/>
+            </padding>
+            <Label text="Estado:"/>
+            <Label fx:id="lblEstado" text="Listo" style="-fx-text-fill: #4CAF50; -fx-font-weight: bold;"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
