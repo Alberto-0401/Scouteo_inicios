@@ -8,6 +8,7 @@ import com.javafx.scouteo.dao.PartidoDAO;
 import com.javafx.scouteo.dao.JugadorPartidoDAO;
 import com.javafx.scouteo.dao.EstadisticaPartidoDAO;
 import com.javafx.scouteo.utils.StageUtils;
+import com.javafx.scouteo.utils.TooltipUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -114,6 +115,7 @@ public class EstadisticasJugadorController {
 
             {
                 btnEditar.setStyle("-fx-font-size: 10px; -fx-padding: 2 8;");
+                TooltipUtils.instalarTooltip(btnEditar, "Editar estadísticas del partido");
                 btnEditar.setOnAction(event -> {
                     EstadisticaPartidoVista vista = getTableView().getItems().get(getIndex());
                     abrirFormularioEdicion(vista);

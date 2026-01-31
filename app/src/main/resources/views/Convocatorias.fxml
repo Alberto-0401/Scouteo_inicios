@@ -27,10 +27,10 @@
     <HBox fx:id="filtrosConvocatorias" alignment="CENTER_LEFT" spacing="10">
         <Label fx:id="lblPartidoConv" text="Partido:" />
         <ComboBox fx:id="cmbPartido" prefWidth="250" promptText="Todos los partidos" />
-        <Button fx:id="btnFiltrarConv" onAction="#filtrar" text="Filtrar" />
-        <Button fx:id="btnLimpiarConv" onAction="#limpiarFiltro" text="Limpiar" />
+        <Button fx:id="btnFiltrarConv" onAction="#filtrar" text="Filtrar" mnemonicParsing="true"/>
+        <Button fx:id="btnLimpiarConv" onAction="#limpiarFiltro" text="Limpiar" mnemonicParsing="false"/>
         <Region HBox.hgrow="ALWAYS" />
-        <Button fx:id="btnNuevaConvocatoria" onAction="#nuevaConvocatoria" text="+ NUEVA CONVOCATORIA" />
+        <Button fx:id="btnNuevaConvocatoria" onAction="#nuevaConvocatoria" text="+ NUEVA CONVOCATORIA" mnemonicParsing="true"/>
     </HBox>
 
     <!-- Tabla de convocatorias/participaciones -->

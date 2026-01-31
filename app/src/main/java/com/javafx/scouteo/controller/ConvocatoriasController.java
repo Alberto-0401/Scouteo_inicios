@@ -9,6 +9,7 @@ import com.javafx.scouteo.dao.JugadorDAO;
 import com.javafx.scouteo.dao.JugadorPartidoDAO;
 import com.javafx.scouteo.util.ConexionBD;
 import com.javafx.scouteo.utils.StageUtils;
+import com.javafx.scouteo.utils.TooltipUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -94,9 +95,9 @@ public class ConvocatoriasController {
             private final HBox contenedor = new HBox(5, btnEditar, btnEliminar);
 
             {
-                // Agregar tooltips a los botones
-                Tooltip.install(btnEditar, new Tooltip("Editar convocatoria"));
-                Tooltip.install(btnEliminar, new Tooltip("Eliminar convocatoria"));
+                // Agregar tooltips a los botones (deshabilitados temporalmente)
+                // TooltipUtils.instalarTooltip(btnEditar, "Editar convocatoria");
+                // TooltipUtils.instalarTooltip(btnEliminar, "Eliminar convocatoria");
 
                 btnEditar.setOnAction(event -> {
                     ConvocatoriaItem item = getTableView().getItems().get(getIndex());

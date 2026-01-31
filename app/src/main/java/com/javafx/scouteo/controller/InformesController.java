@@ -1,6 +1,8 @@
 package com.javafx.scouteo.controller;
 
 import com.javafx.scouteo.util.ConexionBD;
+import com.javafx.scouteo.utils.StageUtils;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -404,6 +406,11 @@ public class InformesController {
         alert.setTitle("Informes");
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
+
+        // Agregar icono a la ventana de alerta
+        Stage alertStage = (Stage) alert.getDialogPane().getScene().getWindow();
+        StageUtils.setAppIcon(alertStage);
+
         alert.showAndWait();
     }
 

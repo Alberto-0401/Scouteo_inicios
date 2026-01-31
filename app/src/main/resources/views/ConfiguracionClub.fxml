@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -20,7 +21,9 @@
     <!-- Header -->
     <HBox fx:id="headerConfiguracion" alignment="CENTER_LEFT" spacing="10">
         <Label fx:id="tituloConfiguracion" prefHeight="18.0" prefWidth="572.0" text="CONFIGURACIÓN DEL CLUB" />
-        <Button fx:id="btnVolverConfig" onAction="#volverDashboard" prefHeight="31.0" prefWidth="101.0" text="← Volver" />
+        <Button fx:id="btnVolverConfig" onAction="#volverDashboard" prefHeight="31.0" prefWidth="101.0" text="← Volver" mnemonicParsing="false">
+            <Tooltip text="Volver al panel principal (Dashboard)"/>
+        </Button>
     </HBox>
 
     <Separator fx:id="separadorConfig1" />
@@ -37,7 +40,7 @@
             <StackPane>
                 <ImageView fx:id="imgEscudo" fitHeight="150" fitWidth="150" preserveRatio="true" />
             </StackPane>
-            <Button fx:id="btnCambiarEscudo" onAction="#cambiarEscudo" text="Cambiar Escudo" />
+            <Button fx:id="btnCambiarEscudo" onAction="#cambiarEscudo" text="Cambiar Escudo" mnemonicParsing="true"/>
         </VBox>
 
         <!-- Datos del club -->
@@ -88,7 +91,7 @@
     <!-- Botones de acción -->
     <HBox fx:id="botonesConfiguracion" alignment="CENTER_RIGHT" spacing="10">
         <Label fx:id="lblMensaje" prefWidth="480" text="" />
-        <Button fx:id="btnGuardarCambiosConfig" onAction="#guardarCambios" prefWidth="150" text="Guardar Cambios" />
+        <Button fx:id="btnGuardarCambiosConfig" onAction="#guardarCambios" prefWidth="150" text="Guardar Cambios" mnemonicParsing="true"/>
     </HBox>
 
 </VBox>

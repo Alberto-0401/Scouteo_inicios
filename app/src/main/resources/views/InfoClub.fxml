@@ -93,7 +93,7 @@
 
     <!-- Botón de configuración -->
     <HBox fx:id="botonEditarInfoClub" alignment="CENTER_LEFT">
-        <Button fx:id="btnEditarInfoClub" onAction="#editarInfoClub" text="Editar Información del Club" />
+        <Button fx:id="btnEditarInfoClub" onAction="#editarInfoClub" text="Editar Información del Club" mnemonicParsing="false"/>
     </HBox>
 
 </VBox>

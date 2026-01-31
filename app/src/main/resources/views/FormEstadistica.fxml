@@ -128,8 +128,10 @@
     <!-- Botones -->
     <HBox fx:id="botonesFormEstadistica" spacing="10" alignment="CENTER_RIGHT">
         <Label fx:id="lblError" text="" prefWidth="320"/>
-        <Button fx:id="btnCancelarFormEst" text="Cancelar" onAction="#cancelar" prefWidth="100"/>
-        <Button fx:id="btnGuardarFormEst" text="Guardar" onAction="#guardar" prefWidth="100"/>
+        <Button fx:id="btnCancelarFormEst" text="Cancelar" onAction="#cancelar" prefWidth="100" mnemonicParsing="false">
+            <Tooltip text="Cancelar y cerrar el formulario"/>
+        </Button>
+        <Button fx:id="btnGuardarFormEst" text="Guardar" onAction="#guardar" prefWidth="100" mnemonicParsing="true"/>
     </HBox>
 
 </VBox>

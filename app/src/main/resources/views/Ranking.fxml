@@ -47,7 +47,9 @@
             </items>
         </ComboBox>
 
-        <Button fx:id="btnAplicarFiltrosRanking" text="Aplicar Filtros" onAction="#aplicarFiltros"/>
+        <Button fx:id="btnAplicarFiltrosRanking" text="Aplicar Filtros" onAction="#aplicarFiltros" mnemonicParsing="false">
+            <Tooltip text="Aplicar filtros seleccionados"/>
+        </Button>
     </HBox>
     
     <!-- Tabla de ranking -->

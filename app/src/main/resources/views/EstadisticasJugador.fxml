@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
@@ -17,7 +18,9 @@
 
     <HBox fx:id="headerEstadisticasJugador" alignment="CENTER_LEFT" spacing="10">
         <Label fx:id="tituloEstadisticasJugador" prefHeight="18.0" prefWidth="626.0" text="ESTADÍSTICAS POR JUGADOR" />
-        <Button fx:id="btnVolverEstadisticas" onAction="#volverDashboard" prefHeight="26.0" prefWidth="115.0" text="← Volver" />
+        <Button fx:id="btnVolverEstadisticas" onAction="#volverDashboard" prefHeight="26.0" prefWidth="115.0" text="← Volver" mnemonicParsing="false">
+            <Tooltip text="Volver al Dashboard"/>
+        </Button>
     </HBox>
 
     <Separator fx:id="separadorEstadisticas1" />
@@ -26,7 +29,7 @@
     <HBox fx:id="selectorJugadorBox" alignment="CENTER_LEFT" spacing="10">
         <Label fx:id="lblSeleccionarJugador" text="Seleccionar Jugador:" />
         <ComboBox fx:id="cmbJugador" prefWidth="250" promptText="Elige un jugador..." />
-        <Button fx:id="btnCargarEstadisticas" onAction="#cargarEstadisticas" text="Cargar Estadísticas" />
+        <Button fx:id="btnCargarEstadisticas" onAction="#cargarEstadisticas" text="Cargar Estadísticas" mnemonicParsing="true"/>
     </HBox>
 
     <!-- Tabla de estadísticas -->

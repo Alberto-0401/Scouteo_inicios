@@ -4,6 +4,7 @@ import com.javafx.scouteo.model.Jugador;
 import com.javafx.scouteo.model.Partido;
 import com.javafx.scouteo.dao.PartidoDAO;
 import com.javafx.scouteo.utils.StageUtils;
+import com.javafx.scouteo.utils.TooltipUtils;
 import com.javafx.scouteo.util.ConexionBD;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -76,9 +77,9 @@ public class PartidosController {
 
             {
                 // Agregar tooltips a los botones
-                Tooltip.install(btnEstadisticas, new Tooltip("Ver y añadir estadísticas del partido"));
-                Tooltip.install(btnEditar, new Tooltip("Editar información del partido"));
-                Tooltip.install(btnEliminar, new Tooltip("Eliminar partido"));
+                TooltipUtils.instalarTooltip(btnEstadisticas, "Ver y añadir estadísticas del partido");
+                TooltipUtils.instalarTooltip(btnEditar, "Editar información del partido");
+                TooltipUtils.instalarTooltip(btnEliminar, "Eliminar partido");
 
                 btnEstadisticas.setOnAction(event -> {
                     Partido partido = getTableView().getItems().get(getIndex());

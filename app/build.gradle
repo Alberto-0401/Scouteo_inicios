@@ -19,9 +19,22 @@ dependencies {
     implementation 'eu.hansolo:tilesfx:21.0.9'
 
     // JasperReports dependencies - Version 7.0.3
-    implementation 'net.sf.jasperreports:jasperreports:7.0.3'
-    implementation 'net.sf.jasperreports:jasperreports-pdf:7.0.3'
-    implementation 'net.sf.jasperreports:jasperreports-charts:7.0.3'
+    // Excluimos xml-apis y xalan para evitar conflictos con los módulos de Java
+    implementation('net.sf.jasperreports:jasperreports:7.0.3') {
+        exclude group: 'xml-apis', module: 'xml-apis'
+        exclude group: 'xalan', module: 'xalan'
+        exclude group: 'xerces', module: 'xercesImpl'
+    }
+    implementation('net.sf.jasperreports:jasperreports-pdf:7.0.3') {
+        exclude group: 'xml-apis', module: 'xml-apis'
+        exclude group: 'xalan', module: 'xalan'
+        exclude group: 'xerces', module: 'xercesImpl'
+    }
+    implementation('net.sf.jasperreports:jasperreports-charts:7.0.3') {
+        exclude group: 'xml-apis', module: 'xml-apis'
+        exclude group: 'xalan', module: 'xalan'
+        exclude group: 'xerces', module: 'xercesImpl'
+    }
 }
 
 java { //Se indica la versión de JDK que ha de utilizar
@@ -58,6 +71,25 @@ run {
         '--add-opens', 'javafx.graphics/javafx.scene=ALL-UNNAMED',
         '--add-opens', 'javafx.web/javafx.scene.web=ALL-UNNAMED'
     ]
+}
+
+// Tarea para copiar todas las dependencias a la carpeta build/libs/lib
+tasks.register('copyDependencies', Copy) {
+    from configurations.runtimeClasspath
+    into "$buildDir/libs/lib"
+}
+
+// Configuración del JAR normal
+tasks.jar {
+    dependsOn copyDependencies // Hace que siempre se copien las librerías al hacer el jar
+
+    manifest {
+        attributes(
+            'Main-Class': application.mainClass.get(),
+            // Esto crea el "Class-Path" dentro del manifiesto del JAR
+            'Class-Path': configurations.runtimeClasspath.files.collect { "lib/" + it.name }.join(' ')
+        )
+    }
 }
 
 

@@ -25,9 +25,9 @@
                 <Label text="Informes Simples" styleClass="label-subtitle"/>
                 <HBox spacing="10">
                     <Button fx:id="btnInformeJugadores" text="Listado de Jugadores"
-                            onAction="#generarInformeJugadores" styleClass="button-primary" prefWidth="180"/>
+                            onAction="#generarInformeJugadores" styleClass="button-primary" prefWidth="180" mnemonicParsing="true"/>
                     <Button fx:id="btnInformePartidos" text="Listado de Partidos"
-                            onAction="#generarInformePartidos" styleClass="button-primary" prefWidth="180"/>
+                            onAction="#generarInformePartidos" styleClass="button-primary" prefWidth="180" mnemonicParsing="true"/>
                 </HBox>
             </VBox>
 
@@ -38,9 +38,9 @@
                 <Label text="Informes Avanzados" styleClass="label-subtitle"/>
                 <HBox spacing="10">
                     <Button fx:id="btnInformeEstadisticas" text="Estadísticas Completas"
-                            onAction="#generarInformeEstadisticas" styleClass="button-outline" prefWidth="180"/>
+                            onAction="#generarInformeEstadisticas" styleClass="button-outline" prefWidth="180" mnemonicParsing="true"/>
                     <Button fx:id="btnInformeGraficos" text="Informe con Gráficas"
-                            onAction="#generarInformeGraficos" styleClass="button-outline" prefWidth="180"/>
+                            onAction="#generarInformeGraficos" styleClass="button-outline" prefWidth="180" mnemonicParsing="true"/>
                 </HBox>
             </VBox>
 
@@ -54,9 +54,11 @@
                     <ComboBox fx:id="cmbFiltroTipo" prefWidth="150" promptText="Tipo de filtro"/>
                     <ComboBox fx:id="cmbFiltroValor" prefWidth="150" promptText="Seleccionar valor"/>
                     <Button text="Generar Informe Filtrado" onAction="#generarInformeFiltradoUI"
-                            styleClass="button-success" prefWidth="180"/>
+                            styleClass="button-success" prefWidth="180" mnemonicParsing="true"/>
                     <Button text="Todos los Jugadores (con Logo)" onAction="#generarInformeJugadoresConLogo"
-                            styleClass="button-outline" prefWidth="200"/>
+                            styleClass="button-outline" prefWidth="200" mnemonicParsing="false">
+                        <Tooltip text="Genera un PDF con la plantilla completa incluyendo el escudo del club"/>
+                    </Button>
                 </HBox>
             </VBox>
 
@@ -67,9 +69,11 @@
                 <Label text="Opciones:"/>
                 <CheckBox fx:id="chkNuevaVentana" text="Abrir en nueva ventana"/>
                 <Button fx:id="btnExportarPDF" text="Exportar a PDF"
-                        onAction="#exportarPDF" styleClass="button-secondary" prefWidth="150"/>
+                        onAction="#exportarPDF" styleClass="button-secondary" prefWidth="150" mnemonicParsing="false">
+                    <Tooltip text="Guardar el informe visualizado como archivo PDF"/>
+                </Button>
                 <Button fx:id="btnLimpiar" text="Limpiar Vista"
-                        onAction="#limpiarVista" prefWidth="120"/>
+                        onAction="#limpiarVista" prefWidth="120" mnemonicParsing="true"/>
             </HBox>
         </VBox>
     </top>

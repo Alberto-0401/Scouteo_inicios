@@ -3,6 +3,7 @@ package com.javafx.scouteo.controller;
 import com.javafx.scouteo.model.Jugador;
 import com.javafx.scouteo.dao.JugadorDAO;
 import com.javafx.scouteo.utils.StageUtils;
+import com.javafx.scouteo.utils.TooltipUtils;
 import com.javafx.scouteo.util.ConexionBD;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -81,11 +82,14 @@ public class ListadoJugadoresController {
         // Configurar columna de foto
         colFoto.setCellFactory(param -> new TableCell<>() {
             private final ImageView imageView = new ImageView();
+            private final Label placeholderLabel = new Label("👤");
 
             {
                 imageView.setFitHeight(50);
                 imageView.setFitWidth(50);
                 imageView.setPreserveRatio(true);
+
+                placeholderLabel.setStyle("-fx-font-size: 30px; -fx-text-fill: #BDBDBD;");
             }
 
             @Override
@@ -101,10 +105,12 @@ public class ListadoJugadoresController {
                             imageView.setImage(image);
                             setGraphic(imageView);
                         } catch (Exception e) {
-                            setGraphic(null);
+                            // Si hay error al cargar la imagen, mostrar placeholder
+                            setGraphic(placeholderLabel);
                         }
                     } else {
-                        setGraphic(null);
+                        // Si no hay foto, mostrar icono predeterminado
+                        setGraphic(placeholderLabel);
                     }
                 }
             }
@@ -127,9 +133,9 @@ public class ListadoJugadoresController {
 
             {
                 // Agregar tooltips a los botones
-                Tooltip.install(btnEstadisticas, new Tooltip("Ver estadísticas del jugador"));
-                Tooltip.install(btnEditar, new Tooltip("Editar información del jugador"));
-                Tooltip.install(btnEliminar, new Tooltip("Eliminar jugador"));
+                TooltipUtils.instalarTooltip(btnEstadisticas, "Ver estadísticas del jugador");
+                TooltipUtils.instalarTooltip(btnEditar, "Editar información del jugador");
+                TooltipUtils.instalarTooltip(btnEliminar, "Eliminar jugador");
 
                 btnEstadisticas.setOnAction(event -> {
                     Jugador jugador = getTableView().getItems().get(getIndex());
