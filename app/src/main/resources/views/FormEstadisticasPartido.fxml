@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.javafx.scouteo.controller.FormEstadisticasPartidoController"
+      spacing="0" prefWidth="760" prefHeight="620" stylesheets="@../scouteo.css">
+
+    <HBox styleClass="view-header" alignment="CENTER_LEFT" spacing="10">
+        <Label fx:id="lblTitulo" text="ESTADISTICAS DEL PARTIDO" styleClass="page-title"/>
+    </HBox>
+
+    <TabPane fx:id="tabPane" VBox.vgrow="ALWAYS" tabClosingPolicy="UNAVAILABLE"
+             style="-fx-background-color: #F0F2F5;">
+
+        <!-- TAB 1: Estadísticas Jugador -->
+        <Tab text="Estadísticas Jugador">
+            <VBox spacing="15">
+                <padding>
+                    <Insets top="15" right="5" bottom="5" left="5"/>
+                </padding>
+
+                <Label text="Seleccione el jugador y añada sus estadísticas para este partido"/>
+
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="Jugador:"/>
+                    <ComboBox fx:id="cmbJugadores" prefWidth="320" promptText="Seleccione un jugador"/>
+                </HBox>
+
+                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+                    <VBox spacing="15">
+                        <padding>
+                            <Insets top="5" right="5" bottom="5" left="5"/>
+                        </padding>
+
+                        <Label text="Estadísticas del Partido" styleClass="section-title"/>
+
+                        <GridPane hgap="15" vgap="10">
+                            <columnConstraints>
+                                <ColumnConstraints percentWidth="33"/>
+                                <ColumnConstraints percentWidth="33"/>
+                                <ColumnConstraints percentWidth="33"/>
+                            </columnConstraints>
+
+                            <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                <Label text="Goles"/>
+                                <Spinner fx:id="spnGoles" editable="true" prefWidth="150"
+                                         initialValue="0" min="0" max="10"/>
+                            </VBox>
+
+                            <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                <Label text="Asistencias"/>
+                                <Spinner fx:id="spnAsistencias" editable="true" prefWidth="150"
+                                         initialValue="0" min="0" max="10"/>
+                            </VBox>
+
+                            <VBox spacing="5" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                                <Label text="Minutos Jugados"/>
+                                <Spinner fx:id="spnMinutos" editable="true" prefWidth="150"
+                                         initialValue="0" min="0" max="120"/>
+                            </VBox>
+
+                            <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                <Label text="Paradas (Portero)"/>
+                                <Spinner fx:id="spnParadas" editable="true" prefWidth="150"
+                                         initialValue="0" min="0" max="20"/>
+                            </VBox>
+
+                            <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                <Label text="Recuperaciones"/>
+                                <Spinner fx:id="spnRecuperaciones" editable="true" prefWidth="150"
+                                         initialValue="0" min="0" max="50"/>
+                            </VBox>
+
+                            <VBox spacing="5" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                <Label text="Tarjetas Amarillas"/>
+                                <Spinner fx:id="spnTarjetasAmarillas" editable="true" prefWidth="150"
+                                         initialValue="0" min="0" max="2"/>
+                            </VBox>
+
+                            <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                <Label text="Tarjetas Rojas"/>
+                                <Spinner fx:id="spnTarjetasRojas" editable="true" prefWidth="150"
+                                         initialValue="0" min="0" max="1"/>
+                            </VBox>
+
+                            <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                <Label text="Valoracion (1-10)"/>
+                                <Spinner fx:id="spnValoracion" editable="true" prefWidth="150"
+                                         initialValue="5.0" min="1.0" max="10.0" amountToStepBy="0.5"/>
+                            </VBox>
+                        </GridPane>
+
+                        <Separator/>
+
+                        <Label text="Observaciones (Opcional)"/>
+                        <TextArea fx:id="txtObservaciones" promptText="Observaciones sobre el desempeno del jugador..."
+                                  prefRowCount="3" wrapText="true"/>
+                    </VBox>
+                </ScrollPane>
+
+                <HBox styleClass="form-footer" alignment="CENTER_RIGHT" spacing="10">
+                    <Label fx:id="lblError" text="" HBox.hgrow="ALWAYS"
+                           style="-fx-text-fill: #C62828; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+                    <Button text="Cancelar" onAction="#cancelar" styleClass="button-outline" prefWidth="100"/>
+                    <Button text="Guardar" onAction="#guardar" prefWidth="100"/>
+                </HBox>
+            </VBox>
+        </Tab>
+
+        <!-- TAB 2: Eventos del Partido -->
+        <Tab text="Eventos del Partido">
+            <VBox spacing="12">
+                <padding>
+                    <Insets top="15" right="5" bottom="5" left="5"/>
+                </padding>
+
+                <!-- Formulario añadir evento -->
+                <VBox spacing="10" styleClass="card">
+                    <padding>
+                        <Insets top="12" right="12" bottom="12" left="12"/>
+                    </padding>
+                    <Label text="Nuevo Evento" styleClass="section-title"/>
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <VBox spacing="4">
+                            <Label text="Minuto"/>
+                            <Spinner fx:id="spnMinutoEvento" editable="true" prefWidth="90"
+                                     initialValue="1" min="1" max="120"/>
+                        </VBox>
+                        <VBox spacing="4">
+                            <Label text="Tipo"/>
+                            <ComboBox fx:id="cmbTipoEvento" prefWidth="160" promptText="Tipo de evento"/>
+                        </VBox>
+                        <VBox spacing="4">
+                            <Label text="Jugador principal"/>
+                            <ComboBox fx:id="cmbJugadorEvento" prefWidth="200" promptText="Jugador (opcional)"/>
+                        </VBox>
+                        <VBox spacing="4">
+                            <Label text="Jugador 2 / Asistente"/>
+                            <ComboBox fx:id="cmbJugador2Evento" prefWidth="200" promptText="Jugador 2 (opcional)"/>
+                        </VBox>
+                    </HBox>
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <VBox spacing="4" HBox.hgrow="ALWAYS">
+                            <Label text="Descripcion"/>
+                            <TextField fx:id="txtDescripcionEvento" promptText="Descripcion breve (opcional)" prefWidth="400"/>
+                        </VBox>
+                        <Button text="Anadir Evento" onAction="#añadirEvento" prefWidth="130"
+                                style="-fx-padding: 8 16 8 16;"/>
+                    </HBox>
+                    <Label fx:id="lblErrorEvento" text=""/>
+                </VBox>
+
+                <!-- Tabla de eventos -->
+                <TableView fx:id="tablaEventos" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colMinutoEvento" text="Min" prefWidth="55"/>
+                        <TableColumn fx:id="colTipoEvento" text="Tipo" prefWidth="150"/>
+                        <TableColumn fx:id="colJugadorEvento" text="Jugador" prefWidth="190"/>
+                        <TableColumn fx:id="colJugador2Evento" text="Jugador 2 / Asistente" prefWidth="190"/>
+                        <TableColumn fx:id="colDescripcionEvento" text="Descripcion" prefWidth="180"/>
+                        <TableColumn fx:id="colAccionesEvento" text="" prefWidth="80"/>
+                    </columns>
+                    <placeholder>
+                        <Label text="No hay eventos registrados para este partido"/>
+                    </placeholder>
+                </TableView>
+
+                <HBox alignment="CENTER_RIGHT">
+                    <Button text="Cerrar" onAction="#cancelar" prefWidth="100" mnemonicParsing="false"/>
+                </HBox>
+            </VBox>
+        </Tab>
+
+    </TabPane>
+
+</VBox>

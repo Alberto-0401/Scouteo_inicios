@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.javafx.scouteo.controller.GraficosRendimientoController"
+      styleClass="view-root" stylesheets="@../scouteo.css">
+
+    <HBox styleClass="view-header" alignment="CENTER_LEFT" spacing="20">
+        <VBox spacing="3" HBox.hgrow="ALWAYS">
+            <Label text="GRÁFICOS DE RENDIMIENTO" styleClass="page-title"/>
+            <Label text="Distribución de la plantilla y ranking de gol calculados en tiempo real desde la base de datos" styleClass="page-subtitle"/>
+        </VBox>
+    </HBox>
+
+    <HBox VBox.vgrow="ALWAYS" spacing="0">
+
+        <!-- === PIE CHART: distribución por posición === -->
+        <VBox styleClass="view-card" HBox.hgrow="ALWAYS" spacing="8" minWidth="400">
+            <padding><Insets top="14" right="16" bottom="14" left="16"/></padding>
+
+            <Label text="Distribución por posición"
+                   style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #607D8B; -fx-padding: 0 0 4 0;"/>
+
+            <PieChart fx:id="pieChartPosicion"
+                      VBox.vgrow="ALWAYS"
+                      labelsVisible="true"
+                      legendVisible="true"
+                      legendSide="BOTTOM"
+                      animated="true"/>
+        </VBox>
+
+        <!-- === BAR CHART: top goleadores === -->
+        <VBox styleClass="view-card" HBox.hgrow="ALWAYS" spacing="8" minWidth="480"
+              style="-fx-border-width: 0 0 0 1; -fx-border-color: #1E3050;">
+            <padding><Insets top="14" right="16" bottom="14" left="16"/></padding>
+
+            <Label text="Top 10 goleadores y asistentes"
+                   style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #607D8B; -fx-padding: 0 0 4 0;"/>
+
+            <BarChart fx:id="barChartGoleadores" VBox.vgrow="ALWAYS"
+                      animated="true" legendVisible="true" legendSide="BOTTOM"
+                      barGap="2" categoryGap="12">
+                <xAxis>
+                    <CategoryAxis fx:id="xAxisGoleadores" label="Jugador"
+                                  tickLabelRotation="-35"/>
+                </xAxis>
+                <yAxis>
+                    <NumberAxis fx:id="yAxisGoleadores" label="Cantidad"
+                                lowerBound="0" autoRanging="true"/>
+                </yAxis>
+            </BarChart>
+        </VBox>
+
+    </HBox>
+
+    <HBox styleClass="table-footer" alignment="CENTER_LEFT" spacing="10">
+        <Label fx:id="lblEstado" text="Cargando datos..."
+               style="-fx-text-fill: #90A4AE; -fx-font-size: 11px;"/>
+    </HBox>
+
+</VBox>

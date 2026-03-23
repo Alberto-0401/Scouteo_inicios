@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.javafx.scouteo.controller.FormPartidoController"
+      spacing="0" prefWidth="550" prefHeight="460" stylesheets="@../scouteo.css">
+
+    <HBox styleClass="view-header" alignment="CENTER_LEFT" spacing="10">
+        <VBox spacing="2">
+            <Label fx:id="tituloFormPartido" text="NUEVO PARTIDO" styleClass="page-title"/>
+            <Label text="Registra los datos del partido" styleClass="page-subtitle"/>
+        </VBox>
+    </HBox>
+
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                style="-fx-background-color: #F0F2F5; -fx-background: #F0F2F5; -fx-border-color: transparent;">
+        <VBox spacing="14">
+            <padding><Insets top="18" right="20" bottom="18" left="20"/></padding>
+
+            <VBox styleClass="form-section" spacing="12">
+                <Label text="Datos del Partido" styleClass="form-section-title"/>
+
+                <HBox spacing="14">
+                    <VBox spacing="5" HBox.hgrow="ALWAYS">
+                        <Label text="Fecha *"
+                               style="-fx-text-fill: #546E7A; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+                        <DatePicker fx:id="dpFechaPartido" maxWidth="Infinity"/>
+                    </VBox>
+
+                    <VBox spacing="5" HBox.hgrow="ALWAYS">
+                        <Label text="Rival *"
+                               style="-fx-text-fill: #546E7A; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+                        <TextField fx:id="txtRival" promptText="Ej: Real Madrid CF"/>
+                    </VBox>
+                </HBox>
+
+                <HBox spacing="14">
+                    <VBox spacing="5">
+                        <Label text="Resultado"
+                               style="-fx-text-fill: #546E7A; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+                        <TextField fx:id="txtResultado" promptText="Ej: 3-1" prefWidth="120"/>
+                    </VBox>
+
+                    <VBox spacing="5">
+                        <Label text="Local / Visitante *"
+                               style="-fx-text-fill: #546E7A; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+                        <ComboBox fx:id="cmbLocalVisitante" prefWidth="160">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="LOCAL"/>
+                                    <String fx:value="VISITANTE"/>
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+                    </VBox>
+                </HBox>
+
+                <VBox spacing="5">
+                    <Label text="Observaciones"
+                           style="-fx-text-fill: #546E7A; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+                    <TextArea fx:id="txtObservaciones" promptText="Notas sobre el partido..."
+                              prefRowCount="3" wrapText="true"/>
+                </VBox>
+            </VBox>
+        </VBox>
+    </ScrollPane>
+
+    <HBox fx:id="botonesFormPartido" styleClass="form-footer" alignment="CENTER_RIGHT" spacing="10">
+        <Label fx:id="lblError" text="" HBox.hgrow="ALWAYS"
+               style="-fx-text-fill: #C62828; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+        <Button fx:id="btnCancelarFormPartido" text="Cancelar" onAction="#cancelar"
+                styleClass="button-outline" prefWidth="100"/>
+        <Button fx:id="btnGuardarFormPartido" text="Guardar" onAction="#guardar" prefWidth="100"/>
+    </HBox>
+
+</VBox>

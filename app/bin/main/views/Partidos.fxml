@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox styleClass="view-root" stylesheets="@../scouteo.css"
+      xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.javafx.scouteo.controller.PartidosController">
+
+    <!-- Header oscuro -->
+    <HBox styleClass="view-header" alignment="CENTER_LEFT" spacing="20">
+        <VBox spacing="3" HBox.hgrow="ALWAYS">
+            <Label text="GESTION DE PARTIDOS" styleClass="page-title"/>
+            <Label text="Registro y seguimiento de partidos" styleClass="page-subtitle"/>
+        </VBox>
+        <Button fx:id="btnNuevoPartido" text="+ Nuevo partido"
+                onAction="#abrirFormularioNuevo" styleClass="button-success"/>
+    </HBox>
+
+    <!-- Tabla en card -->
+    <VBox styleClass="view-card" VBox.vgrow="ALWAYS">
+        <padding><Insets top="0" right="0" bottom="0" left="0"/></padding>
+        <TableView fx:id="tablaPartidos" VBox.vgrow="ALWAYS">
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
+            <columns>
+                <TableColumn fx:id="colId"             text="ID"           minWidth="38" maxWidth="48"  prefWidth="42"/>
+                <TableColumn fx:id="colFecha"          text="Fecha"        prefWidth="82"/>
+                <TableColumn fx:id="colRival"          text="Rival"        prefWidth="140"/>
+                <TableColumn fx:id="colResultado"      text="Resultado"    prefWidth="80"/>
+                <TableColumn fx:id="colLocalVisitante" text="Local/Vis."   prefWidth="78"/>
+                <TableColumn fx:id="colCompeticion"    text="Competicion"  prefWidth="115"/>
+                <TableColumn fx:id="colAcciones"       text="Acciones"     minWidth="165" prefWidth="180"/>
+            </columns>
+        </TableView>
+        <HBox styleClass="table-footer" alignment="CENTER_LEFT">
+            <Label fx:id="lblTotal" text="Total: 0 partidos"/>
+        </HBox>
+    </VBox>
+
+</VBox>

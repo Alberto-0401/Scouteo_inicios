@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.javafx.scouteo.controller.InformesController"
+      styleClass="view-root" stylesheets="@../scouteo.css">
+
+    <HBox styleClass="view-header" alignment="CENTER_LEFT" spacing="20">
+        <VBox spacing="3" HBox.hgrow="ALWAYS">
+            <Label text="GENERACION DE INFORMES" styleClass="page-title"/>
+            <Label text="Selecciona un informe para generarlo y abrirlo como PDF" styleClass="page-subtitle"/>
+        </VBox>
+    </HBox>
+
+    <!-- Informes principales -->
+    <VBox styleClass="view-card" spacing="0">
+        <padding><Insets top="18" right="20" bottom="18" left="20"/></padding>
+
+        <Label text="Informes generales" style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #607D8B; -fx-padding: 0 0 10 0;"/>
+
+        <HBox spacing="12" alignment="CENTER_LEFT">
+            <Button fx:id="btnInformeJugadores" text="Listado de Jugadores"
+                    onAction="#generarInformeJugadores" styleClass="button"
+                    prefWidth="200" prefHeight="38"/>
+            <Button fx:id="btnInformePartidos" text="Resultados de Partidos"
+                    onAction="#generarInformePartidos" styleClass="button"
+                    prefWidth="200" prefHeight="38"/>
+            <Button fx:id="btnInformeEstadisticas" text="Estadisticas Completas"
+                    onAction="#generarInformeEstadisticas" styleClass="button"
+                    prefWidth="200" prefHeight="38"/>
+            <Button fx:id="btnInformeGraficos" text="Gráficos de Rendimiento"
+                    onAction="#generarInformeGraficos" styleClass="button"
+                    prefWidth="200" prefHeight="38"/>
+        </HBox>
+
+        <Separator style="-fx-padding: 14 0 14 0;"><VBox.margin><Insets top="18" bottom="18"/></VBox.margin></Separator>
+
+        <Label text="Informe filtrado de jugadores" style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #607D8B; -fx-padding: 0 0 10 0;"/>
+
+        <HBox spacing="12" alignment="CENTER_LEFT">
+            <ComboBox fx:id="cmbFiltroTipo"  prefWidth="150" prefHeight="38" promptText="Tipo de filtro"/>
+            <ComboBox fx:id="cmbFiltroValor" prefWidth="160" prefHeight="38" promptText="Valor"/>
+            <Button text="Generar informe filtrado" onAction="#generarInformeFiltradoUI"
+                    styleClass="button" prefHeight="38" prefWidth="200"/>
+            <Button text="Todos los jugadores" onAction="#generarInformeJugadoresConLogo"
+                    styleClass="button-outline" prefHeight="38" prefWidth="180"/>
+        </HBox>
+    </VBox>
+
+    <HBox styleClass="table-footer" alignment="CENTER_LEFT" spacing="10">
+        <Label text="Estado:"/>
+        <Label fx:id="lblEstado" text="Listo"
+               style="-fx-text-fill: #2E7D32; -fx-font-weight: bold;"/>
+    </HBox>
+
+</VBox>

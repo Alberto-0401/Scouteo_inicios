@@ -1,0 +1,270 @@
+<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3 -->
+<jasperReport name="estadisticas_completas" language="java" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="11111111-2222-3333-4444-555555555555">
+	<parameter name="CLUB_ID" class="java.lang.Integer" forPrompting="false">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="TituloInforme" class="java.lang.String" forPrompting="false">
+		<defaultValueExpression><![CDATA["Estadisticas Completas de Jugadores"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="EQUIPO_ID" class="java.lang.Integer" forPrompting="false">
+		<defaultValueExpression><![CDATA[null]]></defaultValueExpression>
+	</parameter>
+	<query language="SQL"><![CDATA[SELECT
+  CONCAT(j.nombre, ' ', j.apellidos) AS jugador,
+  e.nombre AS equipo,
+  CASE j.posicion
+    WHEN 'portero' THEN 'POR'
+    WHEN 'defensa_central' THEN 'DC'
+    WHEN 'lateral_derecho' THEN 'LD'
+    WHEN 'lateral_izquierdo' THEN 'LI'
+    WHEN 'mediocentro' THEN 'MC'
+    WHEN 'medio_derecho' THEN 'MD'
+    WHEN 'medio_izquierdo' THEN 'MI'
+    WHEN 'mediapunta' THEN 'MP'
+    WHEN 'extremo_derecho' THEN 'ED'
+    WHEN 'extremo_izquierdo' THEN 'EI'
+    WHEN 'delantero_centro' THEN 'DEL'
+    ELSE j.posicion
+  END AS posicion_abbr,
+  COUNT(a.id) AS partidos_jugados,
+  COALESCE(SUM(COALESCE(a.minuto_salida, 90) - COALESCE(a.minuto_entrada, 0)), 0) AS minutos_total,
+  COALESCE(SUM(a.goles), 0) AS total_goles,
+  COALESCE(SUM(a.asistencias), 0) AS total_asistencias,
+  COALESCE(SUM(a.tarjetas_amarillas), 0) AS total_amarillas,
+  COALESCE(SUM(a.tarjetas_rojas), 0) AS total_rojas,
+  ROUND(COALESCE(SUM(a.goles), 0) / NULLIF(COUNT(a.id), 0), 2) AS goles_por_partido,
+  CASE WHEN COUNT(a.id) > 0 THEN ROUND(AVG(COALESCE(a.valoracion, 0)), 1) ELSE 0.0 END AS prom_valoracion,
+  j.estado AS estado_raw,
+  CASE j.estado WHEN 'lesionado' THEN 'Lesionado' WHEN 'sancionado' THEN 'Sancionado' ELSE 'Activo' END AS estado_label
+FROM jugadores j
+JOIN equipos e ON j.equipo_id = e.id
+LEFT JOIN alineaciones a ON a.jugador_id = j.id
+WHERE e.club_id = $P{CLUB_ID} AND j.estado != 'baja'
+  AND ($P{EQUIPO_ID} IS NULL OR e.id = $P{EQUIPO_ID})
+GROUP BY j.id, j.nombre, j.apellidos, e.nombre, j.posicion, j.estado
+ORDER BY e.nombre, total_goles DESC, j.apellidos ASC]]></query>
+	<field name="jugador" class="java.lang.String"/>
+	<field name="equipo" class="java.lang.String"/>
+	<field name="posicion_abbr" class="java.lang.String"/>
+	<field name="partidos_jugados" class="java.lang.Long"/>
+	<field name="minutos_total" class="java.math.BigDecimal"/>
+	<field name="total_goles" class="java.math.BigDecimal"/>
+	<field name="total_asistencias" class="java.math.BigDecimal"/>
+	<field name="total_amarillas" class="java.math.BigDecimal"/>
+	<field name="total_rojas" class="java.math.BigDecimal"/>
+	<field name="goles_por_partido" class="java.math.BigDecimal"/>
+	<field name="prom_valoracion" class="java.math.BigDecimal"/>
+	<field name="estado_raw" class="java.lang.String"/>
+	<field name="estado_label" class="java.lang.String"/>
+	<variable name="total_jugadores" class="java.lang.Integer" calculation="Count">
+		<expression><![CDATA[$F{jugador}]]></expression>
+	</variable>
+	<variable name="suma_goles" class="java.math.BigDecimal" calculation="Sum">
+		<expression><![CDATA[$F{total_goles}]]></expression>
+	</variable>
+	<variable name="suma_asistencias" class="java.math.BigDecimal" calculation="Sum">
+		<expression><![CDATA[$F{total_asistencias}]]></expression>
+	</variable>
+	<background/>
+	<title height="72">
+		<element kind="rectangle" uuid="d112252f-5db2-4a8c-8da8-eb4aedf022f8" mode="Opaque" x="-20" y="-20" width="842" height="92" backcolor="#0D1B2A" forecolor="#0D1B2A"/>
+		<element kind="rectangle" uuid="4145f118-6679-4a28-a94b-6191e746280d" mode="Opaque" x="-20" y="68" width="842" height="4" backcolor="#C9A84C" forecolor="#C9A84C"/>
+		<element kind="staticText" uuid="0da173e5-957c-4539-aed6-f37f0e23748c" x="0" y="8" width="140" height="22" forecolor="#C9A84C" fontSize="15.0" bold="true">
+			<text><![CDATA[SCOUTEO]]></text>
+		</element>
+		<element kind="staticText" uuid="ffee2f88-4c54-4819-9e07-7c5cfba32ddc" x="0" y="32" width="140" height="12" forecolor="#607D8B" fontSize="8.0">
+			<text><![CDATA[Club Manager]]></text>
+		</element>
+		<element kind="line" uuid="4546b425-dba8-4c66-b5a9-7e2023b6f044" x="148" y="8" width="1" height="48" forecolor="#C9A84C"/>
+		<element kind="staticText" uuid="a2f1d85a-7480-418f-be9e-b160b6996531" x="158" y="6" width="540" height="30" forecolor="#FFFFFF" fontSize="21.0" bold="true">
+			<text><![CDATA[ESTADISTICAS COMPLETAS DE JUGADORES]]></text>
+		</element>
+		<element kind="staticText" uuid="1a68ed23-5b36-4de9-abda-0d551dc11a62" x="158" y="40" width="360" height="14" forecolor="#C9A84C" fontSize="10.0">
+			<text><![CDATA[Rendimiento individual acumulado en la temporada]]></text>
+		</element>
+		<element kind="textField" uuid="8628b8e3-6e12-42fe-9b42-a4f6672a4bd8" x="680" y="40" width="122" height="14" forecolor="#90A4AE" fontSize="9.0" hTextAlign="Right" pattern="dd/MM/yyyy">
+			<expression><![CDATA[new java.util.Date()]]></expression>
+		</element>
+	</title>
+	<pageHeader height="0"/>
+	<columnHeader height="26">
+		<element kind="rectangle" uuid="0389f9a7-1739-48b5-9893-8d46f7b02826" mode="Opaque" x="-20" y="0" width="842" height="26" backcolor="#162233" forecolor="#162233"/>
+		<element kind="staticText" uuid="d3c1a435-a988-4579-a5ce-7993a044195a" x="2" y="5" width="28" height="16" forecolor="#607D8B" fontSize="8.5" bold="true" hTextAlign="Center">
+			<text><![CDATA[#]]></text>
+		</element>
+		<element kind="staticText" uuid="1e0c7d25-b90a-4828-bfb3-c5c456436571" x="32" y="5" width="163" height="16" forecolor="#C9A84C" fontSize="8.5" bold="true">
+			<text><![CDATA[Jugador]]></text>
+		</element>
+		<element kind="staticText" uuid="e448bfc0-da75-471c-8a49-0ef4ea1dd6b6" x="197" y="5" width="103" height="16" forecolor="#C9A84C" fontSize="8.5" bold="true">
+			<text><![CDATA[Equipo]]></text>
+		</element>
+		<element kind="staticText" uuid="91862eec-763c-460d-a5dd-28afb9a7c5e9" x="302" y="5" width="48" height="16" forecolor="#C9A84C" fontSize="8.5" bold="true" hTextAlign="Center">
+			<text><![CDATA[Pos.]]></text>
+		</element>
+		<element kind="staticText" uuid="bc13574a-e188-474a-b2a8-eda3ca013f9f" x="352" y="5" width="40" height="16" forecolor="#C9A84C" fontSize="8.5" bold="true" hTextAlign="Center">
+			<text><![CDATA[Part.]]></text>
+		</element>
+		<element kind="staticText" uuid="ed122f3b-2c99-4c5c-a5b9-4a31f67e9794" x="394" y="5" width="46" height="16" forecolor="#C9A84C" fontSize="8.5" bold="true" hTextAlign="Center">
+			<text><![CDATA[Min.]]></text>
+		</element>
+		<element kind="staticText" uuid="acde8486-0a47-4d11-9c63-6da21c0c4a32" x="442" y="5" width="43" height="16" forecolor="#C9A84C" fontSize="8.5" bold="true" hTextAlign="Center">
+			<text><![CDATA[Goles]]></text>
+		</element>
+		<element kind="staticText" uuid="ee7fdf4e-748b-4080-9390-7b79ce21946d" x="487" y="5" width="43" height="16" forecolor="#C9A84C" fontSize="8.5" bold="true" hTextAlign="Center">
+			<text><![CDATA[Asist.]]></text>
+		</element>
+		<element kind="staticText" uuid="8ff703c9-410c-404a-a09b-9ee7b4d64454" x="532" y="5" width="36" height="16" forecolor="#C9A84C" fontSize="8.5" bold="true" hTextAlign="Center">
+			<text><![CDATA[T.A.]]></text>
+		</element>
+		<element kind="staticText" uuid="7a6cf5bc-6b35-45ac-938e-ca203ae75860" x="570" y="5" width="36" height="16" forecolor="#C9A84C" fontSize="8.5" bold="true" hTextAlign="Center">
+			<text><![CDATA[T.R.]]></text>
+		</element>
+		<element kind="staticText" uuid="bb009f0e-a1ac-41c6-a806-574bbc175d66" x="608" y="5" width="36" height="16" forecolor="#C9A84C" fontSize="8.5" bold="true" hTextAlign="Center">
+			<text><![CDATA[G/P]]></text>
+		</element>
+		<element kind="staticText" uuid="9f20d54c-6678-424e-bcd0-4501da6354c9" x="646" y="5" width="53" height="16" forecolor="#C9A84C" fontSize="8.5" bold="true" hTextAlign="Center">
+			<text><![CDATA[Valorac.]]></text>
+		</element>
+		<element kind="staticText" uuid="a4199c77-a1c6-4bba-90c3-c8b76edd3498" x="701" y="5" width="101" height="16" forecolor="#C9A84C" fontSize="8.5" bold="true" hTextAlign="Center">
+			<text><![CDATA[Estado]]></text>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="22">
+			<!-- Fila alterna -->
+			<element kind="rectangle" uuid="830221ff-456e-4992-b49e-53dea5ceae31" mode="Opaque" x="-20" y="0" width="842" height="22" backcolor="#F7F9FC" forecolor="#F7F9FC">
+				<printWhenExpression><![CDATA[$V{REPORT_COUNT}%2==0]]></printWhenExpression>
+			</element>
+			<!-- Linea inferior -->
+			<element kind="line" uuid="8026bd08-b4e1-4524-b531-729ea4e6ab4a" positionType="FixRelativeToBottom" x="-20" y="21" width="842" height="1" forecolor="#DDE3EA"/>
+			<!-- Numero de fila -->
+			<element kind="textField" uuid="8e8c3294-eb8d-421a-92e9-3e52cd5cf888" x="2" y="3" width="28" height="16" fontSize="8.5" hTextAlign="Center" forecolor="#90A4AE">
+				<expression><![CDATA[$V{REPORT_COUNT}]]></expression>
+			</element>
+			<!-- Jugador -->
+			<element kind="textField" uuid="595cbac7-f80e-49a4-a3a4-bf72f401e30d" x="32" y="3" width="163" height="16" fontSize="9.0" forecolor="#1A2744" textAdjust="StretchHeight">
+				<box leftPadding="3"/>
+				<expression><![CDATA[$F{jugador}]]></expression>
+			</element>
+			<!-- Equipo -->
+			<element kind="textField" uuid="9fdf8a23-90e9-4c23-8934-03e222a62df6" x="197" y="3" width="103" height="16" fontSize="8.5" forecolor="#37474F" textAdjust="StretchHeight">
+				<box leftPadding="3"/>
+				<expression><![CDATA[$F{equipo}]]></expression>
+			</element>
+			<!-- Posicion -->
+			<element kind="textField" uuid="3583c36e-0f73-4349-8b3d-d9c20bb91965" x="302" y="3" width="48" height="16" fontSize="9.0" forecolor="#546E7A" hTextAlign="Center" bold="true">
+				<expression><![CDATA[$F{posicion_abbr}]]></expression>
+			</element>
+			<!-- Partidos -->
+			<element kind="textField" uuid="d2e6b6fa-6bff-4190-9db6-6311eaf4295c" x="352" y="3" width="40" height="16" fontSize="9.0" hTextAlign="Center" forecolor="#37474F">
+				<expression><![CDATA[$F{partidos_jugados}]]></expression>
+			</element>
+			<!-- Minutos -->
+			<element kind="textField" uuid="cd54b483-5163-489d-97a5-abebbe5e78e0" x="394" y="3" width="46" height="16" fontSize="9.0" hTextAlign="Center" forecolor="#37474F">
+				<expression><![CDATA[$F{minutos_total}]]></expression>
+			</element>
+			<!-- Goles — dorado si > 0 -->
+			<element kind="textField" uuid="c654370d-4689-41d9-9c53-1980a3ba51ab" x="442" y="3" width="43" height="16" fontSize="10.0" bold="true" hTextAlign="Center" forecolor="#BDBDBD">
+				<printWhenExpression><![CDATA[$F{total_goles} == null || $F{total_goles}.intValue() == 0]]></printWhenExpression>
+				<expression><![CDATA[$F{total_goles}]]></expression>
+			</element>
+			<element kind="textField" uuid="55b309f6-a5ce-4aa2-9a6e-ee3a26030996" x="442" y="3" width="43" height="16" fontSize="11.0" bold="true" hTextAlign="Center" forecolor="#C9A84C">
+				<printWhenExpression><![CDATA[$F{total_goles} != null && $F{total_goles}.intValue() > 0]]></printWhenExpression>
+				<expression><![CDATA[$F{total_goles}]]></expression>
+			</element>
+			<!-- Asistencias -->
+			<element kind="textField" uuid="9c20be44-5d6e-4d21-8fdd-0167ca941240" x="487" y="3" width="43" height="16" fontSize="9.0" hTextAlign="Center" forecolor="#37474F">
+				<expression><![CDATA[$F{total_asistencias}]]></expression>
+			</element>
+			<!-- Amarillas -->
+			<element kind="textField" uuid="c5309cbe-90a7-47d0-88d3-6a027c29d6d5" x="532" y="3" width="36" height="16" fontSize="9.0" hTextAlign="Center">
+				<expression><![CDATA[$F{total_amarillas}]]></expression>
+			</element>
+			<!-- Rojas -->
+			<element kind="textField" uuid="44b74359-f35d-481e-b13e-142c3a97e7e0" x="570" y="3" width="36" height="16" fontSize="9.0" hTextAlign="Center" forecolor="#C62828">
+				<printWhenExpression><![CDATA[$F{total_rojas} != null && $F{total_rojas}.intValue() > 0]]></printWhenExpression>
+				<expression><![CDATA[$F{total_rojas}]]></expression>
+			</element>
+			<element kind="textField" uuid="a5f0c022-ec87-4293-9150-1cb3bc53d29a" x="570" y="3" width="36" height="16" fontSize="9.0" hTextAlign="Center" forecolor="#BDBDBD">
+				<printWhenExpression><![CDATA[$F{total_rojas} == null || $F{total_rojas}.intValue() == 0]]></printWhenExpression>
+				<expression><![CDATA[$F{total_rojas}]]></expression>
+			</element>
+			<!-- G/P ratio -->
+			<element kind="textField" uuid="9c158c59-237b-4754-82b9-ffcc5761f717" x="608" y="3" width="36" height="16" fontSize="9.0" hTextAlign="Center" forecolor="#37474F" pattern="#0.00">
+				<expression><![CDATA[$F{goles_por_partido} != null ? $F{goles_por_partido} : java.math.BigDecimal.ZERO]]></expression>
+			</element>
+			<!-- Valoracion — color segun nivel -->
+			<element kind="textField" uuid="a4aef7d1-e5f8-4f7a-830c-7dbcd63b26cb" x="646" y="3" width="53" height="16" fontSize="9.0" bold="true" hTextAlign="Center" forecolor="#1B5E20" pattern="#0.0">
+				<printWhenExpression><![CDATA[$F{prom_valoracion} != null && $F{prom_valoracion}.doubleValue() >= 7.0]]></printWhenExpression>
+				<expression><![CDATA[$F{prom_valoracion}]]></expression>
+			</element>
+			<element kind="textField" uuid="3b033add-5fb4-4e1a-b34a-845d0949852b" x="646" y="3" width="53" height="16" fontSize="9.0" hTextAlign="Center" forecolor="#37474F" pattern="#0.0">
+				<printWhenExpression><![CDATA[$F{prom_valoracion} != null && $F{prom_valoracion}.doubleValue() >= 5.0 && $F{prom_valoracion}.doubleValue() < 7.0]]></printWhenExpression>
+				<expression><![CDATA[$F{prom_valoracion}]]></expression>
+			</element>
+			<element kind="textField" uuid="7fa8bcb2-d1cc-47ff-9967-207fd27f63fb" x="646" y="3" width="53" height="16" fontSize="9.0" hTextAlign="Center" forecolor="#C62828" pattern="#0.0">
+				<printWhenExpression><![CDATA[$F{prom_valoracion} == null || $F{prom_valoracion}.doubleValue() < 5.0]]></printWhenExpression>
+				<expression><![CDATA[$F{prom_valoracion} != null ? $F{prom_valoracion} : java.math.BigDecimal.ZERO]]></expression>
+			</element>
+			<!-- Estado con color -->
+			<element kind="rectangle" uuid="26d36d5f-455d-4b8b-bc6e-9be78586a859" mode="Opaque" x="701" y="3" width="101" height="16" backcolor="#E8F5E9" forecolor="#E8F5E9">
+				<printWhenExpression><![CDATA["activo".equals($F{estado_raw})]]></printWhenExpression>
+			</element>
+			<element kind="textField" uuid="0acefc58-1aab-4f10-b502-fc91c802ee31" x="701" y="3" width="101" height="16" fontSize="8.5" bold="true" hTextAlign="Center" forecolor="#1B5E20">
+				<printWhenExpression><![CDATA["activo".equals($F{estado_raw})]]></printWhenExpression>
+				<expression><![CDATA[$F{estado_label}]]></expression>
+			</element>
+			<element kind="rectangle" uuid="6d9a96a7-d845-4ded-9d94-1e5edcbd0838" mode="Opaque" x="701" y="3" width="101" height="16" backcolor="#FFEBEE" forecolor="#FFEBEE">
+				<printWhenExpression><![CDATA["lesionado".equals($F{estado_raw})]]></printWhenExpression>
+			</element>
+			<element kind="textField" uuid="28b52b30-935c-49c7-a1e2-aee22552b5e8" x="701" y="3" width="101" height="16" fontSize="8.5" bold="true" hTextAlign="Center" forecolor="#B71C1C">
+				<printWhenExpression><![CDATA["lesionado".equals($F{estado_raw})]]></printWhenExpression>
+				<expression><![CDATA[$F{estado_label}]]></expression>
+			</element>
+			<element kind="rectangle" uuid="34651b98-a435-4f8f-9d99-0e4846d902b5" mode="Opaque" x="701" y="3" width="101" height="16" backcolor="#FFF3E0" forecolor="#FFF3E0">
+				<printWhenExpression><![CDATA["sancionado".equals($F{estado_raw})]]></printWhenExpression>
+			</element>
+			<element kind="textField" uuid="1d25ceb7-36d1-4906-94cc-55f08466af75" x="701" y="3" width="101" height="16" fontSize="8.5" bold="true" hTextAlign="Center" forecolor="#E65100">
+				<printWhenExpression><![CDATA["sancionado".equals($F{estado_raw})]]></printWhenExpression>
+				<expression><![CDATA[$F{estado_label}]]></expression>
+			</element>
+		</band>
+	</detail>
+	<columnFooter/>
+	<pageFooter height="22">
+		<element kind="rectangle" uuid="b3d164fc-9e92-414d-9061-f5d4b1118ea9" mode="Opaque" x="-20" y="0" width="842" height="22" backcolor="#0D1B2A" forecolor="#0D1B2A"/>
+		<element kind="textField" uuid="bdd62ad0-e6fb-40ba-a9e7-b2019a0ea308" x="2" y="4" width="200" height="14" forecolor="#607D8B" fontSize="8.5" pattern="dd/MM/yyyy HH:mm">
+			<expression><![CDATA[new java.util.Date()]]></expression>
+		</element>
+		<element kind="staticText" uuid="5546d40e-ce68-49f7-bed7-5c24dce2a4dd" x="301" y="4" width="240" height="14" forecolor="#C9A84C" fontSize="8.5" hTextAlign="Center">
+			<text><![CDATA[SCOUTEO - Club Manager]]></text>
+		</element>
+		<element kind="textField" uuid="45b15c87-9173-49a4-af95-538eda03aa2f" x="592" y="4" width="190" height="14" forecolor="#607D8B" fontSize="8.5" hTextAlign="Right">
+			<expression><![CDATA["Pagina " + $V{PAGE_NUMBER} + " de"]]></expression>
+		</element>
+		<element kind="textField" uuid="d4256c4c-56c1-439f-bbf3-389f9b3ba795" x="782" y="4" width="20" height="14" forecolor="#607D8B" fontSize="8.5" evaluationTime="Report">
+			<expression><![CDATA[" " + $V{PAGE_NUMBER}]]></expression>
+		</element>
+	</pageFooter>
+	<summary height="26">
+			<element kind="rectangle" uuid="97c4d1a3-beb2-41c1-8bbc-cf0a2e824990" mode="Opaque" x="-20" y="0" width="842" height="26" backcolor="#0D1B2A" forecolor="#0D1B2A"/>
+			<element kind="staticText" uuid="945026ed-939b-4762-b72f-f3cb92aa5814" x="2" y="6" width="80" height="14" forecolor="#A0B4C8" fontSize="9.0" bold="true">
+				<text><![CDATA[TOTALES:]]></text>
+			</element>
+			<element kind="textField" uuid="91a9b062-e1d8-4f97-842a-736ab1a790a5" x="82" y="6" width="160" height="14" forecolor="#90A4AE" fontSize="9.0">
+				<expression><![CDATA[$V{total_jugadores} + " jugadores analizados"]]></expression>
+			</element>
+			<element kind="staticText" uuid="e5b8814b-e16b-4747-a63b-ad0f0aa864e0" x="442" y="6" width="30" height="14" forecolor="#90A4AE" fontSize="8.5" hTextAlign="Right">
+				<text><![CDATA[Goles:]]></text>
+			</element>
+			<element kind="textField" uuid="7a77bda3-5376-4a60-ade6-efde155b5d26" x="475" y="6" width="30" height="14" forecolor="#C9A84C" fontSize="10.0" bold="true" hTextAlign="Center">
+				<expression><![CDATA[$V{suma_goles}]]></expression>
+			</element>
+			<element kind="staticText" uuid="0fd15d6d-1f10-400f-a3fb-cc07403734cd" x="507" y="6" width="30" height="14" forecolor="#90A4AE" fontSize="8.5" hTextAlign="Right">
+				<text><![CDATA[Asist.:]]></text>
+			</element>
+			<element kind="textField" uuid="28162636-f8cb-4ab1-8b95-2f192da9db94" x="540" y="6" width="30" height="14" forecolor="#C9A84C" fontSize="10.0" bold="true" hTextAlign="Center">
+				<expression><![CDATA[$V{suma_asistencias}]]></expression>
+			</element>
+	</summary>
+</jasperReport>

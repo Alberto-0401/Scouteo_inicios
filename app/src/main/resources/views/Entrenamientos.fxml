@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox styleClass="view-root" stylesheets="@../scouteo.css"
+      xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.javafx.scouteo.controller.EntrenamientosController">
+
+    <!-- Header oscuro -->
+    <HBox styleClass="view-header" alignment="CENTER_LEFT" spacing="20">
+        <VBox spacing="3" HBox.hgrow="ALWAYS">
+            <Label text="ENTRENAMIENTOS" styleClass="page-title"/>
+            <Label text="Sesiones y asistencia del equipo" styleClass="page-subtitle"/>
+        </VBox>
+        <Label text="Equipo:" styleClass="app-bar-label"/>
+        <ComboBox fx:id="cmbEquipo" prefWidth="220" promptText="Seleccionar equipo"
+                  style="-fx-background-color: rgba(255,255,255,0.12); -fx-text-fill: white;
+                         -fx-border-color: rgba(255,255,255,0.25); -fx-border-radius: 4; -fx-background-radius: 4;"/>
+        <Button text="+ Nuevo" onAction="#abrirFormularioNuevo" styleClass="button-success"/>
+    </HBox>
+
+    <!-- Resumen tarjetas -->
+    <HBox spacing="12" style="-fx-padding: 0 16 0 16;">
+        <VBox styleClass="dashboard-card" spacing="5" prefWidth="160">
+            <Label text="Total sesiones" styleClass="stat-label"/>
+            <Label fx:id="lblTotalSesiones" text="0" styleClass="stat-value"/>
+        </VBox>
+        <VBox styleClass="dashboard-card" spacing="5" prefWidth="160">
+            <Label text="Este mes" styleClass="stat-label"/>
+            <Label fx:id="lblEsteMes" text="0" styleClass="stat-value"/>
+        </VBox>
+        <VBox styleClass="dashboard-card" spacing="5" prefWidth="160">
+            <Label text="Minutos totales" styleClass="stat-label"/>
+            <Label fx:id="lblMinutos" text="0" styleClass="stat-value"/>
+        </VBox>
+    </HBox>
+
+    <!-- Tabla en card -->
+    <VBox styleClass="view-card" VBox.vgrow="ALWAYS" style="-fx-margin: 0 16 16 16;">
+        <TableView fx:id="tablaEntrenamientos" VBox.vgrow="ALWAYS">
+            <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
+            <columns>
+                <TableColumn fx:id="colFecha"       text="Fecha y Hora"   prefWidth="140"/>
+                <TableColumn fx:id="colTipo"        text="Tipo"           prefWidth="130"/>
+                <TableColumn fx:id="colIntensidad"  text="Intensidad"     prefWidth="100"/>
+                <TableColumn fx:id="colDuracion"    text="Dur. (min)"     prefWidth="90"/>
+                <TableColumn fx:id="colObjetivos"   text="Objetivos"      prefWidth="200"/>
+                <TableColumn fx:id="colAcciones"    text="Acciones"       prefWidth="120"/>
+            </columns>
+            <placeholder>
+                <Label text="No hay entrenamientos registrados"
+                       style="-fx-text-fill: #78909C; -fx-font-size: 14px;"/>
+            </placeholder>
+        </TableView>
+        <HBox styleClass="table-footer" alignment="CENTER_LEFT">
+            <Label fx:id="lblTotal" text="Total: 0 sesiones"/>
+        </HBox>
+    </VBox>
+</VBox>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<VBox styleClass="view-root" stylesheets="@../scouteo.css"
+      xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.javafx.scouteo.controller.InfoClubController">
+
+    <!-- Header oscuro con escudo -->
+    <HBox styleClass="view-header" alignment="CENTER_LEFT" spacing="20">
+        <ImageView fx:id="imgEscudoClub" fitHeight="64" fitWidth="64" preserveRatio="true"
+                   style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 6, 0, 0, 1);"/>
+        <VBox spacing="4" HBox.hgrow="ALWAYS">
+            <Label fx:id="tituloInfoClub" text="INFORMACION DEL CLUB" styleClass="page-title"/>
+            <Label fx:id="subtituloHeaderClub" text="Datos generales" styleClass="page-subtitle"/>
+        </VBox>
+        <Button fx:id="btnEditarInfoClub" text="Editar informacion"
+                onAction="#editarInfoClub"
+                style="-fx-background-color: rgba(255,255,255,0.12); -fx-text-fill: white;
+                       -fx-border-color: rgba(255,255,255,0.30); -fx-border-radius: 4;
+                       -fx-background-radius: 4; -fx-font-size: 12px; -fx-padding: 6 14;
+                       -fx-effect: none;"/>
+    </HBox>
+
+    <!-- Cuerpo con scroll -->
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                style="-fx-background-color: #F0F2F5; -fx-background: #F0F2F5; -fx-border-color: transparent;">
+        <VBox spacing="16">
+            <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+
+            <!-- Datos del club -->
+            <VBox styleClass="form-section" spacing="0">
+                <Label text="Datos Institucionales" styleClass="form-section-title"/>
+                <padding><Insets top="0" right="0" bottom="0" left="0"/></padding>
+
+                <GridPane hgap="0" vgap="0" style="-fx-padding: 4 0 0 0;">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="35"/>
+                        <ColumnConstraints percentWidth="65"/>
+                    </columnConstraints>
+
+                    <Label text="Nombre del Club" GridPane.columnIndex="0" GridPane.rowIndex="0"
+                           style="-fx-padding: 10 16; -fx-text-fill: #546E7A; -fx-font-size: 12px; -fx-font-weight: bold; -fx-border-color: transparent transparent #F0F2F5 transparent; -fx-border-width: 0 0 1 0;"/>
+                    <Label fx:id="lblNombreClub" text="" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                           style="-fx-padding: 10 16; -fx-text-fill: #1E2A3B; -fx-font-size: 13px; -fx-font-weight: bold; -fx-border-color: transparent transparent #F0F2F5 transparent; -fx-border-width: 0 0 1 0;"/>
+
+                    <Label text="Localidad" GridPane.columnIndex="0" GridPane.rowIndex="1"
+                           style="-fx-padding: 10 16; -fx-text-fill: #546E7A; -fx-font-size: 12px; -fx-font-weight: bold; -fx-border-color: transparent transparent #F0F2F5 transparent; -fx-border-width: 0 0 1 0;"/>
+                    <Label fx:id="lblCiudad" text="" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                           style="-fx-padding: 10 16; -fx-text-fill: #1E2A3B; -fx-font-size: 13px; -fx-border-color: transparent transparent #F0F2F5 transparent; -fx-border-width: 0 0 1 0;"/>
+
+                    <Label text="Presidente" GridPane.columnIndex="0" GridPane.rowIndex="2"
+                           style="-fx-padding: 10 16; -fx-text-fill: #546E7A; -fx-font-size: 12px; -fx-font-weight: bold; -fx-border-color: transparent transparent #F0F2F5 transparent; -fx-border-width: 0 0 1 0;"/>
+                    <Label fx:id="lblEstadio" text="" GridPane.columnIndex="1" GridPane.rowIndex="2"
+                           style="-fx-padding: 10 16; -fx-text-fill: #1E2A3B; -fx-font-size: 13px; -fx-border-color: transparent transparent #F0F2F5 transparent; -fx-border-width: 0 0 1 0;"/>
+
+                    <Label text="Email" GridPane.columnIndex="0" GridPane.rowIndex="3"
+                           style="-fx-padding: 10 16; -fx-text-fill: #546E7A; -fx-font-size: 12px; -fx-font-weight: bold; -fx-border-color: transparent transparent #F0F2F5 transparent; -fx-border-width: 0 0 1 0;"/>
+                    <Label fx:id="lblEntrenador" text="" GridPane.columnIndex="1" GridPane.rowIndex="3"
+                           style="-fx-padding: 10 16; -fx-text-fill: #1E2A3B; -fx-font-size: 13px; -fx-border-color: transparent transparent #F0F2F5 transparent; -fx-border-width: 0 0 1 0;"/>
+
+                    <Label text="Telefono" GridPane.columnIndex="0" GridPane.rowIndex="4"
+                           style="-fx-padding: 10 16; -fx-text-fill: #546E7A; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+                    <Label fx:id="lblCategoria" text="" GridPane.columnIndex="1" GridPane.rowIndex="4"
+                           style="-fx-padding: 10 16; -fx-text-fill: #1E2A3B; -fx-font-size: 13px;"/>
+
+                    <rowConstraints>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                    </rowConstraints>
+                </GridPane>
+            </VBox>
+
+            <!-- Estadisticas -->
+            <VBox styleClass="form-section" spacing="14">
+                <Label text="Estadisticas de la Temporada" styleClass="form-section-title"/>
+                <HBox spacing="14">
+                    <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" alignment="CENTER" spacing="4">
+                        <Label fx:id="lblTotalPlantilla" text="0" styleClass="stat-card-value"/>
+                        <Label text="Plantilla"          styleClass="stat-card-label"/>
+                    </VBox>
+                    <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" alignment="CENTER" spacing="4"
+                          style="-fx-background-color: #FFFFFF; -fx-background-radius: 10; -fx-border-color: #C8E6C9; -fx-border-width: 1; -fx-border-radius: 10; -fx-padding: 16 20; -fx-effect: dropshadow(gaussian, rgba(30,42,59,0.07), 8, 0, 0, 2);">
+                        <Label fx:id="lblVictorias" text="0"
+                               style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #2E7D32;"/>
+                        <Label text="Victorias" styleClass="stat-card-label"/>
+                    </VBox>
+                    <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" alignment="CENTER" spacing="4"
+                          style="-fx-background-color: #FFFFFF; -fx-background-radius: 10; -fx-border-color: #FFF9C4; -fx-border-width: 1; -fx-border-radius: 10; -fx-padding: 16 20; -fx-effect: dropshadow(gaussian, rgba(30,42,59,0.07), 8, 0, 0, 2);">
+                        <Label fx:id="lblEmpates" text="0"
+                               style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #F57F17;"/>
+                        <Label text="Empates" styleClass="stat-card-label"/>
+                    </VBox>
+                    <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" alignment="CENTER" spacing="4"
+                          style="-fx-background-color: #FFFFFF; -fx-background-radius: 10; -fx-border-color: #FFCDD2; -fx-border-width: 1; -fx-border-radius: 10; -fx-padding: 16 20; -fx-effect: dropshadow(gaussian, rgba(30,42,59,0.07), 8, 0, 0, 2);">
+                        <Label fx:id="lblDerrotas" text="0"
+                               style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #C62828;"/>
+                        <Label text="Derrotas" styleClass="stat-card-label"/>
+                    </VBox>
+                    <Label fx:id="lblFundacion" text="" visible="false" managed="false"/>
+                </HBox>
+            </VBox>
+
+        </VBox>
+    </ScrollPane>
+
+</VBox>

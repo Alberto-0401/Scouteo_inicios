@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefWidth="540" spacing="0" stylesheets="@../scouteo.css"
+      xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.javafx.scouteo.controller.FormJugadorController">
+
+    <!-- Header oscuro -->
+    <HBox styleClass="view-header" alignment="CENTER_LEFT">
+        <VBox spacing="2">
+            <Label fx:id="lblTitulo" text="NUEVO JUGADOR" styleClass="page-title"/>
+            <Label text="Completa los datos del jugador" styleClass="page-subtitle"/>
+        </VBox>
+    </HBox>
+
+    <!-- Cuerpo scrollable -->
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                style="-fx-background-color: #F0F2F5; -fx-background: #F0F2F5; -fx-border-color: transparent;">
+        <VBox spacing="14">
+            <padding><Insets top="18" right="20" bottom="18" left="20"/></padding>
+
+            <!-- Datos personales -->
+            <VBox styleClass="form-section" spacing="12">
+                <Label text="Datos Personales" styleClass="form-section-title"/>
+
+                <HBox spacing="12">
+                    <VBox spacing="5" HBox.hgrow="ALWAYS">
+                        <Label text="Nombre *" styleClass="form-label"/>
+                        <TextField fx:id="txtNombre" promptText="Ej: Juan"/>
+                    </VBox>
+                    <VBox spacing="5" HBox.hgrow="ALWAYS">
+                        <Label text="Apellidos *" styleClass="form-label"/>
+                        <TextField fx:id="txtApellidos" promptText="Ej: Garcia Lopez"/>
+                    </VBox>
+                </HBox>
+
+                <HBox spacing="12">
+                    <VBox spacing="5">
+                        <Label text="Fecha de Nacimiento *" styleClass="form-label"/>
+                        <DatePicker fx:id="dpFechaNacimiento" prefWidth="200"/>
+                    </VBox>
+                    <VBox spacing="5">
+                        <Label text="Dorsal *" styleClass="form-label"/>
+                        <TextField fx:id="txtDorsal" prefWidth="90" promptText="1-99"/>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <!-- Datos deportivos -->
+            <VBox styleClass="form-section" spacing="12">
+                <Label text="Datos Deportivos" styleClass="form-section-title"/>
+
+                <HBox spacing="12">
+                    <VBox spacing="5" HBox.hgrow="ALWAYS">
+                        <Label text="Posicion *" styleClass="form-label"/>
+                        <ComboBox fx:id="cmbPosicion" maxWidth="Infinity">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="portero"/>
+                                    <String fx:value="defensa_central"/>
+                                    <String fx:value="lateral_derecho"/>
+                                    <String fx:value="lateral_izquierdo"/>
+                                    <String fx:value="mediocentro"/>
+                                    <String fx:value="medio_derecho"/>
+                                    <String fx:value="medio_izquierdo"/>
+                                    <String fx:value="mediapunta"/>
+                                    <String fx:value="extremo_derecho"/>
+                                    <String fx:value="extremo_izquierdo"/>
+                                    <String fx:value="delantero_centro"/>
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+                    </VBox>
+                    <VBox spacing="5" HBox.hgrow="ALWAYS">
+                        <Label text="Pierna Dominante" styleClass="form-label"/>
+                        <ComboBox fx:id="cmbCategoria" maxWidth="Infinity">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="derecha"/>
+                                    <String fx:value="izquierda"/>
+                                    <String fx:value="ambidiestro"/>
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <!-- Datos fisicos -->
+            <VBox styleClass="form-section" spacing="12">
+                <Label text="Datos Fisicos (Opcionales)" styleClass="form-section-title"/>
+
+                <HBox spacing="12">
+                    <VBox spacing="5" HBox.hgrow="ALWAYS">
+                        <Label text="Altura (cm)" styleClass="form-label"/>
+                        <TextField fx:id="txtAltura" promptText="Ej: 178.5"/>
+                    </VBox>
+                    <VBox spacing="5" HBox.hgrow="ALWAYS">
+                        <Label text="Peso (kg)" styleClass="form-label"/>
+                        <TextField fx:id="txtPeso" promptText="Ej: 74.0"/>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <!-- Fotografia -->
+            <VBox styleClass="form-section" spacing="10">
+                <Label text="Fotografia (Opcional)" styleClass="form-section-title"/>
+                <HBox alignment="CENTER_LEFT" spacing="12">
+                    <Button fx:id="btnSeleccionarFoto" text="Seleccionar imagen"
+                            onAction="#seleccionarFoto" styleClass="button-secondary"/>
+                    <Label fx:id="lblNombreFoto" text="Ninguna imagen seleccionada"
+                           style="-fx-text-fill: #78909C; -fx-font-size: 12px;"/>
+                </HBox>
+            </VBox>
+
+        </VBox>
+    </ScrollPane>
+
+    <!-- Footer con botones -->
+    <HBox styleClass="form-footer" alignment="CENTER_RIGHT" spacing="10">
+        <Label fx:id="lblError" text="" style="-fx-text-fill: #C62828; -fx-font-size: 12px;" HBox.hgrow="ALWAYS"/>
+        <Button fx:id="btnCancelarFormJugador" text="Cancelar"
+                onAction="#cancelar" styleClass="button-outline"
+                prefWidth="110" prefHeight="38"/>
+        <Button fx:id="btnGuardarFormJugador" text="Guardar"
+                onAction="#guardar" styleClass="button-success"
+                prefWidth="110" prefHeight="38"/>
+    </HBox>
+
+</VBox>

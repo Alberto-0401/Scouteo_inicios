@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="780" prefWidth="1280" stylesheets="@../scouteo.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafx.scouteo.controller.DashboardController">
+
+    <!-- ===== TOP APP BAR ===== -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="14" styleClass="app-bar">
+            <padding><Insets bottom="10" left="24" right="24" top="10" /></padding>
+
+            <HBox HBox.hgrow="ALWAYS" />
+
+            <Label styleClass="app-bar-label" text="Equipo:" />
+            <ComboBox fx:id="cmbEquipoActivo" prefWidth="200" style="-fx-background-color: rgba(255,255,255,0.12); -fx-text-fill: white; -fx-border-color: rgba(255,255,255,0.25); -fx-border-radius: 4; -fx-background-radius: 4;" />
+
+            <Separator orientation="VERTICAL" style="-fx-background-color: rgba(255,255,255,0.25);" />
+
+            <VBox alignment="CENTER_RIGHT" spacing="1">
+                <Label fx:id="lblUsuarioNombre" styleClass="app-bar-user-name" />
+                <Label fx:id="lblUsuarioRol" styleClass="app-bar-user-role" />
+            </VBox>
+
+            <Button fx:id="btnCerrarSesion" onAction="#cerrarSesion" styleClass="app-bar-logout" text="Cerrar sesion" />
+        </HBox>
+    </top>
+
+    <!-- ===== SIDEBAR NAVIGATION ===== -->
+    <left>
+        <VBox prefWidth="230" styleClass="sidebar">
+
+            <!-- Brand -->
+            <VBox alignment="CENTER_LEFT" prefHeight="146.0" prefWidth="230.0" styleClass="sidebar-brand">
+                <padding><Insets bottom="22" left="20" right="20" top="26" /></padding>
+                <Label styleClass="sidebar-brand-title" text="SCOUTEO" />
+                <Label styleClass="sidebar-brand-sub" text="Club Manager" />
+            </VBox>
+
+            <!-- Nav en ScrollPane para que RESUMEN sea siempre visible -->
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="sidebar-nav-scroll" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
+                <VBox>
+                    <!-- Seccion: General -->
+                    <Label styleClass="nav-section-label" text="GENERAL" />
+                    <Button fx:id="btnInfoClub" maxWidth="Infinity" onAction="#mostrarInfoClub" styleClass="nav-item" text="Inicio" />
+                    <Button fx:id="btnListadoJugadores" maxWidth="Infinity" onAction="#mostrarListadoJugadores" styleClass="nav-item" text="Jugadores" />
+                    <Button fx:id="btnEquipos" maxWidth="Infinity" onAction="#mostrarEquipos" styleClass="nav-item" text="Equipos" />
+
+                    <!-- Seccion: Competicion -->
+                    <Label styleClass="nav-section-label" text="COMPETICION" />
+                    <Button fx:id="btnPartidos" maxWidth="Infinity" onAction="#mostrarPartidos" styleClass="nav-item" text="Partidos" />
+                    <Button fx:id="btnConvocatorias" maxWidth="Infinity" onAction="#mostrarConvocatorias" styleClass="nav-item" text="Convocatorias" />
+
+                    <!-- Seccion: Estadisticas -->
+                    <Label styleClass="nav-section-label" text="ESTADISTICAS" />
+                    <Button fx:id="btnEstadisticasJugador" maxWidth="Infinity" onAction="#mostrarEstadisticasJugadorDirect" styleClass="nav-item" text="Stats por Jugador" />
+                    <Button fx:id="btnRanking" maxWidth="Infinity" onAction="#mostrarRanking" styleClass="nav-item" text="Ranking" />
+
+                    <!-- Seccion: Gestion -->
+                    <Label styleClass="nav-section-label" text="GESTION" />
+                    <Button fx:id="btnHistorialMedico" maxWidth="Infinity" onAction="#mostrarHistorialMedico" styleClass="nav-item" text="Historial Medico" />
+                    <Button fx:id="btnEntrenamientos" maxWidth="Infinity" onAction="#mostrarEntrenamientos" styleClass="nav-item" text="Entrenamientos" />
+                    <Button fx:id="btnObjetivos" maxWidth="Infinity" onAction="#mostrarObjetivos" styleClass="nav-item" text="Objetivos" />
+                    <Button fx:id="btnInformes" maxWidth="Infinity" onAction="#mostrarInformes" styleClass="nav-item" text="Informes" />
+                </VBox>
+            </ScrollPane>
+
+            <!-- Stats y grafico al pie del sidebar - siempre visible -->
+            <VBox prefHeight="435.0" prefWidth="230.0" spacing="6" styleClass="sidebar-stats">
+                <padding><Insets bottom="14" left="14" right="14" top="14" /></padding>
+                <Label style="-fx-padding: 0 0 6 0;" styleClass="nav-section-label" text="RESUMEN" />
+                <HBox alignment="CENTER" spacing="0">
+                    <VBox alignment="CENTER" styleClass="stat-mini" HBox.hgrow="ALWAYS">
+                        <Label fx:id="lblTotalJugadores" styleClass="stat-mini-value" text="0" />
+                        <Label styleClass="stat-mini-label" text="Jugadores" />
+                    </VBox>
+                    <VBox alignment="CENTER" styleClass="stat-mini" HBox.hgrow="ALWAYS">
+                        <Label fx:id="lblTotalPartidos" styleClass="stat-mini-value" text="0" />
+                        <Label styleClass="stat-mini-label" text="Partidos" />
+                    </VBox>
+                    <VBox alignment="CENTER" styleClass="stat-mini" HBox.hgrow="ALWAYS">
+                        <Label fx:id="lblTotalGoles" styleClass="stat-mini-value" text="0" />
+                        <Label styleClass="stat-mini-label" text="Goles" />
+                    </VBox>
+                </HBox>
+                <Pane fx:id="chartPosiciones" prefHeight="128" prefWidth="200" />
+            </VBox>
+
+        </VBox>
+    </left>
+
+    <!-- ===== AREA DE CONTENIDO ===== -->
+    <center>
+        <StackPane fx:id="contenedorCentral" styleClass="content-area">
+            <padding><Insets bottom="20" left="20" right="20" top="20" /></padding>
+        </StackPane>
+    </center>
+
+</BorderPane>

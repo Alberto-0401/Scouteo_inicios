@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<VBox styleClass="view-root" stylesheets="@../scouteo.css"
+      xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.javafx.scouteo.controller.ConfiguracionController">
+
+    <!-- Header oscuro -->
+    <HBox styleClass="view-header" alignment="CENTER_LEFT" spacing="20">
+        <VBox spacing="3" HBox.hgrow="ALWAYS">
+            <Label text="CONFIGURACION DEL CLUB" styleClass="page-title"/>
+            <Label text="Datos institucionales y temporada actual" styleClass="page-subtitle"/>
+        </VBox>
+        <Button fx:id="btnVolverConfig" text="Volver" onAction="#volverDashboard"
+                style="-fx-background-color: rgba(255,255,255,0.12); -fx-text-fill: white;
+                       -fx-border-color: rgba(255,255,255,0.30); -fx-border-radius: 4;
+                       -fx-background-radius: 4; -fx-font-size: 12px; -fx-padding: 6 14;
+                       -fx-effect: none;"/>
+    </HBox>
+
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                style="-fx-background-color: #F0F2F5; -fx-background: #F0F2F5; -fx-border-color: transparent;">
+        <VBox spacing="16">
+            <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+
+            <HBox spacing="16">
+
+                <!-- Escudo -->
+                <VBox styleClass="form-section" alignment="CENTER" spacing="12" prefWidth="200">
+                    <Label text="Escudo del Club" styleClass="form-section-title"/>
+                    <StackPane>
+                        <ImageView fx:id="imgEscudo" fitHeight="130" fitWidth="130" preserveRatio="true"/>
+                    </StackPane>
+                    <Button fx:id="btnCambiarEscudo" text="Cambiar escudo"
+                            onAction="#cambiarEscudo" styleClass="button-outline"/>
+                </VBox>
+
+                <!-- Datos del club -->
+                <VBox styleClass="form-section" spacing="14" HBox.hgrow="ALWAYS">
+                    <Label text="Datos Institucionales" styleClass="form-section-title"/>
+
+                    <HBox alignment="CENTER_LEFT" spacing="12">
+                        <Label text="Nombre del Club:" prefWidth="160"
+                               style="-fx-text-fill: #546E7A; -fx-font-size: 13px; -fx-font-weight: bold;"/>
+                        <TextField fx:id="txtNombreClub" HBox.hgrow="ALWAYS"/>
+                    </HBox>
+
+                    <HBox alignment="CENTER_LEFT" spacing="12">
+                        <Label text="Localidad:" prefWidth="160"
+                               style="-fx-text-fill: #546E7A; -fx-font-size: 13px; -fx-font-weight: bold;"/>
+                        <TextField fx:id="txtLocalidad" HBox.hgrow="ALWAYS"/>
+                    </HBox>
+
+                    <HBox alignment="CENTER_LEFT" spacing="12">
+                        <Label text="Presidente:" prefWidth="160"
+                               style="-fx-text-fill: #546E7A; -fx-font-size: 13px; -fx-font-weight: bold;"/>
+                        <TextField fx:id="txtPresidente" HBox.hgrow="ALWAYS"/>
+                    </HBox>
+
+                    <HBox alignment="CENTER_LEFT" spacing="12">
+                        <Label text="Email:" prefWidth="160"
+                               style="-fx-text-fill: #546E7A; -fx-font-size: 13px; -fx-font-weight: bold;"/>
+                        <TextField fx:id="txtEmail" HBox.hgrow="ALWAYS"/>
+                    </HBox>
+
+                    <HBox alignment="CENTER_LEFT" spacing="12">
+                        <Label text="Telefono:" prefWidth="160"
+                               style="-fx-text-fill: #546E7A; -fx-font-size: 13px; -fx-font-weight: bold;"/>
+                        <TextField fx:id="txtTelefono" HBox.hgrow="ALWAYS"/>
+                    </HBox>
+
+                    <Separator style="-fx-background-color: #E5E9EF;"/>
+
+                    <Label text="Temporada" styleClass="form-section-title"/>
+
+                    <HBox alignment="CENTER_LEFT" spacing="12">
+                        <Label text="Temporada actual:" prefWidth="160"
+                               style="-fx-text-fill: #546E7A; -fx-font-size: 13px; -fx-font-weight: bold;"/>
+                        <TextField fx:id="txtTemporada" prefWidth="140" promptText="Ej: 2024/25"/>
+                    </HBox>
+                </VBox>
+            </HBox>
+
+            <!-- Footer acciones -->
+            <HBox styleClass="form-footer" alignment="CENTER_RIGHT" spacing="12">
+                <Label fx:id="lblMensaje" HBox.hgrow="ALWAYS"
+                       style="-fx-font-size: 13px; -fx-font-weight: bold;"/>
+                <Button fx:id="btnGuardarCambiosConfig" text="Guardar cambios"
+                        onAction="#guardarCambios"/>
+            </HBox>
+        </VBox>
+    </ScrollPane>
+
+</VBox>

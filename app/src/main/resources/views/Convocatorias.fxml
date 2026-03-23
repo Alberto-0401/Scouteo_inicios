@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox styleClass="view-root" stylesheets="@../scouteo.css"
+      xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.javafx.scouteo.controller.ConvocatoriasController">
+
+    <!-- Header oscuro -->
+    <HBox styleClass="view-header" alignment="CENTER_LEFT" spacing="20">
+        <VBox spacing="3" HBox.hgrow="ALWAYS">
+            <Label text="CONVOCATORIAS" styleClass="page-title"/>
+            <Label text="Gestion de jugadores convocados por partido" styleClass="page-subtitle"/>
+        </VBox>
+        <Button fx:id="btnNuevaConvocatoria" text="+ Nueva convocatoria"
+                onAction="#nuevaConvocatoria" styleClass="button-success"/>
+    </HBox>
+
+    <!-- Filtros -->
+    <HBox styleClass="filter-bar" alignment="CENTER_LEFT" spacing="12">
+        <Label text="Partido:"/>
+        <ComboBox fx:id="cmbPartido" prefWidth="260" promptText="Todos los partidos"/>
+        <Button fx:id="btnFiltrarConv" text="Filtrar"
+                onAction="#filtrar" styleClass="button-outline"/>
+        <Button fx:id="btnLimpiarConv" text="Limpiar"
+                onAction="#limpiarFiltro" styleClass="button-outline"/>
+    </HBox>
+
+    <!-- Tabla en card -->
+    <VBox styleClass="view-card" VBox.vgrow="ALWAYS">
+        <padding><Insets top="0" right="0" bottom="0" left="0"/></padding>
+        <TableView fx:id="tablaConvocatorias" VBox.vgrow="ALWAYS">
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
+            <columns>
+                <TableColumn fx:id="colPartido"   text="Partido"   prefWidth="138"/>
+                <TableColumn fx:id="colFecha"     text="Fecha"     prefWidth="80"/>
+                <TableColumn fx:id="colJugador"   text="Jugador"   prefWidth="120"/>
+                <TableColumn fx:id="colDorsal"    text="Dor."      minWidth="42" maxWidth="54" prefWidth="46"/>
+                <TableColumn fx:id="colPosicion"  text="Pos."      prefWidth="50"/>
+                <TableColumn fx:id="colConvocado" text="Convocado" prefWidth="80"/>
+                <TableColumn fx:id="colTitular"   text="Titular"   prefWidth="64"/>
+                <TableColumn fx:id="colAcciones"  text="Acciones"  minWidth="110" prefWidth="140"/>
+            </columns>
+        </TableView>
+        <HBox styleClass="table-footer" alignment="CENTER_LEFT">
+            <Label fx:id="lblTotal" text="Total: 0 convocatorias"/>
+        </HBox>
+    </VBox>
+
+</VBox>
