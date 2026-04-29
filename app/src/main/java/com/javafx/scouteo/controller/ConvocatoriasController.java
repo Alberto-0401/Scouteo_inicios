@@ -1,23 +1,32 @@
 package com.javafx.scouteo.controller;
 
+import com.google.gson.JsonObject;
 import com.javafx.scouteo.model.Equipo;
 import com.javafx.scouteo.model.Partido;
 import com.javafx.scouteo.model.Jugador;
 import com.javafx.scouteo.dao.PartidoDAO;
 import com.javafx.scouteo.dao.JugadorDAO;
-import com.javafx.scouteo.util.ConexionBD;
+import com.javafx.scouteo.util.ApiClient;
+import com.javafx.scouteo.util.SesionUsuario;
 import com.javafx.scouteo.utils.StageUtils;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ConvocatoriasController {
 
@@ -38,18 +47,23 @@ public class ConvocatoriasController {
     private final JugadorDAO jugadorDAO = new JugadorDAO();
     private List<Partido> listaPartidos;
     private Equipo equipoActivo;
+    private DashboardController dashboardController;
+    // Flag para evitar que setValue en el combo dispare filtrar() en bucle
+    private boolean actualizandoCombo = false;
+
+    public void setDashboardController(DashboardController dc) {
+        this.dashboardController = dc;
+    }
 
     public void setEquipoActivo(Equipo equipo) {
         this.equipoActivo = equipo;
-        cargarPartidosCombo();
-        cargarConvocatorias(null);
+        cargarDatosAsync(null);
     }
 
     @FXML
     public void initialize() {
+        // Solo estructura de la tabla; los datos los carga setEquipoActivo en background
         configurarTabla();
-        cargarPartidosCombo();
-        cargarConvocatorias(null);
     }
 
     private void configurarTabla() {
@@ -76,86 +90,130 @@ public class ConvocatoriasController {
         });
     }
 
-    private void cargarPartidosCombo() {
-        int clubId = com.javafx.scouteo.util.SesionUsuario.getInstance().getUsuarioActual().getClubId();
-        listaPartidos = (equipoActivo != null)
-                ? partidoDAO.obtenerPorEquipo(equipoActivo.getId())
-                : partidoDAO.obtenerPorClub(clubId);
-        cmbPartido.getItems().clear();
-        cmbPartido.getItems().add("Todos los partidos");
-        for (Partido p : listaPartidos) cmbPartido.getItems().add(textoPartido(p));
-        cmbPartido.setValue("Todos los partidos");
+    /**
+     * Carga partidos y convocatorias en un hilo de fondo para no congelar la UI.
+     * @param idPartidoFiltro null = todos los partidos, distinto de null = solo ese partido.
+     */
+    private void cargarDatosAsync(Integer idPartidoFiltro) {
+        int clubId = SesionUsuario.getInstance().getUsuarioActual().getClubId();
+        int equipoId = equipoActivo != null ? equipoActivo.getId() : -1;
+
+        System.err.println("[CONV] cargarDatosAsync — equipoId=" + equipoId + " clubId=" + clubId + " filtro=" + idPartidoFiltro);
+
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() {
+                // ── 1. Obtener partidos (solo si no los tenemos ya) ──────────
+                if (listaPartidos == null || idPartidoFiltro == null) {
+                    listaPartidos = (equipoId > 0)
+                            ? partidoDAO.obtenerPorEquipo(equipoId)
+                            : partidoDAO.obtenerPorClub(clubId);
+                    System.err.println("[CONV] Partidos cargados: " + (listaPartidos == null ? "null" : listaPartidos.size()) + " (equipoId=" + equipoId + ")");
+                    if (listaPartidos != null) {
+                        listaPartidos.forEach(p ->
+                            System.err.println("[CONV]   partido id=" + p.getId() + " rival=" + p.getRival()));
+                    }
+                }
+
+                // ── 2. Determinar qué partidos consultar ─────────────────────
+                List<Partido> partidos = (idPartidoFiltro != null)
+                        ? listaPartidos.stream().filter(p -> p.getId() == idPartidoFiltro).toList()
+                        : listaPartidos;
+
+                // ── 3. Obtener convocatorias en paralelo (8 hilos) ───────────
+                ApiClient api = ApiClient.getInstance();
+                List<ConvocatoriaItem> items = Collections.synchronizedList(new ArrayList<>());
+                ExecutorService pool = Executors.newFixedThreadPool(Math.min(Math.max(partidos.size(), 1), 8));
+                for (Partido p : partidos) {
+                    pool.submit(() -> {
+                        String json = api.get("/convocatorias/partido/" + p.getId());
+                        System.err.println("[CONV]   /convocatorias/partido/" + p.getId()
+                                + " -> " + (json == null ? "NULL/ERROR" : json.substring(0, Math.min(80, json.length()))));
+                        if (json == null) return;
+                        List<ConvocatoriaItem> batch = new ArrayList<>();
+                        for (JsonObject o : api.fromJsonList(json, JsonObject.class)) {
+                            int id       = o.get("id").getAsInt();
+                            int pId      = o.has("partidoId") && !o.get("partidoId").isJsonNull() ? o.get("partidoId").getAsInt() : p.getId();
+                            int jId      = o.has("jugadorId") && !o.get("jugadorId").isJsonNull() ? o.get("jugadorId").getAsInt() : 0;
+                            String nombre = nvl(getStr(o, "jugadorNombre")) + " " + nvl(getStr(o, "jugadorApellidos"));
+                            Integer dorsal = o.has("jugadorDorsal") && !o.get("jugadorDorsal").isJsonNull() ? o.get("jugadorDorsal").getAsInt() : null;
+                            LocalDate fecha = p.getFechaHora() != null ? p.getFechaHora().toLocalDate() : null;
+                            batch.add(new ConvocatoriaItem(id, pId, jId, p.getRival(), fecha,
+                                    nombre.trim(), dorsal, getStr(o, "jugadorPosicion"),
+                                    getStr(o, "tipo"), getStr(o, "motivoBaja")));
+                        }
+                        items.addAll(batch);
+                    });
+                }
+                pool.shutdown();
+                try { pool.awaitTermination(60, java.util.concurrent.TimeUnit.SECONDS); }
+                catch (InterruptedException ie) { Thread.currentThread().interrupt(); }
+
+                System.err.println("[CONV] Total items: " + items.size());
+
+                // ── 4. Actualizar UI en el hilo JavaFX ───────────────────────
+                Platform.runLater(() -> {
+                    try {
+                        System.err.println("[CONV] Platform.runLater — items=" + items.size()
+                                + " tabla=" + (tablaConvocatorias != null ? "OK" : "NULL")
+                                + " combo=" + (cmbPartido != null ? "OK" : "NULL"));
+                        if (idPartidoFiltro == null) {
+                            actualizandoCombo = true;
+                            cmbPartido.getItems().clear();
+                            cmbPartido.getItems().add("Todos los partidos");
+                            for (Partido p : listaPartidos) cmbPartido.getItems().add(textoPartido(p));
+                            cmbPartido.setValue("Todos los partidos");
+                            actualizandoCombo = false;
+                        }
+                        listaConvocatorias = FXCollections.observableArrayList(items);
+                        tablaConvocatorias.setItems(listaConvocatorias);
+                        tablaConvocatorias.setPlaceholder(new Label(
+                                items.isEmpty() ? "No hay convocatorias registradas" : ""));
+                        lblTotal.setText("Total: " + items.size() + " convocatorias");
+                        if (dashboardController != null) dashboardController.ocultarCargando();
+                        System.err.println("[CONV] Platform.runLater FIN — tabla.size=" + tablaConvocatorias.getItems().size());
+                    } catch (Exception ex) {
+                        System.err.println("[CONV] EXCEPCION en Platform.runLater: " + ex.getMessage());
+                        ex.printStackTrace(System.err);
+                    }
+                });
+                return null;
+            }
+        };
+
+        task.setOnFailed(e -> {
+            Throwable ex = task.getException();
+            System.err.println("[CONV] TASK FAILED: " + (ex != null ? ex.getMessage() : "null"));
+            if (ex != null) ex.printStackTrace();
+            lblTotal.setText("Error al cargar. Revisa la conexión.");
+        });
+
+        Thread hilo = new Thread(task);
+        hilo.setDaemon(true);
+        hilo.start();
     }
 
-    private void cargarConvocatorias(Integer idPartidoFiltro) {
-        listaConvocatorias = FXCollections.observableArrayList();
+    private static String nvl(String s) { return s != null ? s : ""; }
 
-        if (!ConexionBD.isConexionValida()) {
-            tablaConvocatorias.setPlaceholder(new Label("Sin conexion a la base de datos"));
-            tablaConvocatorias.setItems(listaConvocatorias);
-            lblTotal.setText("Total: 0 convocatorias");
-            return;
-        }
-
-        int clubId = com.javafx.scouteo.util.SesionUsuario.getInstance().getUsuarioActual().getClubId();
-
-        String sql = "SELECT c.id, c.partido_id, c.jugador_id, c.tipo, c.motivo_baja, " +
-                     "p.rival, p.fecha_hora, " +
-                     "j.dorsal, j.posicion, CONCAT(j.nombre, ' ', j.apellidos) AS jugador " +
-                     "FROM convocatorias c " +
-                     "INNER JOIN partidos p ON c.partido_id = p.id " +
-                     "INNER JOIN equipos e ON p.equipo_id = e.id " +
-                     "INNER JOIN jugadores j ON c.jugador_id = j.id " +
-                     "WHERE e.club_id = ? " +
-                     (idPartidoFiltro != null ? "AND c.partido_id = ? " : "") +
-                     "ORDER BY p.fecha_hora DESC, j.dorsal";
-
-        try (Connection conn = ConexionBD.getConexion();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, clubId);
-            if (idPartidoFiltro != null) pstmt.setInt(2, idPartidoFiltro);
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                Timestamp ts = rs.getTimestamp("fecha_hora");
-                listaConvocatorias.add(new ConvocatoriaItem(
-                    rs.getInt("id"),
-                    rs.getInt("partido_id"),
-                    rs.getInt("jugador_id"),
-                    rs.getString("rival"),
-                    ts != null ? ts.toLocalDateTime().toLocalDate() : null,
-                    rs.getString("jugador"),
-                    rs.getInt("dorsal"),
-                    rs.getString("posicion"),
-                    rs.getString("tipo"),
-                    rs.getString("motivo_baja")
-                ));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        tablaConvocatorias.setItems(listaConvocatorias);
-        tablaConvocatorias.setPlaceholder(new Label(
-                listaConvocatorias.isEmpty() ? "No hay convocatorias registradas" : ""));
-        lblTotal.setText("Total: " + listaConvocatorias.size() + " convocatorias");
+    private String getStr(JsonObject o, String key) {
+        return o.has(key) && !o.get(key).isJsonNull() ? o.get(key).getAsString() : null;
     }
 
     @FXML private void filtrar() {
+        if (actualizandoCombo) return;
         String sel = cmbPartido.getValue();
         if (sel == null || sel.equals("Todos los partidos")) {
-            cargarConvocatorias(null);
+            cargarDatosAsync(null);
         } else {
             for (Partido p : listaPartidos) {
-                if (textoPartido(p).equals(sel)) { cargarConvocatorias(p.getId()); break; }
+                if (textoPartido(p).equals(sel)) { cargarDatosAsync(p.getId()); break; }
             }
         }
     }
 
     @FXML private void limpiarFiltro() {
         cmbPartido.setValue("Todos los partidos");
-        cargarConvocatorias(null);
+        cargarDatosAsync(null);
     }
 
     @FXML
@@ -204,7 +262,7 @@ public class ConvocatoriasController {
                 mostrarError("Este jugador ya esta convocado para este partido"); return;
             }
             if (insertarConvocatoria(partido.getId(), jugador.getId(), cmbTipo.getValue())) {
-                cargarConvocatorias(null);
+                cargarDatosAsync(null);
                 mostrarInfo("Convocatoria anadida correctamente");
             } else {
                 mostrarError("Error al anadir convocatoria");
@@ -230,15 +288,14 @@ public class ConvocatoriasController {
         dialog.setOnShowing(e -> StageUtils.setAppIcon((Stage) dialog.getDialogPane().getScene().getWindow()));
 
         if (dialog.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
-            String sql = "UPDATE convocatorias SET tipo = ? WHERE id = ?";
-            try (Connection conn = ConexionBD.getConexion();
-                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setString(1, cmbTipo.getValue());
-                pstmt.setInt(2, item.getId());
-                if (pstmt.executeUpdate() > 0) cargarConvocatorias(null);
-                else mostrarError("Error al actualizar");
-            } catch (SQLException e) {
-                e.printStackTrace();
+            ApiClient api = ApiClient.getInstance();
+            Map<String, Object> body = new HashMap<>();
+            body.put("partidoId", item.getIdPartido());
+            body.put("jugadorId", item.getIdJugador());
+            body.put("tipo", cmbTipo.getValue());
+            if (api.put("/convocatorias/" + item.getId(), body) != null) {
+                cargarDatosAsync(null);
+            } else {
                 mostrarError("Error al actualizar convocatoria");
             }
         }
@@ -251,14 +308,9 @@ public class ConvocatoriasController {
         alert.setOnShowing(e -> StageUtils.setAppIcon((Stage) alert.getDialogPane().getScene().getWindow()));
 
         if (alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
-            String sql = "DELETE FROM convocatorias WHERE id = ?";
-            try (Connection conn = ConexionBD.getConexion();
-                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setInt(1, item.getId());
-                if (pstmt.executeUpdate() > 0) cargarConvocatorias(null);
-                else mostrarError("Error al eliminar");
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (ApiClient.getInstance().delete("/convocatorias/" + item.getId())) {
+                cargarDatosAsync(null);
+            } else {
                 mostrarError("Error al eliminar convocatoria");
             }
         }
@@ -267,24 +319,21 @@ public class ConvocatoriasController {
     // ==================== Helpers ====================
 
     private boolean existeConvocatoria(int jugadorId, int partidoId) {
-        String sql = "SELECT COUNT(*) FROM convocatorias WHERE jugador_id = ? AND partido_id = ?";
-        try (Connection conn = ConexionBD.getConexion();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, jugadorId); pstmt.setInt(2, partidoId);
-            ResultSet rs = pstmt.executeQuery();
-            return rs.next() && rs.getInt(1) > 0;
-        } catch (SQLException e) { e.printStackTrace(); }
+        String json = ApiClient.getInstance().get("/convocatorias/partido/" + partidoId);
+        if (json == null) return false;
+        for (JsonObject o : ApiClient.getInstance().fromJsonList(json, JsonObject.class)) {
+            if (o.has("jugadorId") && !o.get("jugadorId").isJsonNull()
+                    && o.get("jugadorId").getAsInt() == jugadorId) return true;
+        }
         return false;
     }
 
     private boolean insertarConvocatoria(int partidoId, int jugadorId, String tipo) {
-        String sql = "INSERT INTO convocatorias (partido_id, jugador_id, tipo) VALUES (?, ?, ?)";
-        try (Connection conn = ConexionBD.getConexion();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, partidoId); pstmt.setInt(2, jugadorId); pstmt.setString(3, tipo);
-            return pstmt.executeUpdate() > 0;
-        } catch (SQLException e) { e.printStackTrace(); }
-        return false;
+        Map<String, Object> body = new HashMap<>();
+        body.put("partidoId", partidoId);
+        body.put("jugadorId", jugadorId);
+        body.put("tipo", tipo);
+        return ApiClient.getInstance().post("/convocatorias", body) != null;
     }
 
     private String textoPartido(Partido p) {

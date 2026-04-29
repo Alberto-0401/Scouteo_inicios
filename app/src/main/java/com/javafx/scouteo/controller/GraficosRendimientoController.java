@@ -1,18 +1,24 @@
 package com.javafx.scouteo.controller;
 
-import com.javafx.scouteo.util.ConexionBD;
+import com.google.gson.JsonObject;
+import com.javafx.scouteo.dao.EquipoDAO;
+import com.javafx.scouteo.dao.JugadorDAO;
+import com.javafx.scouteo.dao.PartidoDAO;
+import com.javafx.scouteo.model.Jugador;
+import com.javafx.scouteo.model.Partido;
+import com.javafx.scouteo.util.ApiClient;
 import com.javafx.scouteo.util.SesionUsuario;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.*;
 import javafx.scene.control.Label;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.stream.Collectors;
 
 public class GraficosRendimientoController {
 
@@ -22,141 +28,138 @@ public class GraficosRendimientoController {
     @FXML private NumberAxis yAxisGoleadores;
     @FXML private Label lblEstado;
 
+    private final JugadorDAO jugadorDAO = new JugadorDAO();
+    private final PartidoDAO partidoDAO = new PartidoDAO();
+    private final EquipoDAO  equipoDAO  = new EquipoDAO();
+
     @FXML
     public void initialize() {
-        cargarGraficoPosiciones();
-        cargarGraficoGoleadores();
-        lblEstado.setText("Datos cargados desde la base de datos");
-        lblEstado.setStyle("-fx-text-fill: #4CAF50; -fx-font-size: 11px; -fx-font-weight: bold;");
+        lblEstado.setText("Cargando gráficos...");
+        lblEstado.setStyle("-fx-text-fill: #FF9800; -fx-font-size: 11px; -fx-font-weight: bold;");
+        cargarGraficos();
     }
 
-    /** Devuelve club_id del usuario actual, o null si no hay sesión. */
     private Integer getClubId() {
-        SesionUsuario sesion = SesionUsuario.getInstance();
-        if (sesion.haySesionActiva() && sesion.getUsuarioActual().getClubId() != null) {
-            return sesion.getUsuarioActual().getClubId();
-        }
-        return null;
+        SesionUsuario s = SesionUsuario.getInstance();
+        return (s.haySesionActiva() && s.getUsuarioActual().getClubId() != null)
+                ? s.getUsuarioActual().getClubId() : null;
     }
 
-    /**
-     * Fragmento SQL extra para filtrar por equipo cuando el usuario es entrenador.
-     * Devuelve "AND e.id = X" o "" (sin filtro adicional).
-     */
-    private String filtroEquipo() {
-        SesionUsuario sesion = SesionUsuario.getInstance();
-        if (!sesion.esEntrenador()) return "";
-        // Buscar el equipo del entrenador directamente en BD
-        Integer userId = sesion.getUsuarioActual().getId();
-        try (java.sql.Connection con = ConexionBD.getConexion();
-             java.sql.PreparedStatement ps = con.prepareStatement(
-                 "SELECT equipo_id FROM equipos_entrenadores WHERE usuario_id = ? AND activo = 1 LIMIT 1")) {
-            ps.setInt(1, userId);
-            java.sql.ResultSet rs = ps.executeQuery();
-            if (rs.next()) return " AND e.id = " + rs.getInt("equipo_id");
-        } catch (java.sql.SQLException e) {
-            e.printStackTrace();
-        }
-        return "";
+    private Integer getEquipoId() {
+        SesionUsuario s = SesionUsuario.getInstance();
+        if (!s.esEntrenador()) return null;
+        var equipos = equipoDAO.obtenerPorEntrenador(s.getUsuarioActual().getId());
+        return equipos.isEmpty() ? null : equipos.get(0).getId();
     }
 
-    private void cargarGraficoPosiciones() {
-        Integer clubId = getClubId();
-        if (clubId == null) return;
-
-        String sql = """
-            SELECT
-              CASE
-                WHEN j.posicion = 'portero' THEN 'Porteros'
-                WHEN j.posicion IN ('defensa_central','lateral_derecho','lateral_izquierdo') THEN 'Defensas'
-                WHEN j.posicion IN ('mediocentro','medio_derecho','medio_izquierdo','mediapunta') THEN 'Medios'
-                WHEN j.posicion IN ('extremo_derecho','extremo_izquierdo','delantero_centro') THEN 'Delanteros'
-                ELSE 'Otros'
-              END AS grupo,
-              COUNT(*) AS total
-            FROM jugadores j
-            JOIN equipos e ON j.equipo_id = e.id
-            WHERE e.club_id = ? AND j.estado != 'baja'
-            """ + filtroEquipo() + """
-
-            GROUP BY grupo
-            ORDER BY total DESC
-            """;
-
-        try (Connection con = ConexionBD.getConexion();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, clubId);
-            ResultSet rs = ps.executeQuery();
-
-            ObservableList<PieChart.Data> datos = FXCollections.observableArrayList();
-            while (rs.next()) {
-                long total = rs.getLong("total");
-                datos.add(new PieChart.Data(rs.getString("grupo") + " (" + total + ")", total));
-            }
-            pieChartPosicion.setData(datos);
-            pieChartPosicion.setTitle("Plantilla activa por posición");
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            lblEstado.setText("Error al cargar gráfico de posiciones: " + e.getMessage());
-            lblEstado.setStyle("-fx-text-fill: #F44336; -fx-font-size: 11px;");
-        }
-    }
-
-    private void cargarGraficoGoleadores() {
-        Integer clubId = getClubId();
-        if (clubId == null) return;
-
-        String sql = """
-            SELECT
-              CONCAT(j.nombre, ' ', j.apellidos) AS jugador,
-              COALESCE(SUM(a.goles), 0) AS goles,
-              COALESCE(SUM(a.asistencias), 0) AS asistencias
-            FROM jugadores j
-            JOIN equipos e ON j.equipo_id = e.id
-            LEFT JOIN alineaciones a ON a.jugador_id = j.id
-            WHERE e.club_id = ? AND j.estado != 'baja'
-            """ + filtroEquipo() + """
-
-            GROUP BY j.id, j.nombre, j.apellidos
-            ORDER BY goles DESC, asistencias DESC
-            LIMIT 10
-            """;
-
-        try (Connection con = ConexionBD.getConexion();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, clubId);
-            ResultSet rs = ps.executeQuery();
-
-            XYChart.Series<String, Number> serieGoles = new XYChart.Series<>();
-            serieGoles.setName("Goles");
-            XYChart.Series<String, Number> serieAsistencias = new XYChart.Series<>();
-            serieAsistencias.setName("Asistencias");
-
-            while (rs.next()) {
-                String nombre = abreviarNombre(rs.getString("jugador"));
-                serieGoles.getData().add(new XYChart.Data<>(nombre, rs.getInt("goles")));
-                serieAsistencias.getData().add(new XYChart.Data<>(nombre, rs.getInt("asistencias")));
+    private void cargarGraficos() {
+        Thread t = new Thread(() -> {
+            Integer clubId   = getClubId();
+            Integer equipoId = getEquipoId();
+            if (clubId == null) {
+                Platform.runLater(() -> {
+                    lblEstado.setText("Sin sesión activa");
+                    lblEstado.setStyle("-fx-text-fill: #F44336; -fx-font-size: 11px;");
+                });
+                return;
             }
 
-            barChartGoleadores.getData().add(serieGoles);
-            barChartGoleadores.getData().add(serieAsistencias);
-            barChartGoleadores.setTitle("Top 10 — Goles y asistencias");
+            // ── 1. Jugadores y partidos ─────────────────────────────────────
+            List<Jugador> jugadores = (equipoId != null)
+                    ? jugadorDAO.obtenerPorEquipo(equipoId)
+                    : jugadorDAO.obtenerPorClub(clubId);
+            List<Partido> partidos  = (equipoId != null)
+                    ? partidoDAO.obtenerPorEquipo(equipoId)
+                    : partidoDAO.obtenerPorClub(clubId);
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            lblEstado.setText("Error al cargar gráfico de goleadores: " + e.getMessage());
-            lblEstado.setStyle("-fx-text-fill: #F44336; -fx-font-size: 11px;");
-        }
+            Map<Integer, Jugador> jugMap = jugadores.stream()
+                    .filter(j -> j.getId() != null)
+                    .collect(Collectors.toMap(Jugador::getId, j -> j, (a, b) -> a));
+
+            // ── 2. Distribución por posición (PieChart) ─────────────────────
+            Map<String, Long> distPosicion = jugadores.stream()
+                    .filter(j -> !"baja".equals(j.getEstado()))
+                    .collect(Collectors.groupingBy(j -> {
+                        switch (j.getGrupoPosicion()) {
+                            case "POR": return "Porteros";
+                            case "DEF": return "Defensas";
+                            case "MED": return "Medios";
+                            default:    return "Delanteros";
+                        }
+                    }, Collectors.counting()));
+
+            // ── 3. Alineaciones en paralelo → goles + asistencias ───────────
+            ConcurrentHashMap<Integer, int[]> agg = new ConcurrentHashMap<>(); // [goles, asist]
+            ApiClient api = ApiClient.getInstance();
+            ExecutorService exec = Executors.newFixedThreadPool(8);
+            for (Partido p : partidos) {
+                final int pid = p.getId();
+                exec.submit(() -> {
+                    String json = api.get("/alineaciones/partido/" + pid);
+                    if (json == null) return;
+                    for (JsonObject o : api.fromJsonList(json, JsonObject.class)) {
+                        if (!o.has("jugadorId") || o.get("jugadorId").isJsonNull()) continue;
+                        int jid = o.get("jugadorId").getAsInt();
+                        int goles = o.has("goles")        && !o.get("goles").isJsonNull()        ? o.get("goles").getAsInt()        : 0;
+                        int asist = o.has("asistencias")  && !o.get("asistencias").isJsonNull()  ? o.get("asistencias").getAsInt()  : 0;
+                        agg.merge(jid, new int[]{goles, asist}, (ex, in) -> new int[]{ex[0]+in[0], ex[1]+in[1]});
+                    }
+                });
+            }
+            exec.shutdown();
+            try { exec.awaitTermination(30, TimeUnit.SECONDS); } catch (InterruptedException ignored) {}
+
+            // Top 10 por goles (luego asistencias como desempate)
+            List<Map.Entry<Integer, int[]>> top10 = agg.entrySet().stream()
+                    .filter(e -> jugMap.containsKey(e.getKey()))
+                    .sorted((a, b) -> {
+                        int cmp = Integer.compare(b.getValue()[0], a.getValue()[0]);
+                        return cmp != 0 ? cmp : Integer.compare(b.getValue()[1], a.getValue()[1]);
+                    })
+                    .limit(10)
+                    .collect(Collectors.toList());
+
+            // ── 4. Actualizar UI ────────────────────────────────────────────
+            Platform.runLater(() -> {
+                // PieChart
+                ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
+                distPosicion.forEach((pos, cnt) ->
+                        pieData.add(new PieChart.Data(pos + " (" + cnt + ")", cnt)));
+                pieChartPosicion.setData(pieData);
+                pieChartPosicion.setTitle("Plantilla activa por posición");
+
+                // BarChart
+                XYChart.Series<String, Number> serieGoles = new XYChart.Series<>();
+                serieGoles.setName("Goles");
+                XYChart.Series<String, Number> serieAsist = new XYChart.Series<>();
+                serieAsist.setName("Asistencias");
+
+                for (Map.Entry<Integer, int[]> e : top10) {
+                    Jugador j   = jugMap.get(e.getKey());
+                    String nombre = abreviarNombre(j.getNombreCompleto());
+                    serieGoles.getData().add(new XYChart.Data<>(nombre, e.getValue()[0]));
+                    serieAsist.getData().add(new XYChart.Data<>(nombre, e.getValue()[1]));
+                }
+                barChartGoleadores.getData().add(serieGoles);
+                barChartGoleadores.getData().add(serieAsist);
+                barChartGoleadores.setTitle("Top 10 — Goles y asistencias");
+
+                String estado = top10.isEmpty() ? "Sin datos de alineaciones aún" : "Datos cargados correctamente";
+                String color  = top10.isEmpty() ? "#FF9800" : "#4CAF50";
+                lblEstado.setText(estado);
+                lblEstado.setStyle("-fx-text-fill: " + color + "; -fx-font-size: 11px; -fx-font-weight: bold;");
+            });
+
+        }, "graficos-loader");
+        t.setDaemon(true);
+        t.start();
     }
 
-    /** Abrevia nombres largos para que quepan en el eje X */
     private String abreviarNombre(String nombreCompleto) {
         if (nombreCompleto == null) return "";
         String[] partes = nombreCompleto.split(" ");
-        if (partes.length >= 2 && nombreCompleto.length() > 13) {
+        if (partes.length >= 2 && nombreCompleto.length() > 13)
             return partes[0] + " " + partes[partes.length - 1].charAt(0) + ".";
-        }
         return nombreCompleto;
     }
 }

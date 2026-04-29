@@ -1,11 +1,17 @@
 package com.javafx.scouteo.controller;
 
+import com.google.gson.JsonObject;
 import com.javafx.scouteo.dao.EquipoDAO;
+import com.javafx.scouteo.dao.JugadorDAO;
+import com.javafx.scouteo.dao.PartidoDAO;
 import com.javafx.scouteo.model.Equipo;
-import com.javafx.scouteo.util.ConexionBD;
+import com.javafx.scouteo.model.Jugador;
+import com.javafx.scouteo.model.Partido;
+import com.javafx.scouteo.util.ApiClient;
 import com.javafx.scouteo.util.SesionUsuario;
 import com.javafx.scouteo.utils.StageUtils;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -18,12 +24,17 @@ import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 import java.io.File;
-import java.sql.Connection;
-import java.util.HashMap;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.stream.Collectors;
 
 /**
  * Controlador para la gestión y visualización de informes JasperReports
@@ -51,6 +62,11 @@ public class InformesController {
     @FXML
     private ComboBox<String> cmbFiltroValor;
 
+    private DashboardController dashboardController;
+
+    public void setDashboardController(DashboardController dc) {
+        this.dashboardController = dc;
+    }
 
     @FXML
     public void initialize() {
@@ -278,86 +294,322 @@ public class InformesController {
      * @param parametros HashMap con parámetros del informe
      */
     private void lanzaInforme(String rutaInforme, Map<String, Object> parametros) {
-        try {
-            actualizarEstado("Generando informe...", "#FF9800");
+        actualizarEstado("Generando informe...", "#FF9800");
+        if (dashboardController != null) dashboardController.mostrarCargando("Generando informe...");
 
-            // Inyectar CLUB_ID del usuario en sesion
-            SesionUsuario sesion = SesionUsuario.getInstance();
-            if (sesion.haySesionActiva() && sesion.getUsuarioActual().getClubId() != null) {
-                parametros.put("CLUB_ID", sesion.getUsuarioActual().getClubId());
-            }
+        Thread t = new Thread(() -> {
+            try {
+                SesionUsuario sesion = SesionUsuario.getInstance();
+                if (sesion.haySesionActiva() && sesion.getUsuarioActual().getClubId() != null)
+                    parametros.put("CLUB_ID", sesion.getUsuarioActual().getClubId());
 
-            // 1. CARGA o COMPILA el informe (.jasper precompilado o .jrxml en tiempo de ejecución)
-            JasperReport report;
-            if (rutaInforme.endsWith(".jrxml")) {
-                report = JasperCompileManager.compileReport(
-                    getClass().getResourceAsStream(rutaInforme)
-                );
-            } else {
-                report = (JasperReport) JRLoader.loadObject(
-                    getClass().getResourceAsStream(rutaInforme)
-                );
-            }
+                JasperReport report = rutaInforme.endsWith(".jrxml")
+                        ? JasperCompileManager.compileReport(getClass().getResourceAsStream(rutaInforme))
+                        : (JasperReport) JRLoader.loadObject(getClass().getResourceAsStream(rutaInforme));
 
-            // 2. Obtener conexión a la base de datos
-            Connection conBD = ConexionBD.getConexion();
-
-            // Verificar conexión
-            if (conBD == null || conBD.isClosed()) {
-                mostrarAlerta("Error: No hay conexión con la base de datos");
-                actualizarEstado("Error de conexión", "#F44336");
-                return;
-            }
-
-            // 3. RELLENA el informe con datos de la BD
-            JasperPrint jasperPrint = JasperFillManager.fillReport(report, parametros, conBD);
-
-            if (!jasperPrint.getPages().isEmpty()) {
-
-                String tituloInforme = (String) parametros.getOrDefault("TituloInforme", "informe");
-                String nombreArchivo = limpiarNombreArchivo(tituloInforme);
-
-                String userHome = System.getProperty("user.home");
-                String outputDir = userHome + File.separator + "Documents" + File.separator + "Scouteo";
-
-                File directorioSalida = new File(outputDir);
-                if (!directorioSalida.exists()) {
-                    directorioSalida.mkdirs();
+                JRDataSource ds = construirDataSource(rutaInforme, parametros);
+                if (ds == null) {
+                    Platform.runLater(() -> {
+                        if (dashboardController != null) dashboardController.ocultarCargando();
+                        mostrarAlerta("Este informe requiere conexión directa a la BD.\nUsa el módulo Gráficos para ver estadísticas.");
+                        actualizarEstado("Informe no disponible", "#FF9800");
+                    });
+                    return;
                 }
 
-                // Exportar a HTML y abrir en nueva ventana
-                String outputHtmlFile = outputDir + File.separator + nombreArchivo + ".html";
-                JasperExportManager.exportReportToHtmlFile(jasperPrint, outputHtmlFile);
+                JasperPrint jasperPrint = JasperFillManager.fillReport(report, parametros, ds);
 
-                // Exportar a PDF
-                String pdfOutputPath = outputDir + File.separator + nombreArchivo + ".pdf";
-                JasperExportManager.exportReportToPdfFile(jasperPrint, pdfOutputPath);
+                if (!jasperPrint.getPages().isEmpty()) {
+                    String titulo     = (String) parametros.getOrDefault("TituloInforme", "informe");
+                    String nombreArch = limpiarNombreArchivo(titulo);
+                    String outputDir  = System.getProperty("user.home") + File.separator + "Documents" + File.separator + "Scouteo";
+                    new File(outputDir).mkdirs();
+                    String htmlPath = outputDir + File.separator + nombreArch + ".html";
+                    String pdfPath  = outputDir + File.separator + nombreArch + ".pdf";
+                    JasperExportManager.exportReportToHtmlFile(jasperPrint, htmlPath);
+                    JasperExportManager.exportReportToPdfFile(jasperPrint, pdfPath);
 
-                WebView wv = new WebView();
-                wv.getEngine().load(new File(outputHtmlFile).toURI().toString());
-                StackPane stackPane = new StackPane(wv);
-                Scene scene = new Scene(stackPane, 950, 750);
-                Stage stage = new Stage();
-                stage.setTitle(tituloInforme + " — Scouteo");
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.setResizable(true);
-                stage.setScene(scene);
-                StageUtils.setAppIcon(stage);
-                stage.show();
-                actualizarEstado("Informe generado: " + nombreArchivo + ".pdf", "#4CAF50");
-            } else {
-                mostrarAlerta("La búsqueda no generó páginas");
-                actualizarEstado("Sin resultados", "#FF9800");
+                    Platform.runLater(() -> {
+                        if (dashboardController != null) dashboardController.ocultarCargando();
+                        WebView wv = new WebView();
+                        wv.getEngine().load(new File(htmlPath).toURI().toString());
+                        Stage stage = new Stage();
+                        stage.setTitle(titulo + " — Scouteo");
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.setResizable(true);
+                        stage.setScene(new Scene(new StackPane(wv), 950, 750));
+                        StageUtils.setAppIcon(stage);
+                        stage.show();
+                        actualizarEstado("Informe generado: " + nombreArch + ".pdf", "#4CAF50");
+                    });
+                } else {
+                    Platform.runLater(() -> {
+                        if (dashboardController != null) dashboardController.ocultarCargando();
+                        mostrarAlerta("La búsqueda no generó páginas");
+                        actualizarEstado("Sin resultados", "#FF9800");
+                    });
+                }
+            } catch (JRException e) {
+                e.printStackTrace();
+                Platform.runLater(() -> {
+                    if (dashboardController != null) dashboardController.ocultarCargando();
+                    mostrarAlerta("Error Jasper: " + e.getMessage());
+                    actualizarEstado("Error informe", "#F44336");
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                Platform.runLater(() -> {
+                    if (dashboardController != null) dashboardController.ocultarCargando();
+                    mostrarAlerta("Error inesperado: " + e.getMessage());
+                    actualizarEstado("Error", "#F44336");
+                });
             }
+        }, "jasper-report");
+        t.setDaemon(true);
+        t.start();
+    }
 
-        } catch (JRException e) {
-            e.printStackTrace();
-            mostrarAlerta("Error al generar informe: " + e.getMessage());
-            actualizarEstado("Error al generar informe", "#F44336");
-        } catch (Exception e) {
-            e.printStackTrace();
-            mostrarAlerta("Error inesperado: " + e.getMessage());
-            actualizarEstado("Error inesperado", "#F44336");
+    private JRDataSource construirDataSource(String ruta, Map<String, Object> params) {
+        Integer equipoId = (Integer) params.get("EQUIPO_ID");
+        Integer clubId   = (Integer) params.get("CLUB_ID");
+        String  condicion = (String)  params.getOrDefault("CONDICION", "");
+        if (ruta.contains("Simple_Blue") || ruta.contains("jugadores_filtrado"))
+            return dsJugadores(equipoId, clubId, condicion);
+        if (ruta.contains("partidos"))
+            return dsPartidos(equipoId, clubId);
+        if (ruta.contains("estadisticas_completas")) return dsEstadisticas(equipoId, clubId);
+        return null;
+    }
+
+    private JRDataSource dsJugadores(Integer equipoId, Integer clubId, String condicion) {
+        JugadorDAO jugDAO = new JugadorDAO();
+        EquipoDAO  eqDAO  = new EquipoDAO();
+        List<Jugador> jugadores = (equipoId != null && equipoId > 0)
+                ? jugDAO.obtenerPorEquipo(equipoId) : jugDAO.obtenerPorClub(clubId != null ? clubId : 0);
+        Map<Integer, Equipo> equipoMap = eqDAO.obtenerPorClub(clubId != null ? clubId : 0)
+                .stream().collect(Collectors.toMap(Equipo::getId, e -> e, (a, b) -> a));
+
+        List<Map<String, Object>> rows = new ArrayList<>();
+        for (Jugador j : jugadores) {
+            if ("baja".equals(j.getEstado())) continue;
+            Equipo eq = equipoMap.get(j.getEquipoId());
+            if (condicion != null && !condicion.isEmpty()) {
+                boolean posPk = j.getGrupoPosicion().equalsIgnoreCase(condicion)
+                        || (j.getPosicion() != null && j.getPosicion().contains(condicion.toLowerCase()));
+                boolean catOk = eq != null && condicion.equalsIgnoreCase(eq.getCategoria());
+                if (!posPk && !catOk) continue;
+            }
+            long edad = 0;
+            if (j.getFechaNacimiento() != null)
+                edad = Period.between(j.getFechaNacimiento(), LocalDate.now()).getYears();
+            Map<String, Object> row = new HashMap<>();
+            row.put("dorsal",          j.getDorsal());
+            row.put("jugador",         nvl(j.getNombre()) + " " + nvl(j.getApellidos()));
+            row.put("posicion_label",  posLabel(j.getPosicion()));
+            row.put("edad",            edad);
+            row.put("altura_cm",       j.getAlturaCm());
+            row.put("pie",             pieLabel(j.getPiernaDominante()));
+            row.put("estado_raw",      j.getEstado());
+            row.put("estado_label",    estadoLabel(j.getEstado()));
+            row.put("equipo",          j.getNombreEquipo());
+            row.put("categoria_label", eq != null ? catLabel(eq.getCategoria()) : "");
+            row.put("temporada",       eq != null ? eq.getTemporada() : "");
+            rows.add(row);
+        }
+        rows.sort((a, b) -> {
+            int cmp = String.valueOf(a.getOrDefault("equipo", ""))
+                           .compareTo(String.valueOf(b.getOrDefault("equipo", "")));
+            if (cmp != 0) return cmp;
+            int da = a.get("dorsal") instanceof Integer ? (Integer) a.get("dorsal") : 999;
+            int db = b.get("dorsal") instanceof Integer ? (Integer) b.get("dorsal") : 999;
+            return Integer.compare(da, db);
+        });
+        @SuppressWarnings("unchecked")
+        java.util.Collection<Map<String, ?>> dsJug = (java.util.Collection<Map<String, ?>>) (java.util.Collection<?>) rows;
+        return new JRMapCollectionDataSource(dsJug);
+    }
+
+    private JRDataSource dsPartidos(Integer equipoId, Integer clubId) {
+        PartidoDAO pDAO = new PartidoDAO();
+        EquipoDAO  eDAO = new EquipoDAO();
+        List<Partido> partidos = (equipoId != null && equipoId > 0)
+                ? pDAO.obtenerPorEquipo(equipoId) : pDAO.obtenerPorClub(clubId != null ? clubId : 0);
+        Map<Integer, Equipo> eqMap = eDAO.obtenerPorClub(clubId != null ? clubId : 0)
+                .stream().collect(Collectors.toMap(Equipo::getId, e -> e, (a, b) -> a));
+
+        List<Map<String, Object>> rows = new ArrayList<>();
+        for (Partido p : partidos) {
+            Equipo eq = eqMap.get(p.getEquipoId());
+            String resRaw = "pendiente", resLabel = "Pendiente";
+            if (p.getGolesFavor() != null && p.getGolesContra() != null) {
+                if      (p.getGolesFavor() > p.getGolesContra())        { resRaw = "victoria"; resLabel = "Victoria"; }
+                else if (p.getGolesFavor().equals(p.getGolesContra()))  { resRaw = "empate";   resLabel = "Empate";   }
+                else                                                      { resRaw = "derrota";  resLabel = "Derrota";  }
+            }
+            Map<String, Object> row = new HashMap<>();
+            row.put("fecha",          p.getFechaHora() != null ? java.sql.Date.valueOf(p.getFechaHora().toLocalDate()) : null);
+            row.put("rival",          p.getRival());
+            row.put("tipo_label",     "local".equals(p.getTipo()) ? "Local" : "Visitante");
+            row.put("goles_favor",    p.getGolesFavor());
+            row.put("goles_contra",   p.getGolesContra());
+            row.put("resultado_raw",  resRaw);
+            row.put("resultado_label",resLabel);
+            row.put("posesion",       p.getPosesionPct());
+            row.put("tiros_puerta",   p.getTirosAPuerta());
+            row.put("competicion",    p.getCompeticion());
+            row.put("equipo",         eq != null ? eq.getNombre() : p.getNombreEquipo());
+            row.put("temporada",      eq != null ? eq.getTemporada() : "");
+            rows.add(row);
+        }
+        rows.sort((a, b) -> {
+            java.sql.Date da = a.get("fecha") instanceof java.sql.Date ? (java.sql.Date) a.get("fecha") : new java.sql.Date(0);
+            java.sql.Date db = b.get("fecha") instanceof java.sql.Date ? (java.sql.Date) b.get("fecha") : new java.sql.Date(0);
+            return da.compareTo(db);
+        });
+        @SuppressWarnings("unchecked")
+        java.util.Collection<Map<String, ?>> dsPar = (java.util.Collection<Map<String, ?>>) (java.util.Collection<?>) rows;
+        return new JRMapCollectionDataSource(dsPar);
+    }
+
+    private JRDataSource dsEstadisticas(Integer equipoId, Integer clubId) {
+        JugadorDAO jugDAO = new JugadorDAO();
+        PartidoDAO pDAO   = new PartidoDAO();
+        EquipoDAO  eDAO   = new EquipoDAO();
+
+        List<Jugador> jugadores = (equipoId != null && equipoId > 0)
+                ? jugDAO.obtenerPorEquipo(equipoId) : jugDAO.obtenerPorClub(clubId != null ? clubId : 0);
+        List<Partido> partidos = (equipoId != null && equipoId > 0)
+                ? pDAO.obtenerPorEquipo(equipoId) : pDAO.obtenerPorClub(clubId != null ? clubId : 0);
+        Map<Integer, Equipo>  eqMap  = eDAO.obtenerPorClub(clubId != null ? clubId : 0)
+                .stream().collect(Collectors.toMap(Equipo::getId, e -> e, (a, b) -> a));
+        Map<Integer, Jugador> jugMap = jugadores.stream()
+                .collect(Collectors.toMap(Jugador::getId, j -> j, (a, b) -> a));
+
+        // int[] = [partidos, minutos, goles, asistencias, amarillas, rojas, valoracion*100 sum, valoracion count]
+        ConcurrentHashMap<Integer, int[]> agg = new ConcurrentHashMap<>();
+        ApiClient api = ApiClient.getInstance();
+
+        ExecutorService exec = Executors.newFixedThreadPool(8);
+        List<Future<?>> futures = new ArrayList<>();
+        for (Partido p : partidos) {
+            final int pid = p.getId();
+            futures.add(exec.submit(() -> {
+                String json = api.get("/alineaciones/partido/" + pid);
+                if (json == null) return;
+                for (JsonObject o : api.fromJsonList(json, JsonObject.class)) {
+                    if (!o.has("jugadorId") || o.get("jugadorId").isJsonNull()) continue;
+                    int jid = o.get("jugadorId").getAsInt();
+                    int mins = 0, goles = 0, asist = 0, amarillas = 0, rojas = 0, vSum = 0, vCnt = 0;
+                    if (o.has("minutoSalida") && !o.get("minutoSalida").isJsonNull())
+                        mins = o.get("minutoSalida").getAsInt();
+                    else if (o.has("minutosJugados") && !o.get("minutosJugados").isJsonNull())
+                        mins = o.get("minutosJugados").getAsInt();
+                    if (o.has("goles") && !o.get("goles").isJsonNull()) goles = o.get("goles").getAsInt();
+                    if (o.has("asistencias") && !o.get("asistencias").isJsonNull()) asist = o.get("asistencias").getAsInt();
+                    if (o.has("tarjetasAmarillas") && !o.get("tarjetasAmarillas").isJsonNull()) amarillas = o.get("tarjetasAmarillas").getAsInt();
+                    if (o.has("tarjetasRojas") && !o.get("tarjetasRojas").isJsonNull()) rojas = o.get("tarjetasRojas").getAsInt();
+                    if (o.has("valoracion") && !o.get("valoracion").isJsonNull()) {
+                        vSum = (int) (o.get("valoracion").getAsDouble() * 100);
+                        vCnt = 1;
+                    }
+                    final int[] inc = {1, mins, goles, asist, amarillas, rojas, vSum, vCnt};
+                    agg.merge(jid, inc, (ex, in) -> new int[]{
+                        ex[0]+in[0], ex[1]+in[1], ex[2]+in[2], ex[3]+in[3],
+                        ex[4]+in[4], ex[5]+in[5], ex[6]+in[6], ex[7]+in[7]});
+                }
+            }));
+        }
+        exec.shutdown();
+        try { exec.awaitTermination(30, TimeUnit.SECONDS); } catch (InterruptedException ignored) {}
+
+        List<Map<String, Object>> rows = new ArrayList<>();
+        for (Map.Entry<Integer, int[]> entry : agg.entrySet()) {
+            int jid = entry.getKey();
+            int[] v = entry.getValue();
+            Jugador j = jugMap.get(jid);
+            if (j == null) continue;
+            Equipo eq = eqMap.get(j.getEquipoId());
+            long pj = v[0];
+            BigDecimal totalGoles = BigDecimal.valueOf(v[2]);
+            BigDecimal golesPorPartido = pj > 0
+                    ? totalGoles.divide(BigDecimal.valueOf(pj), 2, RoundingMode.HALF_UP)
+                    : BigDecimal.ZERO;
+            BigDecimal promVal = v[7] > 0
+                    ? BigDecimal.valueOf(v[6]).divide(BigDecimal.valueOf((long) v[7] * 100), 2, RoundingMode.HALF_UP)
+                    : BigDecimal.ZERO;
+            Map<String, Object> row = new HashMap<>();
+            row.put("jugador",            nvl(j.getNombre()) + " " + nvl(j.getApellidos()));
+            row.put("equipo",             eq != null ? eq.getNombre() : nvl(j.getNombreEquipo()));
+            row.put("posicion_abbr",      j.getGrupoPosicion());
+            row.put("partidos_jugados",   pj);
+            row.put("minutos_total",      BigDecimal.valueOf(v[1]));
+            row.put("total_goles",        totalGoles);
+            row.put("total_asistencias",  BigDecimal.valueOf(v[3]));
+            row.put("total_amarillas",    BigDecimal.valueOf(v[4]));
+            row.put("total_rojas",        BigDecimal.valueOf(v[5]));
+            row.put("goles_por_partido",  golesPorPartido);
+            row.put("prom_valoracion",    promVal);
+            row.put("estado_raw",         j.getEstado());
+            row.put("estado_label",       estadoLabel(j.getEstado()));
+            rows.add(row);
+        }
+        rows.sort((a, b) -> {
+            int cmp = String.valueOf(a.getOrDefault("equipo", ""))
+                           .compareTo(String.valueOf(b.getOrDefault("equipo", "")));
+            if (cmp != 0) return cmp;
+            return String.valueOf(a.getOrDefault("jugador", ""))
+                         .compareTo(String.valueOf(b.getOrDefault("jugador", "")));
+        });
+        @SuppressWarnings("unchecked")
+        Collection<Map<String, ?>> dsEst = (Collection<Map<String, ?>>) (Collection<?>) rows;
+        return new JRMapCollectionDataSource(dsEst);
+    }
+
+    private static String nvl(String s)  { return s != null ? s : ""; }
+
+    private String posLabel(String p) {
+        if (p == null) return "";
+        switch (p) {
+            case "portero":           return "Portero";
+            case "defensa_central":   return "Def. Central";
+            case "lateral_derecho":   return "Lateral Der.";
+            case "lateral_izquierdo": return "Lateral Izq.";
+            case "mediocentro":       return "Mediocentro";
+            case "medio_derecho":     return "Medio Der.";
+            case "medio_izquierdo":   return "Medio Izq.";
+            case "mediapunta":        return "Mediapunta";
+            case "extremo_derecho":   return "Extremo Der.";
+            case "extremo_izquierdo": return "Extremo Izq.";
+            case "delantero_centro":  return "Delantero";
+            default: return p;
+        }
+    }
+
+    private String pieLabel(String p) {
+        if ("izquierda".equals(p)) return "Izquierda";
+        if ("derecha".equals(p))   return "Derecha";
+        return "Ambidiestro";
+    }
+
+    private String estadoLabel(String e) {
+        if ("lesionado".equals(e))  return "Lesionado";
+        if ("sancionado".equals(e)) return "Sancionado";
+        return "Activo";
+    }
+
+    private String catLabel(String c) {
+        if (c == null) return "";
+        switch (c) {
+            case "prebenjamin":  return "Prebenjamin";
+            case "benjamin":     return "Benjamin";
+            case "alevin":       return "Alevin";
+            case "infantil":     return "Infantil";
+            case "cadete":       return "Cadete";
+            case "juvenil":      return "Juvenil";
+            case "primer_equipo":return "Primer Equipo";
+            case "senior":       return "Senior";
+            case "veteranos":    return "Veteranos";
+            default: return c;
         }
     }
 

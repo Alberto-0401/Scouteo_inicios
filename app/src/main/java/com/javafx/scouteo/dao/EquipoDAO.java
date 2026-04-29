@@ -50,16 +50,17 @@ public class EquipoDAO {
     }
 
     public boolean asignarEntrenador(int equipoId, int entrenadorId, String rol) {
-        // Not directly supported by API - no-op
-        return true;
+        return api.post("/equipos/" + equipoId + "/entrenadores/" + entrenadorId, Map.of()) != null;
     }
 
     public List<Usuario> obtenerEntrenadoresPorEquipo(int equipoId) {
-        return List.of();
+        String json = api.get("/equipos/" + equipoId + "/entrenadores");
+        if (json == null) return List.of();
+        return api.fromJsonList(json, JsonObject.class).stream().map(this::mapearUsuario).toList();
     }
 
     public boolean quitarEntrenador(int equipoId, int entrenadorId) {
-        return true;
+        return api.delete("/equipos/" + equipoId + "/entrenadores/" + entrenadorId);
     }
 
     private List<Equipo> fromList(String json) {
@@ -88,6 +89,17 @@ public class EquipoDAO {
         m.put("campo", e.getCampo());
         m.put("escudoUrl", e.getEscudoUrl());
         return m;
+    }
+
+    private Usuario mapearUsuario(JsonObject o) {
+        Usuario u = new Usuario();
+        u.setId(o.get("id").getAsInt());
+        u.setNombre(getStr(o, "nombre"));
+        u.setApellidos(getStr(o, "apellidos"));
+        u.setEmail(getStr(o, "email"));
+        u.setRol(o.has("rol") ? o.get("rol").getAsString().toLowerCase() : "entrenador");
+        u.setActivo(!o.has("activo") || o.get("activo").getAsBoolean());
+        return u;
     }
 
     private String getStr(JsonObject o, String key) {

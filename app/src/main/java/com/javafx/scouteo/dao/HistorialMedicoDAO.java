@@ -23,7 +23,18 @@ public class HistorialMedicoDAO {
     }
 
     public List<HistorialMedico> obtenerPorEquipo(int equipoId) {
-        return List.of(); // API has no team-level historial endpoint
+        // Fetch all jugadores for equipo, then aggregate their historial
+        ApiClient apiClient = ApiClient.getInstance();
+        String jugJson = apiClient.get("/jugadores?equipoId=" + equipoId);
+        if (jugJson == null) return List.of();
+        List<com.google.gson.JsonObject> jugadores = apiClient.fromJsonList(jugJson, com.google.gson.JsonObject.class);
+        List<HistorialMedico> result = new ArrayList<>();
+        for (com.google.gson.JsonObject j : jugadores) {
+            if (!j.has("id") || j.get("id").isJsonNull()) continue;
+            int jugadorId = j.get("id").getAsInt();
+            result.addAll(obtenerPorJugador(jugadorId));
+        }
+        return result;
     }
 
     public boolean actualizar(HistorialMedico h) {
@@ -47,27 +58,28 @@ public class HistorialMedicoDAO {
         HistorialMedico h = new HistorialMedico();
         h.setId(o.has("id") ? o.get("id").getAsInt() : null);
         h.setJugadorId(o.has("jugadorId") && !o.get("jugadorId").isJsonNull() ? o.get("jugadorId").getAsInt() : null);
-        h.setTipoLesion(getStr(o, "tipo"));
-        h.setObservaciones(getStr(o, "descripcion"));
+        h.setTipoLesion(getStr(o, "tipoLesion"));
+        h.setZonaAfectada(getStr(o, "zonaAfectada"));
+        h.setObservaciones(getStr(o, "observaciones"));
         h.setNombreJugador(getStr(o, "jugadorNombre"));
-        if (o.has("fechaInicio") && !o.get("fechaInicio").isJsonNull())
-            h.setFechaLesion(parseDate(o.get("fechaInicio")));
-        if (o.has("fechaFin") && !o.get("fechaFin").isJsonNull())
-            h.setFechaAlta(parseDate(o.get("fechaFin")));
+        if (o.has("fechaLesion") && !o.get("fechaLesion").isJsonNull())
+            h.setFechaLesion(parseDate(o.get("fechaLesion")));
+        if (o.has("fechaRecuperacionEst") && !o.get("fechaRecuperacionEst").isJsonNull())
+            h.setFechaRecuperacionEst(parseDate(o.get("fechaRecuperacionEst")));
+        if (o.has("fechaAlta") && !o.get("fechaAlta").isJsonNull())
+            h.setFechaAlta(parseDate(o.get("fechaAlta")));
         return h;
     }
 
     private Map<String, Object> toMap(HistorialMedico h) {
         Map<String, Object> m = new HashMap<>();
         if (h.getJugadorId() != null) m.put("jugadorId", h.getJugadorId());
-        m.put("tipo", h.getTipoLesion());
-        String desc = (h.getZonaAfectada() != null ? h.getZonaAfectada() : "") +
-                      (h.getObservaciones() != null ? " " + h.getObservaciones() : "");
-        m.put("descripcion", desc.trim());
-        if (h.getFechaLesion() != null) m.put("fechaInicio", h.getFechaLesion().toString());
-        LocalDate fin = h.getFechaAlta() != null ? h.getFechaAlta() : h.getFechaRecuperacionEst();
-        if (fin != null) m.put("fechaFin", fin.toString());
-        m.put("bajaDeportiva", true);
+        m.put("tipoLesion", h.getTipoLesion());
+        if (h.getZonaAfectada() != null) m.put("zonaAfectada", h.getZonaAfectada());
+        if (h.getObservaciones() != null) m.put("observaciones", h.getObservaciones());
+        if (h.getFechaLesion() != null) m.put("fechaLesion", h.getFechaLesion().toString());
+        if (h.getFechaRecuperacionEst() != null) m.put("fechaRecuperacionEst", h.getFechaRecuperacionEst().toString());
+        if (h.getFechaAlta() != null) m.put("fechaAlta", h.getFechaAlta().toString());
         return m;
     }
 

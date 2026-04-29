@@ -10,11 +10,20 @@ public class EstadisticaPartidoDAO {
 
     private final ApiClient api = ApiClient.getInstance();
 
+    // Cache populated by JugadorPartidoDAO.obtenerPorJugador()
+    private static final Map<Integer, EstadisticaPartido> CACHE = new HashMap<>();
+
+    public static void cacheEstadistica(EstadisticaPartido est) {
+        if (est != null && est.getIdEstadistica() != null) {
+            CACHE.put(est.getIdEstadistica(), est);
+        }
+    }
+
     /** Not used directly — use JugadorPartidoDAO.insertarConEstadistica. */
     public int insertar(EstadisticaPartido estadistica) { return -1; }
 
     public EstadisticaPartido obtenerPorId(int idAlineacion) {
-        return null; // Not directly mappable without context
+        return CACHE.get(idAlineacion);
     }
 
     public List<EstadisticaPartido> obtenerTodos() { return List.of(); }

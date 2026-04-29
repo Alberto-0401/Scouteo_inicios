@@ -1,11 +1,14 @@
 package com.javafx.scouteo.dao;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import com.google.gson.JsonObject;
 import com.javafx.scouteo.model.Usuario;
+import com.javafx.scouteo.util.ApiClient;
 import com.javafx.scouteo.util.ConexionBD;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class UsuarioDAO {
 
@@ -98,6 +101,28 @@ public class UsuarioDAO {
             e.printStackTrace();
         }
         return -1;
+    }
+
+    /**
+     * Devuelve todos los usuarios con rol 'entrenador' activos del club indicado.
+     */
+    public List<Usuario> obtenerEntrenadoresPorClub(int clubId) {
+        String json = ApiClient.getInstance().get("/usuarios?rol=entrenador&clubId=" + clubId);
+        if (json == null) return List.of();
+        return ApiClient.getInstance().fromJsonList(json, JsonObject.class)
+                .stream().map(this::mapearUsuarioJson).toList();
+    }
+
+    private Usuario mapearUsuarioJson(JsonObject o) {
+        Usuario u = new Usuario();
+        if (o.has("id") && !o.get("id").isJsonNull()) u.setId(o.get("id").getAsInt());
+        if (o.has("nombre") && !o.get("nombre").isJsonNull()) u.setNombre(o.get("nombre").getAsString());
+        if (o.has("apellidos") && !o.get("apellidos").isJsonNull()) u.setApellidos(o.get("apellidos").getAsString());
+        if (o.has("email") && !o.get("email").isJsonNull()) u.setEmail(o.get("email").getAsString());
+        if (o.has("rol") && !o.get("rol").isJsonNull()) u.setRol(o.get("rol").getAsString());
+        if (o.has("clubId") && !o.get("clubId").isJsonNull()) u.setClubId(o.get("clubId").getAsInt());
+        u.setActivo(!o.has("activo") || o.get("activo").getAsBoolean());
+        return u;
     }
 
     private void actualizarUltimoAcceso(int idUsuario, Connection conn) {

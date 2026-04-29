@@ -15,7 +15,7 @@ import java.util.List;
 
 public class ApiClient {
 
-    private static final String BASE_URL = "http://localhost:8080/api";
+    private static final String BASE_URL = "https://scouteo-api-612681319622.europe-west1.run.app/api";
     private static ApiClient instancia;
 
     private final HttpClient httpClient;

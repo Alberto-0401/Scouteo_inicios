@@ -5,9 +5,9 @@ import com.javafx.scouteo.dao.JugadorDAO;
 import com.javafx.scouteo.dao.UsuarioDAO;
 import com.javafx.scouteo.model.Equipo;
 import com.javafx.scouteo.model.Usuario;
-import com.javafx.scouteo.util.ConexionBD;
 import com.javafx.scouteo.util.SesionUsuario;
 import com.javafx.scouteo.utils.StageUtils;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -41,6 +41,11 @@ public class EquiposController {
     private final UsuarioDAO usuarioDAO = new UsuarioDAO();
     private ObservableList<Equipo> listaEquipos;
     private FilteredList<Equipo> listaFiltrada;
+    private DashboardController dashboardController;
+
+    public void setDashboardController(DashboardController dc) {
+        this.dashboardController = dc;
+    }
 
     @FXML
     public void initialize() {
@@ -146,37 +151,34 @@ public class EquiposController {
     }
 
     public void cargarEquipos() {
-        if (!ConexionBD.isConexionValida()) {
-            tablaEquipos.setPlaceholder(new Label("Sin conexion a la base de datos"));
-            return;
-        }
-
-        List<Equipo> equipos;
         SesionUsuario sesion = SesionUsuario.getInstance();
-        if (sesion.esDirectiva()) {
-            equipos = equipoDAO.obtenerPorClub(sesion.getUsuarioActual().getClubId());
-        } else {
-            equipos = equipoDAO.obtenerPorEntrenador(sesion.getUsuarioActual().getId());
-        }
+        Thread t = new Thread(() -> {
+            List<Equipo> equipos = sesion.esDirectiva()
+                    ? equipoDAO.obtenerPorClub(sesion.getUsuarioActual().getClubId())
+                    : equipoDAO.obtenerPorEntrenador(sesion.getUsuarioActual().getId());
+            Platform.runLater(() -> {
+                listaEquipos = FXCollections.observableArrayList(equipos);
+                listaFiltrada = new FilteredList<>(listaEquipos, p -> true);
+                tablaEquipos.setItems(listaFiltrada);
 
-        listaEquipos = FXCollections.observableArrayList(equipos);
-        listaFiltrada = new FilteredList<>(listaEquipos, p -> true);
-        tablaEquipos.setItems(listaFiltrada);
+                if (cmbTemporada != null) {
+                    String selTemp = cmbTemporada.getValue();
+                    cmbTemporada.getItems().clear();
+                    cmbTemporada.getItems().add("Todas");
+                    listaEquipos.stream()
+                        .map(Equipo::getTemporada)
+                        .filter(temp -> temp != null && !temp.isBlank())
+                        .distinct().sorted()
+                        .forEach(cmbTemporada.getItems()::add);
+                    cmbTemporada.setValue(selTemp != null ? selTemp : "Todas");
+                }
 
-        // Poblar combo de temporadas con los valores distintos que existen
-        if (cmbTemporada != null) {
-            String selTemp = cmbTemporada.getValue();
-            cmbTemporada.getItems().clear();
-            cmbTemporada.getItems().add("Todas");
-            listaEquipos.stream()
-                .map(Equipo::getTemporada)
-                .filter(t -> t != null && !t.isBlank())
-                .distinct().sorted()
-                .forEach(cmbTemporada.getItems()::add);
-            cmbTemporada.setValue(selTemp != null ? selTemp : "Todas");
-        }
-
-        lblTotal.setText("Total: " + listaFiltrada.size() + " equipos");
+                lblTotal.setText("Total: " + listaFiltrada.size() + " equipos");
+                if (dashboardController != null) dashboardController.ocultarCargando();
+            });
+        }, "equipos-loader");
+        t.setDaemon(true);
+        t.start();
     }
 
     @FXML
@@ -277,6 +279,38 @@ public class EquiposController {
         });
         tablaStaff.getColumns().addAll(colNombreS, colEmailS, colQuitar);
 
+        // Sección: asignar entrenador existente
+        int clubId = SesionUsuario.getInstance().getUsuarioActual().getClubId();
+        List<Usuario> entrenadoresClub = usuarioDAO.obtenerEntrenadoresPorClub(clubId);
+        ComboBox<String> cmbExistente = new ComboBox<>();
+        cmbExistente.setPromptText("Seleccionar entrenador existente...");
+        cmbExistente.setPrefWidth(300);
+        for (Usuario u : entrenadoresClub) {
+            boolean yaAsignado = staff.stream().anyMatch(s -> s.getId().equals(u.getId()));
+            if (!yaAsignado) cmbExistente.getItems().add(u.getId() + " – " + u.getNombreCompleto());
+        }
+        Button btnAsignar = new Button("Asignar");
+        Label lblErrorAsignar = new Label();
+        lblErrorAsignar.setStyle("-fx-text-fill: #d32f2f; -fx-font-size: 11px;");
+        btnAsignar.setOnAction(e -> {
+            String sel = cmbExistente.getValue();
+            if (sel == null) { lblErrorAsignar.setText("Selecciona un entrenador."); return; }
+            int uid = Integer.parseInt(sel.split(" – ")[0].trim());
+            if (equipoDAO.asignarEntrenador(equipo.getId(), uid, "entrenador")) {
+                Usuario u = entrenadoresClub.stream().filter(x -> x.getId() != null && x.getId() == uid).findFirst().orElse(null);
+                if (u != null) { staff.add(u); cmbExistente.getItems().remove(sel); }
+                lblErrorAsignar.setText("");
+            } else {
+                lblErrorAsignar.setText("Error al asignar el entrenador.");
+            }
+        });
+        HBox filaAsignar = new HBox(8, cmbExistente, btnAsignar);
+
+        Label lblSep1 = new Label("── Asignar entrenador existente ──");
+        lblSep1.setStyle("-fx-text-fill: #78909C; -fx-font-size: 11px;");
+        VBox seccionExistente = new VBox(6, lblSep1, filaAsignar, lblErrorAsignar);
+        seccionExistente.setStyle("-fx-padding: 12 0 0 0;");
+
         // Formulario para añadir nuevo entrenador
         TextField txtNombreE    = new TextField(); txtNombreE.setPromptText("Nombre");
         TextField txtApellidosE = new TextField(); txtApellidosE.setPromptText("Apellidos");
@@ -288,7 +322,7 @@ public class EquiposController {
         javafx.scene.layout.GridPane formGrid = new javafx.scene.layout.GridPane();
         formGrid.setHgap(10); formGrid.setVgap(8);
         formGrid.setStyle("-fx-padding: 12 0 0 0;");
-        Label lblSeparador = new Label("── Añadir nuevo entrenador ──");
+        Label lblSeparador = new Label("── Crear nuevo entrenador ──");
         lblSeparador.setStyle("-fx-text-fill: #78909C; -fx-font-size: 11px;");
         formGrid.add(lblSeparador,           0, 0, 2, 1);
         formGrid.add(new Label("Nombre:"),   0, 1); formGrid.add(txtNombreE,    1, 1);
@@ -299,7 +333,7 @@ public class EquiposController {
         txtNombreE.setPrefWidth(230); txtEmailE.setPrefWidth(230);
 
         VBox contenido = new VBox(8,
-                new Label("Entrenadores asignados:"), tablaStaff, formGrid);
+                new Label("Entrenadores asignados:"), tablaStaff, seccionExistente, formGrid);
         contenido.setStyle("-fx-padding: 4;");
 
         Dialog<ButtonType> dialog = new Dialog<>();
