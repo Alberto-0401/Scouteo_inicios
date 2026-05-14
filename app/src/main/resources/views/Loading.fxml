@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.shape.*?>
+
+<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.javafx.scouteo.controller.LoadingController"
+           prefWidth="900" prefHeight="600"
+           style="-fx-background-color: #0D1B2A;">
+
+    <!-- Fondo con gradiente sutil -->
+    <Rectangle width="900" height="600"
+               fill="transparent"
+               style="-fx-fill: linear-gradient(from 0% 0% to 100% 100%, #0D1B2A 0%, #1A2D42 100%);"/>
+
+    <!-- Línea dorada superior decorativa -->
+    <Rectangle width="900" height="3" StackPane.alignment="TOP_CENTER"
+               style="-fx-fill: linear-gradient(from 0% 0% to 100% 0%, transparent, #C9A84C, transparent);"/>
+
+    <!-- Contenido centrado -->
+    <VBox alignment="CENTER" spacing="0">
+
+        <!-- Logo -->
+        <ImageView fitWidth="100" fitHeight="100" preserveRatio="true">
+            <image><Image url="@../images/logo1.png"/></image>
+        </ImageView>
+
+        <VBox.margin><Insets top="0" bottom="0"/></VBox.margin>
+
+        <!-- Nombre app -->
+        <Label text="SCOUTEO"
+               style="-fx-font-size: 48px; -fx-font-weight: bold; -fx-text-fill: #FFFFFF;
+                      -fx-effect: dropshadow(gaussian, rgba(201,168,76,0.6), 20, 0, 0, 0);
+                      -fx-font-family: 'Segoe UI';"/>
+        <VBox.margin><Insets top="18"/></VBox.margin>
+
+        <!-- Subtítulo -->
+        <Label text="Club Manager"
+               style="-fx-font-size: 16px; -fx-text-fill: #C9A84C; -fx-font-weight: bold;
+                      -fx-letter-spacing: 4px; -fx-font-family: 'Segoe UI';"/>
+        <VBox.margin><Insets top="4"/></VBox.margin>
+
+        <!-- Separador dorado -->
+        <Rectangle width="60" height="2"
+                   style="-fx-fill: #C9A84C; -fx-opacity: 0.7;"/>
+        <VBox.margin><Insets top="28"/></VBox.margin>
+
+        <!-- Barra de progreso personalizada -->
+        <StackPane prefWidth="280" prefHeight="4">
+            <Rectangle fx:id="barraFondo" width="280" height="4" arcWidth="4" arcHeight="4"
+                       style="-fx-fill: rgba(255,255,255,0.1);"/>
+            <Rectangle fx:id="barraProgreso" width="0" height="4" arcWidth="4" arcHeight="4"
+                       style="-fx-fill: linear-gradient(from 0% 0% to 100% 0%, #A8873C, #C9A84C, #DEC06A);"
+                       StackPane.alignment="CENTER_LEFT"/>
+        </StackPane>
+        <VBox.margin><Insets top="28"/></VBox.margin>
+
+        <!-- Mensaje de estado -->
+        <Label fx:id="lblEstado" text="Iniciando sesión..."
+               style="-fx-font-size: 13px; -fx-text-fill: rgba(255,255,255,0.55);
+                      -fx-font-family: 'Segoe UI';"/>
+        <VBox.margin><Insets top="14"/></VBox.margin>
+
+    </VBox>
+
+    <!-- Versión abajo -->
+    <Label text="v1.0  •  2025" StackPane.alignment="BOTTOM_CENTER"
+           style="-fx-font-size: 11px; -fx-text-fill: rgba(255,255,255,0.2); -fx-font-family: 'Segoe UI';">
+        <StackPane.margin><Insets bottom="20"/></StackPane.margin>
+    </Label>
+
+    <!-- Línea dorada inferior decorativa -->
+    <Rectangle width="900" height="2" StackPane.alignment="BOTTOM_CENTER"
+               style="-fx-fill: linear-gradient(from 0% 0% to 100% 0%, transparent, rgba(201,168,76,0.4), transparent);"/>
+
+</StackPane>

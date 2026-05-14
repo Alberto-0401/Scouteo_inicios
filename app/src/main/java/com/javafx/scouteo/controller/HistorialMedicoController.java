@@ -125,11 +125,26 @@ public class HistorialMedicoController {
     }
 
     private void cargarHistorial(int equipoId) {
-        listaCompleta  = FXCollections.observableArrayList(historialDAO.obtenerPorEquipo(equipoId));
+        List<HistorialMedico> lista = historialDAO.obtenerPorEquipo(equipoId);
+        autoRecuperarPorFecha(lista);
+        listaCompleta  = FXCollections.observableArrayList(lista);
         listaFiltrada  = new FilteredList<>(listaCompleta, p -> true);
         tablaHistorial.setItems(listaFiltrada);
         actualizarContadores(equipoId);
         aplicarFiltros();
+    }
+
+    private void autoRecuperarPorFecha(List<HistorialMedico> lista) {
+        LocalDate hoy = LocalDate.now();
+        for (HistorialMedico h : lista) {
+            if (h.getFechaAlta() != null) continue;
+            LocalDate rec = h.getFechaRecuperacionEst();
+            if (rec != null && !hoy.isBefore(rec)) {
+                h.setFechaAlta(hoy);
+                historialDAO.actualizar(h);
+                jugadorDAO.cambiarEstado(h.getJugadorId(), "activo");
+            }
+        }
     }
 
     @FXML private void limpiarFiltros() {
@@ -171,7 +186,7 @@ public class HistorialMedicoController {
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setTitle(editar == null ? "Nueva Lesion" : "Editar Lesion");
 
-        List<Jugador> jugadores = jugadorDAO.obtenerActivosPorEquipo(equipo.getId());
+        List<Jugador> jugadores = jugadorDAO.obtenerPorEquipo(equipo.getId());
         ComboBox<Jugador> cmbJug = new ComboBox<>(FXCollections.observableArrayList(jugadores));
         cmbJug.setConverter(new javafx.util.StringConverter<>() {
             public String toString(Jugador j) { return j == null ? "" : j.getNombreCompleto(); }
@@ -217,8 +232,12 @@ public class HistorialMedicoController {
             h.setObservaciones(taObs.getText().trim().isEmpty() ? null : taObs.getText().trim());
 
             boolean ok = editar == null ? historialDAO.insertar(h) > 0 : historialDAO.actualizar(h);
-            if (ok) cargarHistorial(equipo.getId());
-            else mostrarError("Error al guardar");
+            if (ok) {
+                if (editar == null) {
+                    jugadorDAO.cambiarEstado(jSel.getId(), "lesionado");
+                }
+                cargarHistorial(equipo.getId());
+            } else mostrarError("Error al guardar");
         }
     }
 
@@ -230,6 +249,7 @@ public class HistorialMedicoController {
         if (a.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
             h.setFechaAlta(LocalDate.now());
             historialDAO.actualizar(h);
+            jugadorDAO.cambiarEstado(h.getJugadorId(), "activo");
             Equipo equipo = cmbEquipo.getValue();
             if (equipo != null) cargarHistorial(equipo.getId());
         }

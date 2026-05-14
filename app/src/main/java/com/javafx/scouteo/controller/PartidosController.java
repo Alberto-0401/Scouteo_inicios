@@ -22,7 +22,6 @@ import java.time.LocalDateTime;
 public class PartidosController {
 
     @FXML private TableView<Partido> tablaPartidos;
-    @FXML private TableColumn<Partido, Integer> colId;
     @FXML private TableColumn<Partido, LocalDateTime> colFecha;
     @FXML private TableColumn<Partido, String> colRival;
     @FXML private TableColumn<Partido, String> colResultado;
@@ -43,7 +42,6 @@ public class PartidosController {
     }
 
     private void configurarTabla() {
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colFecha.setCellValueFactory(new PropertyValueFactory<>("fechaHora"));
         colRival.setCellValueFactory(new PropertyValueFactory<>("rival"));
         colResultado.setCellValueFactory(new PropertyValueFactory<>("resultado"));

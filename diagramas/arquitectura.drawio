@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="0" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+         CLIENTE (JavaFX Desktop)
+    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+    <mxCell id="2" value="CLIENTE â€” Escritorio JavaFX" style="swimlane;fontStyle=1;fontSize=13;fillColor=#dae8fc;strokeColor=#6c8ebf;startSize=35;rounded=1;arcSize=5;" vertex="1" parent="1">
+      <mxGeometry x="120" y="40" width="560" height="320" as="geometry" />
+    </mxCell>
+
+    <mxCell id="3" value="&lt;b&gt;Vista FXML&lt;/b&gt;&lt;br&gt;20 archivos .fxml&lt;br&gt;CSS: scouteo.css" style="rounded=1;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="2">
+      <mxGeometry x="40" y="55" width="180" height="70" as="geometry" />
+    </mxCell>
+
+    <mxCell id="4" value="&lt;b&gt;Controlador&lt;/b&gt;&lt;br&gt;20 controllers&lt;br&gt;JavaFX + FXML" style="rounded=1;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="2">
+      <mxGeometry x="340" y="55" width="180" height="70" as="geometry" />
+    </mxCell>
+
+    <mxCell id="5" value="" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;startArrow=block;endFill=1;startFill=1;" edge="1" source="3" target="4" parent="2">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="6" value="&lt;b&gt;DAO Layer&lt;/b&gt;&lt;br&gt;13 clases Â· patrÃ³n DAO&lt;br&gt;(JugadorDAO, PartidoDAO â€¦)" style="rounded=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="2">
+      <mxGeometry x="190" y="165" width="180" height="70" as="geometry" />
+    </mxCell>
+
+    <mxCell id="7" value="" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="4" target="6" parent="2">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="8" value="" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="3" target="6" parent="2">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="9" value="&lt;b&gt;ApiClient (Singleton)&lt;/b&gt;&lt;br&gt;HttpClient Java 11+ Â· Gson Â· JWT Token Bearer" style="rounded=1;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" vertex="1" parent="2">
+      <mxGeometry x="140" y="260" width="280" height="45" as="geometry" />
+    </mxCell>
+
+    <mxCell id="10" value="" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="6" target="9" parent="2">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+         FLECHA CLIENTE â†” BACKEND
+    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+    <mxCell id="11" value="&lt;b&gt;HTTPS + JWT&lt;/b&gt;&lt;br&gt;Authorization: Bearer &lt;token&gt;" style="edgeStyle=orthogonalEdgeStyle;fontStyle=0;fontSize=11;strokeColor=#1E40AF;strokeWidth=3;endArrow=block;endFill=1;startArrow=block;startFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="2" target="12" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+         BACKEND (Spring Boot Â· Cloud Run)
+    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+    <mxCell id="12" value="BACKEND â€” Spring Boot Â· Google Cloud Run" style="swimlane;fontStyle=1;fontSize=13;fillColor=#d5e8d4;strokeColor=#82b366;startSize=35;rounded=1;arcSize=5;" vertex="1" parent="1">
+      <mxGeometry x="120" y="510" width="560" height="380" as="geometry" />
+    </mxCell>
+
+    <mxCell id="13" value="&lt;b&gt;@RestController&lt;/b&gt;&lt;br&gt;Endpoints REST Â· Spring MVC&lt;br&gt;/api/jugadores, /api/partidos â€¦" style="rounded=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="12">
+      <mxGeometry x="190" y="50" width="180" height="70" as="geometry" />
+    </mxCell>
+
+    <mxCell id="14" value="&lt;b&gt;@Service&lt;/b&gt;&lt;br&gt;LÃ³gica de negocio&lt;br&gt;Spring Security Â· JWT Filter Â· BCrypt" style="rounded=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="12">
+      <mxGeometry x="190" y="150" width="180" height="70" as="geometry" />
+    </mxCell>
+
+    <mxCell id="15" value="&lt;b&gt;@Repository&lt;/b&gt;&lt;br&gt;Spring Data JPA Â· Hibernate ORM&lt;br&gt;JpaRepository&lt;Entidad, Long&gt;" style="rounded=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="12">
+      <mxGeometry x="190" y="250" width="180" height="70" as="geometry" />
+    </mxCell>
+
+    <mxCell id="16" value="&lt;b&gt;Supabase Â· PostgreSQL 15&lt;/b&gt;&lt;br&gt;13 tablas Â· Cloud database&lt;br&gt;application-prod.properties" style="rounded=1;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="12">
+      <mxGeometry x="140" y="340" width="280" height="25" as="geometry" />
+    </mxCell>
+
+    <mxCell id="17" value="" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="13" target="14" parent="12">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="18" value="" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="14" target="15" parent="12">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="19" value="" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="15" target="16" parent="12">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+         FLECHA MOBILE â†’ BACKEND
+    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+    <mxCell id="20" value="&lt;b&gt;HTTPS + JWT&lt;/b&gt;" style="edgeStyle=orthogonalEdgeStyle;fontStyle=0;fontSize=11;strokeColor=#9673a6;strokeWidth=2;endArrow=block;endFill=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" source="21" target="12" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+         SCOUTEO MOBILE
+    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+    <mxCell id="21" value="&lt;b&gt;SCOUTEO MOBILE&lt;/b&gt;&lt;br&gt;React Native Â· Android Â· iOS&lt;br&gt;(mÃ³dulo PMM â€” Scouteo-Mobile)" style="rounded=1;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="120" y="970" width="560" height="70" as="geometry" />
+    </mxCell>
+
+  </root>
+</mxGraphModel>

@@ -72,6 +72,7 @@ public class DashboardController {
 
     // ---- Overlay de carga ----
     private FootballLoadingPane overlayPane;
+    private PauseTransition seguridadActiva;
 
     @FXML
     public void initialize() {
@@ -246,6 +247,7 @@ public class DashboardController {
                 mostrarEnCentral(vista);
                 actualizarEstiloBotones(btnEstadisticasJugador);
             } catch (IOException e) { e.printStackTrace(); }
+            ocultarCargando(); // cargarJugadores es síncrono, cerramos overlay aquí
         });
     }
 
@@ -357,6 +359,7 @@ public class DashboardController {
     }
 
     public void mostrarCargando(String mensaje) {
+        if (seguridadActiva != null) { seguridadActiva.stop(); seguridadActiva = null; }
         overlayPane.setMensaje(mensaje);
         overlayPane.toFront();
         overlayPane.mostrar();
@@ -382,9 +385,9 @@ public class DashboardController {
                 return;
             }
             // Red de seguridad: ocultar si el controlador hijo no lo hace en 8 s
-            PauseTransition seguridad = new PauseTransition(Duration.seconds(8));
-            seguridad.setOnFinished(ev -> ocultarCargando());
-            seguridad.play();
+            seguridadActiva = new PauseTransition(Duration.seconds(8));
+            seguridadActiva.setOnFinished(ev -> { seguridadActiva = null; ocultarCargando(); });
+            seguridadActiva.play();
         });
     }
 

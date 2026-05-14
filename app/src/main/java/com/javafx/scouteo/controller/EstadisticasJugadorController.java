@@ -9,12 +9,12 @@ import com.javafx.scouteo.dao.JugadorPartidoDAO;
 import com.javafx.scouteo.dao.EstadisticaPartidoDAO;
 import com.javafx.scouteo.utils.StageUtils;
 import com.javafx.scouteo.utils.TooltipUtils;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.collections.FXCollections;
@@ -240,62 +240,66 @@ public class EstadisticasJugadorController {
         }
 
         if (jugadorActual != null) {
-            // Actualizar labels
-            if (lblNombreJugador != null) {
-                lblNombreJugador.setText(jugadorActual.getNombre() + " " + jugadorActual.getApellidos());
-            }
-            if (lblPosicion != null) {
-                lblPosicion.setText(jugadorActual.getPosicion());
-            }
-            if (lblDorsal != null) {
-                lblDorsal.setText(String.valueOf(jugadorActual.getDorsal()));
-            }
-
+            if (lblNombreJugador != null) lblNombreJugador.setText(jugadorActual.getNombre() + " " + jugadorActual.getApellidos());
+            if (lblPosicion != null)      lblPosicion.setText(jugadorActual.getPosicion());
+            if (lblDorsal != null)        lblDorsal.setText(String.valueOf(jugadorActual.getDorsal()));
             cargarEstadisticasJugador(jugadorActual);
         }
     }
 
     private void cargarEstadisticasJugador(Jugador jugador) {
-        ObservableList<EstadisticaPartidoVista> datos = FXCollections.observableArrayList();
+        // 1. Mostrar overlay inmediatamente en el hilo FX
+        if (dashboardController != null) dashboardController.mostrarCargando("Cargando estadísticas...");
 
-        // Obtener participaciones del jugador
-        List<JugadorPartido> participaciones = jugadorPartidoDAO.obtenerPorJugador(jugador.getId());
+        // 2. Toda la carga de datos en background para no bloquear el overlay
+        // int[] para poder capturarlos como effectively-final en ambos lambdas
+        int[] acum = {0, 0}; // [0]=goles, [1]=asistencias
 
-        int totalGoles = 0;
-        int totalAsistencias = 0;
-
-        for (JugadorPartido jp : participaciones) {
-            Partido partido = partidoDAO.obtenerPorId(jp.getIdPartido());
-            com.javafx.scouteo.model.EstadisticaPartido est = estadisticaPartidoDAO.obtenerPorId(jp.getIdEstadistica());
-
-            if (partido != null && est != null) {
-                EstadisticaPartidoVista vista = new EstadisticaPartidoVista(
-                    partido.getFechaHora().toString(),
-                    partido.getRival(),
-                    partido.getResultado(),
-                    est.getMinutosJugados(),
-                    est.getGoles() != null ? est.getGoles() : 0,
-                    est.getAsistencias() != null ? est.getAsistencias() : 0,
-                    est.getTarjetasAmarillas() != null ? est.getTarjetasAmarillas() : 0,
-                    est.getTarjetasRojas() != null ? est.getTarjetasRojas() : 0
-                );
-                datos.add(vista);
-
-                totalGoles += est.getGoles() != null ? est.getGoles() : 0;
-                totalAsistencias += est.getAsistencias() != null ? est.getAsistencias() : 0;
+        Task<ObservableList<EstadisticaPartidoVista>> task = new Task<>() {
+            @Override
+            protected ObservableList<EstadisticaPartidoVista> call() {
+                ObservableList<EstadisticaPartidoVista> datos = FXCollections.observableArrayList();
+                List<JugadorPartido> participaciones = jugadorPartidoDAO.obtenerPorJugador(jugador.getId());
+                for (JugadorPartido jp : participaciones) {
+                    Partido partido = partidoDAO.obtenerPorId(jp.getIdPartido());
+                    com.javafx.scouteo.model.EstadisticaPartido est = estadisticaPartidoDAO.obtenerPorId(jp.getIdEstadistica());
+                    if (partido != null && est != null) {
+                        datos.add(new EstadisticaPartidoVista(
+                            partido.getFechaHora().toString(), partido.getRival(), partido.getResultado(),
+                            est.getMinutosJugados(),
+                            est.getGoles() != null ? est.getGoles() : 0,
+                            est.getAsistencias() != null ? est.getAsistencias() : 0,
+                            est.getTarjetasAmarillas() != null ? est.getTarjetasAmarillas() : 0,
+                            est.getTarjetasRojas() != null ? est.getTarjetasRojas() : 0
+                        ));
+                        acum[0] += est.getGoles() != null ? est.getGoles() : 0;
+                        acum[1] += est.getAsistencias() != null ? est.getAsistencias() : 0;
+                    }
+                }
+                return datos;
             }
-        }
+        };
 
-        tablaEstadisticas.setItems(datos);
+        task.setOnSucceeded(e -> {
+            ObservableList<EstadisticaPartidoVista> datos = task.getValue();
+            tablaEstadisticas.setItems(datos);
+            int totalPartidos = datos.size();
+            double promedio = totalPartidos > 0 ? (double) acum[0] / totalPartidos : 0.0;
+            if (lblTotalPartidos != null)    lblTotalPartidos.setText(String.valueOf(totalPartidos));
+            if (lblTotalGoles != null)       lblTotalGoles.setText(String.valueOf(acum[0]));
+            if (lblTotalAsistencias != null) lblTotalAsistencias.setText(String.valueOf(acum[1]));
+            if (lblPromedioGoles != null)    lblPromedioGoles.setText(String.format("%.2f", promedio));
+            if (dashboardController != null) dashboardController.ocultarCargando();
+        });
 
-        // Actualizar totales
-        int totalPartidos = datos.size();
-        double promedio = totalPartidos > 0 ? (double) totalGoles / totalPartidos : 0.0;
+        task.setOnFailed(e -> {
+            task.getException().printStackTrace();
+            if (dashboardController != null) dashboardController.ocultarCargando();
+        });
 
-        if (lblTotalPartidos != null) lblTotalPartidos.setText(String.valueOf(totalPartidos));
-        if (lblTotalGoles != null) lblTotalGoles.setText(String.valueOf(totalGoles));
-        if (lblTotalAsistencias != null) lblTotalAsistencias.setText(String.valueOf(totalAsistencias));
-        if (lblPromedioGoles != null) lblPromedioGoles.setText(String.format("%.2f", promedio));
+        Thread t = new Thread(task, "stats-loader");
+        t.setDaemon(true);
+        t.start();
     }
 
     private DashboardController dashboardController;

@@ -24,6 +24,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import java.io.IOException;
+import java.util.List;
 
 public class ListadoJugadoresController {
 
@@ -236,8 +237,10 @@ public class ListadoJugadoresController {
             return;
         }
 
-        int clubId = com.javafx.scouteo.util.SesionUsuario.getInstance().getUsuarioActual().getClubId();
-        listaJugadores = FXCollections.observableArrayList(jugadorDAO.obtenerPorClub(clubId));
+        List<Jugador> jugadores = equipoActivo != null
+            ? jugadorDAO.obtenerPorEquipo(equipoActivo.getId())
+            : jugadorDAO.obtenerPorClub(com.javafx.scouteo.util.SesionUsuario.getInstance().getUsuarioActual().getClubId());
+        listaJugadores = FXCollections.observableArrayList(jugadores);
         listaFiltrada = new FilteredList<>(listaJugadores, p -> true);
         tablaJugadores.setItems(listaFiltrada);
 

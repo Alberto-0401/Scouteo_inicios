@@ -26,7 +26,6 @@
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
             </columnResizePolicy>
             <columns>
-                <TableColumn fx:id="colId"             text="ID"           minWidth="38" maxWidth="48"  prefWidth="42"/>
                 <TableColumn fx:id="colFecha"          text="Fecha"        prefWidth="82"/>
                 <TableColumn fx:id="colRival"          text="Rival"        prefWidth="140"/>
                 <TableColumn fx:id="colResultado"      text="Resultado"    prefWidth="80"/>

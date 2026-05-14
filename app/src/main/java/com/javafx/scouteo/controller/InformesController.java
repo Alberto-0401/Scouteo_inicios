@@ -167,7 +167,7 @@ public class InformesController {
     }
 
     /**
-     * Genera informe de listado de jugadores
+     * Genera informe de listado de jugadores2
      */
     @FXML
     private void generarInformeJugadores() {
@@ -250,7 +250,7 @@ public class InformesController {
         Map<String, Object> parametros = new HashMap<>();
         parametros.put("TituloInforme", titulo);
         parametros.put("CONDICION", condicion);
-        parametros.put("EQUIPO_ID", getEquipoIdParaInformes());
+        parametros.put("EQUIPO_ID", null);  // Siempre cargar todo el club para que el filtro por categoría funcione
 
         lanzaInforme("/reports/jugadores_filtrado_simple.jrxml", parametros);
     }
@@ -384,10 +384,20 @@ public class InformesController {
     private JRDataSource dsJugadores(Integer equipoId, Integer clubId, String condicion) {
         JugadorDAO jugDAO = new JugadorDAO();
         EquipoDAO  eqDAO  = new EquipoDAO();
-        List<Jugador> jugadores = (equipoId != null && equipoId > 0)
-                ? jugDAO.obtenerPorEquipo(equipoId) : jugDAO.obtenerPorClub(clubId != null ? clubId : 0);
-        Map<Integer, Equipo> equipoMap = eqDAO.obtenerPorClub(clubId != null ? clubId : 0)
-                .stream().collect(Collectors.toMap(Equipo::getId, e -> e, (a, b) -> a));
+        List<Equipo> todosEquipos = eqDAO.obtenerPorClub(clubId != null ? clubId : 0);
+        Map<Integer, Equipo> equipoMap = todosEquipos.stream()
+                .collect(Collectors.toMap(Equipo::getId, e -> e, (a, b) -> a));
+
+        List<Jugador> jugadores;
+        if (equipoId != null && equipoId > 0) {
+            jugadores = jugDAO.obtenerPorEquipo(equipoId);
+        } else {
+            // Fetch by equipo to bypass role-based API filtering
+            jugadores = new ArrayList<>();
+            for (Equipo eq : todosEquipos) {
+                jugadores.addAll(jugDAO.obtenerPorEquipo(eq.getId()));
+            }
+        }
 
         List<Map<String, Object>> rows = new ArrayList<>();
         for (Jugador j : jugadores) {

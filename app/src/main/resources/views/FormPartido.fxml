@@ -60,6 +60,20 @@
                     </VBox>
                 </HBox>
 
+                <HBox spacing="14">
+                    <VBox spacing="5" HBox.hgrow="ALWAYS">
+                        <Label text="Competición"
+                               style="-fx-text-fill: #546E7A; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+                        <TextField fx:id="txtCompeticion" promptText="Ej: Liga Regional, Copa..."/>
+                    </VBox>
+
+                    <VBox spacing="5" HBox.hgrow="ALWAYS">
+                        <Label text="Temporada"
+                               style="-fx-text-fill: #546E7A; -fx-font-size: 12px; -fx-font-weight: bold;"/>
+                        <TextField fx:id="txtTemporada" promptText="Ej: 2024/2025"/>
+                    </VBox>
+                </HBox>
+
                 <VBox spacing="5">
                     <Label text="Observaciones"
                            style="-fx-text-fill: #546E7A; -fx-font-size: 12px; -fx-font-weight: bold;"/>

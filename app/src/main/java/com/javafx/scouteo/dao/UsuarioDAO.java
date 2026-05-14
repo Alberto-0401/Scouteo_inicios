@@ -45,62 +45,48 @@ public class UsuarioDAO {
      * Busca un usuario por su ID.
      */
     public Usuario obtenerPorId(int id) {
-        String sql = "SELECT * FROM usuarios WHERE id = ?";
-        try (Connection conn = ConexionBD.getConexion();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, id);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) return mapearUsuario(rs);
-        } catch (SQLException e) {
+        String json = ApiClient.getInstance().get("/usuarios/" + id);
+        if (json == null) return null;
+        try {
+            return mapearUsuarioJson(com.google.gson.JsonParser.parseString(json).getAsJsonObject());
+        } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     /**
-     * Verifica si un email ya está registrado.
+     * Verifica si un email ya está registrado consultando la lista de usuarios del club.
      */
     public boolean existeEmail(String email) {
-        String sql = "SELECT COUNT(*) FROM usuarios WHERE email = ?";
-        try (Connection conn = ConexionBD.getConexion();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, email.trim().toLowerCase());
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) return rs.getInt(1) > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
+        String json = ApiClient.getInstance().get("/usuarios");
+        if (json == null) return false;
+        String emailNorm = email.trim().toLowerCase();
+        return ApiClient.getInstance().fromJsonList(json, JsonObject.class).stream()
+            .anyMatch(o -> o.has("email") && !o.get("email").isJsonNull()
+                       && emailNorm.equals(o.get("email").getAsString().toLowerCase()));
     }
 
     /**
-     * Registra un nuevo usuario con hash bcrypt de la contraseña.
+     * Registra un nuevo usuario via API (el backend gestiona el hash bcrypt).
      */
     public int insertar(Usuario usuario, String passwordPlano) {
-        String hash = BCrypt.withDefaults().hashToString(12, passwordPlano.toCharArray());
-        String sql = "INSERT INTO usuarios (club_id, email, password_hash, rol, nombre, apellidos, telefono, activo) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, 1)";
+        java.util.Map<String, Object> body = new java.util.HashMap<>();
+        body.put("email",    usuario.getEmail().trim().toLowerCase());
+        body.put("password", passwordPlano);
+        body.put("rol",      usuario.getRol());
+        body.put("nombre",   usuario.getNombre());
+        if (usuario.getApellidos() != null) body.put("apellidos", usuario.getApellidos());
+        if (usuario.getTelefono()  != null) body.put("telefono",  usuario.getTelefono());
 
-        try (Connection conn = ConexionBD.getConexion();
-             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
-            if (usuario.getClubId() != null) pstmt.setInt(1, usuario.getClubId());
-            else pstmt.setNull(1, java.sql.Types.INTEGER);
-            pstmt.setString(2, usuario.getEmail().trim().toLowerCase());
-            pstmt.setString(3, hash);
-            pstmt.setString(4, usuario.getRol());
-            pstmt.setString(5, usuario.getNombre());
-            pstmt.setString(6, usuario.getApellidos());
-            pstmt.setString(7, usuario.getTelefono());
-
-            if (pstmt.executeUpdate() > 0) {
-                ResultSet keys = pstmt.getGeneratedKeys();
-                if (keys.next()) return keys.getInt(1);
-            }
-        } catch (SQLException e) {
+        String json = ApiClient.getInstance().post("/usuarios", body);
+        if (json == null) return -1;
+        try {
+            return com.google.gson.JsonParser.parseString(json).getAsJsonObject().get("id").getAsInt();
+        } catch (Exception e) {
             e.printStackTrace();
+            return -1;
         }
-        return -1;
     }
 
     /**

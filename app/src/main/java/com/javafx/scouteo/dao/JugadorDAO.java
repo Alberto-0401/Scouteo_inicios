@@ -26,7 +26,8 @@ public class JugadorDAO {
 
     public List<Jugador> obtenerPorEquipo(int equipoId) {
         return api.fromJsonList(api.get("/jugadores?equipoId=" + equipoId), JsonObject.class)
-            .stream().map(this::mapear).toList();
+            .stream().map(this::mapear)
+            .toList();
     }
 
     public List<Jugador> obtenerActivosPorEquipo(int equipoId) {
@@ -42,7 +43,8 @@ public class JugadorDAO {
 
     public List<Jugador> obtenerPorClub(int clubId) {
         return api.fromJsonList(api.get("/jugadores"), JsonObject.class)
-            .stream().map(this::mapear).toList();
+            .stream().map(this::mapear)
+            .toList();
     }
 
     public int contarPorEquipo(int equipoId) {

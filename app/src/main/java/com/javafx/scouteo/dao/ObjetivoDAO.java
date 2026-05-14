@@ -28,7 +28,19 @@ public class ObjetivoDAO {
     }
 
     public List<Objetivo> obtenerTodosPorEquipoOJugadores(int equipoId) {
-        return obtenerTodos();
+        String jugJson = api.get("/jugadores?equipoId=" + equipoId);
+        Set<Integer> jugadorIds = new HashSet<>();
+        if (jugJson != null) {
+            api.fromJsonList(jugJson, JsonObject.class)
+               .forEach(j -> { if (j.has("id") && !j.get("id").isJsonNull()) jugadorIds.add(j.get("id").getAsInt()); });
+        }
+        return obtenerTodos().stream()
+            .filter(o -> {
+                if (o.getEquipoId() != null) return o.getEquipoId().equals(equipoId);
+                if (o.getJugadorId() != null) return jugadorIds.contains(o.getJugadorId());
+                return false;
+            })
+            .toList();
     }
 
     private List<Objetivo> obtenerTodos() {

@@ -109,7 +109,7 @@ public class ApiClient {
                 default       -> builder.method(method, HttpRequest.BodyPublishers.ofString(bodyJson != null ? bodyJson : "{}"));
             }
 
-            HttpResponse<String> response = httpClient.send(builder.build(), HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = httpClient.send(builder.build(), HttpResponse.BodyHandlers.ofString(java.nio.charset.StandardCharsets.UTF_8));
             if (response.statusCode() >= 200 && response.statusCode() < 300) return response.body();
             System.err.println("API " + method + " " + path + " -> " + response.statusCode() + ": " + response.body());
             return null;

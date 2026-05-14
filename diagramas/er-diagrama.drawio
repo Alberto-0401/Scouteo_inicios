@@ -1,0 +1,556 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="0" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+         ENTIDADES
+    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+
+    <!-- clubs  (x=510 y=80 w=220 h=96) -->
+    <mxCell id="10" value="clubs" style="swimlane;fontStyle=1;fontSize=13;fillColor=#1E40AF;fontColor=#FFFFFF;startSize=28;strokeColor=#1E3A8A;rounded=0;" vertex="1" parent="1">
+      <mxGeometry x="510" y="80" width="220" height="96" as="geometry" />
+    </mxCell>
+    <mxCell id="1000" value="id" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=5;strokeColor=none;fillColor=none;" vertex="1" parent="10">
+      <mxGeometry x="0" y="28" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1001" value="nombre" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="10">
+      <mxGeometry x="0" y="50" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1002" value="creado_en" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="10">
+      <mxGeometry x="0" y="72" width="220" height="22" as="geometry" />
+    </mxCell>
+
+    <!-- configuracion  (x=840 y=80 w=230 h=162) -->
+    <mxCell id="11" value="configuracion" style="swimlane;fontStyle=1;fontSize=13;fillColor=#1E40AF;fontColor=#FFFFFF;startSize=28;strokeColor=#1E3A8A;rounded=0;" vertex="1" parent="1">
+      <mxGeometry x="840" y="80" width="230" height="162" as="geometry" />
+    </mxCell>
+    <mxCell id="1010" value="id" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=5;strokeColor=none;fillColor=none;" vertex="1" parent="11">
+      <mxGeometry x="0" y="28" width="230" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1011" value="club_id  (FK)" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="11">
+      <mxGeometry x="0" y="50" width="230" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1012" value="nombre_club" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="11">
+      <mxGeometry x="0" y="72" width="230" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1013" value="temporada_actual" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="11">
+      <mxGeometry x="0" y="94" width="230" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1014" value="presidente" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="11">
+      <mxGeometry x="0" y="116" width="230" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1015" value="email" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="11">
+      <mxGeometry x="0" y="138" width="230" height="22" as="geometry" />
+    </mxCell>
+
+    <!-- usuarios  (x=80 y=310 w=220 h=204) -->
+    <mxCell id="12" value="usuarios" style="swimlane;fontStyle=1;fontSize=13;fillColor=#1E40AF;fontColor=#FFFFFF;startSize=28;strokeColor=#1E3A8A;rounded=0;" vertex="1" parent="1">
+      <mxGeometry x="80" y="310" width="220" height="204" as="geometry" />
+    </mxCell>
+    <mxCell id="1020" value="id" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=5;strokeColor=none;fillColor=none;" vertex="1" parent="12">
+      <mxGeometry x="0" y="28" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1021" value="club_id  (FK)" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="12">
+      <mxGeometry x="0" y="50" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1022" value="email" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="12">
+      <mxGeometry x="0" y="72" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1023" value="password_hash" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="12">
+      <mxGeometry x="0" y="94" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1024" value="rol" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="12">
+      <mxGeometry x="0" y="116" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1025" value="nombre" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="12">
+      <mxGeometry x="0" y="138" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1026" value="apellidos" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="12">
+      <mxGeometry x="0" y="160" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1027" value="activo" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="12">
+      <mxGeometry x="0" y="182" width="220" height="22" as="geometry" />
+    </mxCell>
+
+    <!-- equipos  (x=510 y=310 w=220 h=182) -->
+    <mxCell id="13" value="equipos" style="swimlane;fontStyle=1;fontSize=13;fillColor=#1E40AF;fontColor=#FFFFFF;startSize=28;strokeColor=#1E3A8A;rounded=0;" vertex="1" parent="1">
+      <mxGeometry x="510" y="310" width="220" height="182" as="geometry" />
+    </mxCell>
+    <mxCell id="1030" value="id" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=5;strokeColor=none;fillColor=none;" vertex="1" parent="13">
+      <mxGeometry x="0" y="28" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1031" value="club_id  (FK)" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="13">
+      <mxGeometry x="0" y="50" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1032" value="nombre" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="13">
+      <mxGeometry x="0" y="72" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1033" value="categoria" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="13">
+      <mxGeometry x="0" y="94" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1034" value="temporada" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="13">
+      <mxGeometry x="0" y="116" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1035" value="campo" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="13">
+      <mxGeometry x="0" y="138" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1036" value="activo" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="13">
+      <mxGeometry x="0" y="160" width="220" height="22" as="geometry" />
+    </mxCell>
+
+    <!-- objetivos  (x=1090 y=310 w=220 h=182) -->
+    <mxCell id="14" value="objetivos" style="swimlane;fontStyle=1;fontSize=13;fillColor=#1E40AF;fontColor=#FFFFFF;startSize=28;strokeColor=#1E3A8A;rounded=0;" vertex="1" parent="1">
+      <mxGeometry x="1090" y="310" width="220" height="182" as="geometry" />
+    </mxCell>
+    <mxCell id="1040" value="id" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=5;strokeColor=none;fillColor=none;" vertex="1" parent="14">
+      <mxGeometry x="0" y="28" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1041" value="equipo_id  (FK)" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="14">
+      <mxGeometry x="0" y="50" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1042" value="jugador_id  (FK, opcional)" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="14">
+      <mxGeometry x="0" y="72" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1043" value="descripcion" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="14">
+      <mxGeometry x="0" y="94" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1044" value="prioridad" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="14">
+      <mxGeometry x="0" y="116" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1045" value="estado" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="14">
+      <mxGeometry x="0" y="138" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1046" value="progreso_pct" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="14">
+      <mxGeometry x="0" y="160" width="220" height="22" as="geometry" />
+    </mxCell>
+
+    <!-- equipo_entrenador  (x=280 y=580 w=220 h=96)  tabla de union -->
+    <mxCell id="15" value="equipo_entrenador" style="swimlane;fontStyle=1;fontSize=12;fillColor=#374151;fontColor=#FFFFFF;startSize=28;strokeColor=#1F2937;rounded=0;" vertex="1" parent="1">
+      <mxGeometry x="280" y="580" width="220" height="96" as="geometry" />
+    </mxCell>
+    <mxCell id="1050" value="id" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=5;strokeColor=none;fillColor=none;" vertex="1" parent="15">
+      <mxGeometry x="0" y="28" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1051" value="equipo_id  (FK)" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="15">
+      <mxGeometry x="0" y="50" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1052" value="usuario_id  (FK)" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="15">
+      <mxGeometry x="0" y="72" width="220" height="22" as="geometry" />
+    </mxCell>
+
+    <!-- jugadores  (x=700 y=580 w=220 h=204) -->
+    <mxCell id="16" value="jugadores" style="swimlane;fontStyle=1;fontSize=13;fillColor=#1E40AF;fontColor=#FFFFFF;startSize=28;strokeColor=#1E3A8A;rounded=0;" vertex="1" parent="1">
+      <mxGeometry x="700" y="580" width="220" height="204" as="geometry" />
+    </mxCell>
+    <mxCell id="1060" value="id" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=5;strokeColor=none;fillColor=none;" vertex="1" parent="16">
+      <mxGeometry x="0" y="28" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1061" value="equipo_id  (FK)" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="16">
+      <mxGeometry x="0" y="50" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1062" value="usuario_id  (FK, opcional)" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="16">
+      <mxGeometry x="0" y="72" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1063" value="nombre" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="16">
+      <mxGeometry x="0" y="94" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1064" value="apellidos" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="16">
+      <mxGeometry x="0" y="116" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1065" value="dorsal" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="16">
+      <mxGeometry x="0" y="138" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1066" value="posicion" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="16">
+      <mxGeometry x="0" y="160" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1067" value="estado" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="16">
+      <mxGeometry x="0" y="182" width="220" height="22" as="geometry" />
+    </mxCell>
+
+    <!-- historial_medico  (x=1090 y=580 w=220 h=160) -->
+    <mxCell id="17" value="historial_medico" style="swimlane;fontStyle=1;fontSize=13;fillColor=#1E40AF;fontColor=#FFFFFF;startSize=28;strokeColor=#1E3A8A;rounded=0;" vertex="1" parent="1">
+      <mxGeometry x="1090" y="580" width="220" height="160" as="geometry" />
+    </mxCell>
+    <mxCell id="1070" value="id" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=5;strokeColor=none;fillColor=none;" vertex="1" parent="17">
+      <mxGeometry x="0" y="28" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1071" value="jugador_id  (FK)" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="17">
+      <mxGeometry x="0" y="50" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1072" value="tipo_lesion" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="17">
+      <mxGeometry x="0" y="72" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1073" value="zona_afectada" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="17">
+      <mxGeometry x="0" y="94" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1074" value="fecha_lesion" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="17">
+      <mxGeometry x="0" y="116" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1075" value="fecha_alta" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="17">
+      <mxGeometry x="0" y="138" width="220" height="22" as="geometry" />
+    </mxCell>
+
+    <!-- partidos  (x=390 y=870 w=220 h=204) -->
+    <mxCell id="18" value="partidos" style="swimlane;fontStyle=1;fontSize=13;fillColor=#1E40AF;fontColor=#FFFFFF;startSize=28;strokeColor=#1E3A8A;rounded=0;" vertex="1" parent="1">
+      <mxGeometry x="390" y="870" width="220" height="204" as="geometry" />
+    </mxCell>
+    <mxCell id="1080" value="id" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=5;strokeColor=none;fillColor=none;" vertex="1" parent="18">
+      <mxGeometry x="0" y="28" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1081" value="equipo_id  (FK)" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="18">
+      <mxGeometry x="0" y="50" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1082" value="fecha_hora" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="18">
+      <mxGeometry x="0" y="72" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1083" value="rival" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="18">
+      <mxGeometry x="0" y="94" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1084" value="tipo" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="18">
+      <mxGeometry x="0" y="116" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1085" value="goles_favor" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="18">
+      <mxGeometry x="0" y="138" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1086" value="goles_contra" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="18">
+      <mxGeometry x="0" y="160" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1087" value="formacion" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="18">
+      <mxGeometry x="0" y="182" width="220" height="22" as="geometry" />
+    </mxCell>
+
+    <!-- entrenamientos  (x=900 y=870 w=220 h=160) -->
+    <mxCell id="19" value="entrenamientos" style="swimlane;fontStyle=1;fontSize=13;fillColor=#1E40AF;fontColor=#FFFFFF;startSize=28;strokeColor=#1E3A8A;rounded=0;" vertex="1" parent="1">
+      <mxGeometry x="900" y="870" width="220" height="160" as="geometry" />
+    </mxCell>
+    <mxCell id="1090" value="id" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=5;strokeColor=none;fillColor=none;" vertex="1" parent="19">
+      <mxGeometry x="0" y="28" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1091" value="equipo_id  (FK)" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="19">
+      <mxGeometry x="0" y="50" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1092" value="fecha_hora" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="19">
+      <mxGeometry x="0" y="72" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1093" value="duracion_min" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="19">
+      <mxGeometry x="0" y="94" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1094" value="tipo" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="19">
+      <mxGeometry x="0" y="116" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1095" value="intensidad" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="19">
+      <mxGeometry x="0" y="138" width="220" height="22" as="geometry" />
+    </mxCell>
+
+    <!-- eventos_partido  (x=100 y=1160 w=220 h=138) -->
+    <mxCell id="20" value="eventos_partido" style="swimlane;fontStyle=1;fontSize=13;fillColor=#1E40AF;fontColor=#FFFFFF;startSize=28;strokeColor=#1E3A8A;rounded=0;" vertex="1" parent="1">
+      <mxGeometry x="100" y="1160" width="220" height="138" as="geometry" />
+    </mxCell>
+    <mxCell id="1100" value="id" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=5;strokeColor=none;fillColor=none;" vertex="1" parent="20">
+      <mxGeometry x="0" y="28" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1101" value="partido_id  (FK)" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="20">
+      <mxGeometry x="0" y="50" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1102" value="jugador_id  (FK)" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="20">
+      <mxGeometry x="0" y="72" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1103" value="minuto" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="20">
+      <mxGeometry x="0" y="94" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1104" value="tipo" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="20">
+      <mxGeometry x="0" y="116" width="220" height="22" as="geometry" />
+    </mxCell>
+
+    <!-- alineaciones  (x=530 y=1160 w=220 h=182)  tabla de union -->
+    <mxCell id="21" value="alineaciones" style="swimlane;fontStyle=1;fontSize=13;fillColor=#374151;fontColor=#FFFFFF;startSize=28;strokeColor=#1F2937;rounded=0;" vertex="1" parent="1">
+      <mxGeometry x="530" y="1160" width="220" height="182" as="geometry" />
+    </mxCell>
+    <mxCell id="1110" value="id" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=5;strokeColor=none;fillColor=none;" vertex="1" parent="21">
+      <mxGeometry x="0" y="28" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1111" value="partido_id  (FK)" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="21">
+      <mxGeometry x="0" y="50" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1112" value="jugador_id  (FK)" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="21">
+      <mxGeometry x="0" y="72" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1113" value="goles" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="21">
+      <mxGeometry x="0" y="94" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1114" value="asistencias" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="21">
+      <mxGeometry x="0" y="116" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1115" value="tarjetas_amarillas" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="21">
+      <mxGeometry x="0" y="138" width="220" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1116" value="valoracion" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="21">
+      <mxGeometry x="0" y="160" width="220" height="22" as="geometry" />
+    </mxCell>
+
+    <!-- asistencias_entrenamiento  (x=880 y=1160 w=230 h=138)  tabla de union -->
+    <mxCell id="22" value="asistencias_entrenamiento" style="swimlane;fontStyle=1;fontSize=12;fillColor=#374151;fontColor=#FFFFFF;startSize=28;strokeColor=#1F2937;rounded=0;" vertex="1" parent="1">
+      <mxGeometry x="880" y="1160" width="230" height="138" as="geometry" />
+    </mxCell>
+    <mxCell id="1120" value="id" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=5;strokeColor=none;fillColor=none;" vertex="1" parent="22">
+      <mxGeometry x="0" y="28" width="230" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1121" value="entrenamiento_id  (FK)" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="22">
+      <mxGeometry x="0" y="50" width="230" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1122" value="jugador_id  (FK)" style="text;align=left;spacingLeft=10;fontSize=11;fontStyle=2;strokeColor=none;fillColor=none;" vertex="1" parent="22">
+      <mxGeometry x="0" y="72" width="230" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1123" value="estado" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="22">
+      <mxGeometry x="0" y="94" width="230" height="22" as="geometry" />
+    </mxCell>
+    <mxCell id="1124" value="motivo" style="text;align=left;spacingLeft=10;fontSize=11;strokeColor=none;fillColor=none;" vertex="1" parent="22">
+      <mxGeometry x="0" y="116" width="230" height="22" as="geometry" />
+    </mxCell>
+
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+         RELACIONES â€” rutas explÃ­citas sin cruces
+         Cada arista usa exitX/Y entryX/Y y waypoints
+         calculados para que los segmentos
+         no se solapen entre sÃ­.
+    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+
+    <!-- 500  clubs -> equipos   ruta vertical directa
+         salida: (620,176)  entrada: (620,310) -->
+    <mxCell id="500" value="1:N" style="edgeStyle=orthogonalEdgeStyle;fontSize=11;fontStyle=1;endArrow=ERmany;endFill=0;startArrow=ERmandOne;startFill=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="10" target="13" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- 501  clubs -> usuarios   sale por la izquierda de clubs
+         ruta: (510,128) -> (190,128) -> (190,310) -->
+    <mxCell id="501" value="1:N" style="edgeStyle=orthogonalEdgeStyle;fontSize=11;fontStyle=1;endArrow=ERmany;endFill=0;startArrow=ERmandOne;startFill=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="10" target="12" parent="1">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="190" y="128" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+
+    <!-- 502  clubs -> configuracion   horizontal directa
+         salida: (730,104)  entrada: (840,104) -->
+    <mxCell id="502" value="1:1" style="edgeStyle=orthogonalEdgeStyle;fontSize=11;fontStyle=1;endArrow=ERmandOne;endFill=0;startArrow=ERmandOne;startFill=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.15;entryDx=0;entryDy=0;" edge="1" source="10" target="11" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- 503  equipos -> equipo_entrenador
+         salida fondo-izquierda: (532,492)
+         ruta: (532,550) -> (390,550) -> entrada (390,580) -->
+    <mxCell id="503" value="1:N" style="edgeStyle=orthogonalEdgeStyle;fontSize=11;fontStyle=1;endArrow=ERmany;endFill=0;startArrow=ERmandOne;startFill=0;exitX=0.1;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="13" target="15" parent="1">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="532" y="550" />
+          <mxPoint x="390" y="550" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+
+    <!-- 504  usuarios -> equipo_entrenador
+         salida fondo: (212,514)
+         ruta: (212,550) -> (350,550) -> entrada (350,580)
+         [horizontal en y=550 separada 40px de la de 503] -->
+    <mxCell id="504" value="1:N" style="edgeStyle=orthogonalEdgeStyle;fontSize=11;fontStyle=1;endArrow=ERmany;endFill=0;startArrow=ERmandOne;startFill=0;exitX=0.6;exitY=1;exitDx=0;exitDy=0;entryX=0.32;entryY=0;entryDx=0;entryDy=0;" edge="1" source="12" target="15" parent="1">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="212" y="550" />
+          <mxPoint x="350" y="550" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+
+    <!-- 505  equipos -> jugadores
+         salida fondo-derecha: (686,492)
+         ruta: (686,530) -> (810,530) -> entrada (810,580)
+         [cruce en gap y=492-580, sin otras entidades] -->
+    <mxCell id="505" value="1:N" style="edgeStyle=orthogonalEdgeStyle;fontSize=11;fontStyle=1;endArrow=ERmany;endFill=0;startArrow=ERmandOne;startFill=0;exitX=0.8;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="13" target="16" parent="1">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="686" y="530" />
+          <mxPoint x="810" y="530" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+
+    <!-- 506  equipos -> partidos
+         salida fondo x=576: (576,492)
+         vertical libre (entre equipo_entrenador y jugadores)
+         ruta: (576,840) -> (500,840) -> entrada (500,870) -->
+    <mxCell id="506" value="1:N" style="edgeStyle=orthogonalEdgeStyle;fontSize=11;fontStyle=1;endArrow=ERmany;endFill=0;startArrow=ERmandOne;startFill=0;exitX=0.3;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="13" target="18" parent="1">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="576" y="840" />
+          <mxPoint x="500" y="840" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+
+    <!-- 507  equipos -> entrenamientos
+         salida derecha y=447: (730,447)
+         rodea a la derecha de jugadores e historial por x=940
+         ruta: (940,447) -> (940,840) -> entrada (966,870) -->
+    <mxCell id="507" value="1:N" style="edgeStyle=orthogonalEdgeStyle;fontSize=11;fontStyle=1;endArrow=ERmany;endFill=0;startArrow=ERmandOne;startFill=0;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0.3;entryY=0;entryDx=0;entryDy=0;" edge="1" source="13" target="19" parent="1">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="940" y="447" />
+          <mxPoint x="940" y="840" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+
+    <!-- 508  equipos -> objetivos
+         horizontal en y=355 (banda superior, sin obstÃ¡culos)
+         salida: (730,355)  entrada: (1090,355) -->
+    <mxCell id="508" value="1:N" style="edgeStyle=orthogonalEdgeStyle;fontSize=11;fontStyle=1;endArrow=ERmany;endFill=0;startArrow=ERmandOne;startFill=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" source="13" target="14" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- 509  jugadores -> objetivos  (opcional, punteada)
+         sale derecha superior: (920,600)
+         sube por x=1070 (entre jugadores y historial)
+         ruta: (1070,600) -> (1070,401) -> entrada (1090,401) -->
+    <mxCell id="509" value="1:N (opcional)" style="edgeStyle=orthogonalEdgeStyle;fontSize=11;fontStyle=3;dashed=1;endArrow=ERmany;endFill=0;startArrow=ERone;startFill=0;exitX=1;exitY=0.1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="16" target="14" parent="1">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="1070" y="600" />
+          <mxPoint x="1070" y="401" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+
+    <!-- 510  jugadores -> historial_medico
+         horizontal directa en y=682
+         salida: (920,682)  entrada: (1090,682) -->
+    <mxCell id="510" value="1:N" style="edgeStyle=orthogonalEdgeStyle;fontSize=11;fontStyle=1;endArrow=ERmany;endFill=0;startArrow=ERmandOne;startFill=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.64;entryDx=0;entryDy=0;" edge="1" source="16" target="17" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- 511  partidos -> alineaciones
+         salida fondo-derecha: (544,1074)
+         ruta: (544,1130) -> (618,1130) -> entrada (618,1160) -->
+    <mxCell id="511" value="1:N" style="edgeStyle=orthogonalEdgeStyle;fontSize=11;fontStyle=1;endArrow=ERmany;endFill=0;startArrow=ERmandOne;startFill=0;exitX=0.7;exitY=1;exitDx=0;exitDy=0;entryX=0.4;entryY=0;entryDx=0;entryDy=0;" edge="1" source="18" target="21" parent="1">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="544" y="1130" />
+          <mxPoint x="618" y="1130" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+
+    <!-- 512  jugadores -> alineaciones
+         salida fondo x=766: (766,784)
+         ruta: (766,1140) -> (662,1140) -> entrada (662,1160)
+         [horizontal en y=1140, 10px bajo la de 511 en y=1130] -->
+    <mxCell id="512" value="1:N" style="edgeStyle=orthogonalEdgeStyle;fontSize=11;fontStyle=1;endArrow=ERmany;endFill=0;startArrow=ERmandOne;startFill=0;exitX=0.3;exitY=1;exitDx=0;exitDy=0;entryX=0.6;entryY=0;entryDx=0;entryDy=0;" edge="1" source="16" target="21" parent="1">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="766" y="1140" />
+          <mxPoint x="662" y="1140" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+
+    <!-- 513  entrenamientos -> asistencias_entrenamiento
+         vertical casi directa
+         salida: (1010,1030)  entrada: (995,1160) -->
+    <mxCell id="513" value="1:N" style="edgeStyle=orthogonalEdgeStyle;fontSize=11;fontStyle=1;endArrow=ERmany;endFill=0;startArrow=ERmandOne;startFill=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="19" target="22" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- 514  jugadores -> asistencias_entrenamiento
+         salida fondo-derecha: (854,784)
+         ruta: (854,1120) -> (949,1120) -> entrada (949,1160)
+         [horizontal en y=1120, entre 512(y=1140) y 516(y=1150)] -->
+    <mxCell id="514" value="1:N" style="edgeStyle=orthogonalEdgeStyle;fontSize=11;fontStyle=1;endArrow=ERmany;endFill=0;startArrow=ERmandOne;startFill=0;exitX=0.7;exitY=1;exitDx=0;exitDy=0;entryX=0.3;entryY=0;entryDx=0;entryDy=0;" edge="1" source="16" target="22" parent="1">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="854" y="1120" />
+          <mxPoint x="949" y="1120" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+
+    <!-- 515  partidos -> eventos_partido
+         sale por la IZQUIERDA de partidos: (390,1013)
+         rodea por fuera por x=100
+         ruta: (100,1013) -> (100,1130) -> entrada (122,1160) -->
+    <mxCell id="515" value="1:N" style="edgeStyle=orthogonalEdgeStyle;fontSize=11;fontStyle=1;endArrow=ERmany;endFill=0;startArrow=ERmandOne;startFill=0;exitX=0;exitY=0.7;exitDx=0;exitDy=0;entryX=0.1;entryY=0;entryDx=0;entryDy=0;" edge="1" source="18" target="20" parent="1">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="100" y="1013" />
+          <mxPoint x="100" y="1130" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+
+    <!-- 516  jugadores -> eventos_partido
+         salida esquina inferior-izquierda: (700,784)
+         desplaza a x=650 (fuera de partidos) y baja
+         ruta: (650,784) -> (650,1150) -> (210,1150) -> entrada (210,1160)
+         [horizontal en y=1150, separada de 514(y=1120) y 512(y=1140)] -->
+    <mxCell id="516" value="1:N" style="edgeStyle=orthogonalEdgeStyle;fontSize=11;fontStyle=1;endArrow=ERmany;endFill=0;startArrow=ERmandOne;startFill=0;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="16" target="20" parent="1">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="650" y="784" />
+          <mxPoint x="650" y="1150" />
+          <mxPoint x="210" y="1150" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+         LEYENDA
+    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+    <mxCell id="900" value="LEYENDA" style="swimlane;fontStyle=1;fontSize=13;fillColor=#F3F4F6;strokeColor=#9CA3AF;startSize=28;rounded=0;" vertex="1" parent="1">
+      <mxGeometry x="1380" y="80" width="230" height="230" as="geometry" />
+    </mxCell>
+    <mxCell id="901" value="" style="rounded=0;fillColor=#1E40AF;strokeColor=#1E3A8A;" vertex="1" parent="900">
+      <mxGeometry x="10" y="35" width="25" height="15" as="geometry" />
+    </mxCell>
+    <mxCell id="902" value="Entidad principal" style="text;fontSize=11;align=left;" vertex="1" parent="900">
+      <mxGeometry x="42" y="33" width="180" height="18" as="geometry" />
+    </mxCell>
+    <mxCell id="903" value="" style="rounded=0;fillColor=#374151;strokeColor=#1F2937;" vertex="1" parent="900">
+      <mxGeometry x="10" y="62" width="25" height="15" as="geometry" />
+    </mxCell>
+    <mxCell id="904" value="Tabla de union (N:M)" style="text;fontSize=11;align=left;" vertex="1" parent="900">
+      <mxGeometry x="42" y="60" width="180" height="18" as="geometry" />
+    </mxCell>
+    <mxCell id="905" value="id" style="text;fontSize=11;align=left;fontStyle=5;spacingLeft=10;" vertex="1" parent="900">
+      <mxGeometry x="10" y="90" width="60" height="18" as="geometry" />
+    </mxCell>
+    <mxCell id="906" value="Clave Primaria (subrayado)" style="text;fontSize=11;align=left;" vertex="1" parent="900">
+      <mxGeometry x="42" y="90" width="180" height="18" as="geometry" />
+    </mxCell>
+    <mxCell id="907" value="campo_id (FK)" style="text;fontSize=11;align=left;fontStyle=2;spacingLeft=10;" vertex="1" parent="900">
+      <mxGeometry x="10" y="115" width="120" height="18" as="geometry" />
+    </mxCell>
+    <mxCell id="908" value="Clave Foranea (cursiva)" style="text;fontSize=11;align=left;" vertex="1" parent="900">
+      <mxGeometry x="42" y="115" width="180" height="18" as="geometry" />
+    </mxCell>
+    <mxCell id="909" value="â€”â€”|  â€”â€”&lt;" style="text;fontSize=12;align=left;spacingLeft=10;" vertex="1" parent="900">
+      <mxGeometry x="10" y="143" width="100" height="18" as="geometry" />
+    </mxCell>
+    <mxCell id="910" value="Relacion 1:N (crow-foot)" style="text;fontSize=11;align=left;" vertex="1" parent="900">
+      <mxGeometry x="42" y="143" width="180" height="18" as="geometry" />
+    </mxCell>
+    <mxCell id="911" value="- - - - -" style="text;fontSize=12;align=left;fontStyle=2;spacingLeft=10;" vertex="1" parent="900">
+      <mxGeometry x="10" y="168" width="80" height="18" as="geometry" />
+    </mxCell>
+    <mxCell id="912" value="Relacion opcional (nullable)" style="text;fontSize=11;align=left;" vertex="1" parent="900">
+      <mxGeometry x="42" y="168" width="180" height="18" as="geometry" />
+    </mxCell>
+    <mxCell id="913" value="â€”â€”O  â€”â€”&lt;" style="text;fontSize=12;align=left;spacingLeft=10;" vertex="1" parent="900">
+      <mxGeometry x="10" y="193" width="100" height="18" as="geometry" />
+    </mxCell>
+    <mxCell id="914" value="Relacion 1:1 (ambos extremos)" style="text;fontSize=11;align=left;" vertex="1" parent="900">
+      <mxGeometry x="42" y="193" width="180" height="18" as="geometry" />
+    </mxCell>
+
+  </root>
+</mxGraphModel>

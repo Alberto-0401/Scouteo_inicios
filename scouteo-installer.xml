@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <shortName>scouteo</shortName>
+    <fullName>Scouteo</fullName>
+    <version>1.0.0</version>
+    <installerFilename>Scouteo-installer-windows.exe</installerFilename>
+    <outputDirectory>${build_project_directory}/installer-output</outputDirectory>
+    <compressionAlgorithm>lzma</compressionAlgorithm>
+
+    <!-- Imágenes del instalador -->
+    <logoImage>${build_project_directory}/app/src/main/resources/images/logo1.png</logoImage>
+
+    <componentList>
+        <component>
+            <name>default</name>
+            <description>Default</description>
+            <canBeEdited>0</canBeEdited>
+            <selected>1</selected>
+            <show>0</show>
+            <folderList>
+
+                <!-- Main app files + shortcuts -->
+                <folder>
+                    <name>appfiles</name>
+                    <destination>${installdir}</destination>
+                    <distributionFileList>
+                        <distributionFile>
+                            <origin>${build_project_directory}/app/build/libs/app.jar</origin>
+                        </distributionFile>
+                        <distributionFile>
+                            <origin>${build_project_directory}/app/build/libs/favicon.ico</origin>
+                        </distributionFile>
+                        <distributionFile>
+                            <origin>${build_project_directory}/installer/launch.vbs</origin>
+                        </distributionFile>
+                    </distributionFileList>
+                </folder>
+
+                <!-- Dependencies -->
+                <folder>
+                    <name>lib</name>
+                    <destination>${installdir}</destination>
+                    <distributionFileList>
+                        <distributionDirectory>
+                            <origin>${build_project_directory}/app/build/libs/lib</origin>
+                        </distributionDirectory>
+                    </distributionFileList>
+                </folder>
+
+            </folderList>
+
+            <desktopShortcutList>
+                <shortcut>
+                    <comment>Scouteo - Gestión deportiva</comment>
+                    <name>Scouteo</name>
+                    <windowsExec>wscript.exe</windowsExec>
+                    <windowsExecArgs>"${installdir}/launch.vbs"</windowsExecArgs>
+                    <windowsIcon>${installdir}/favicon.ico</windowsIcon>
+                    <windowsPath>${installdir}</windowsPath>
+                    <platforms>windows</platforms>
+                </shortcut>
+            </desktopShortcutList>
+
+            <startMenuShortcutList>
+                <startMenuShortcut>
+                    <comment>Scouteo - Gestión deportiva</comment>
+                    <name>Scouteo</name>
+                    <windowsExec>wscript.exe</windowsExec>
+                    <windowsExecArgs>"${installdir}/launch.vbs"</windowsExecArgs>
+                    <windowsIcon>${installdir}/favicon.ico</windowsIcon>
+                    <windowsPath>${installdir}</windowsPath>
+                    <platforms>windows</platforms>
+                </startMenuShortcut>
+            </startMenuShortcutList>
+
+        </component>
+    </componentList>
+
+    <parameterList>
+        <directoryParameter>
+            <name>installdir</name>
+            <description>Installer.Parameter.installdir.description</description>
+            <explanation>Installer.Parameter.installdir.explanation</explanation>
+            <value></value>
+            <default>${windows_folder_program_files}/Scouteo</default>
+            <allowEmptyValue>0</allowEmptyValue>
+            <ask>yes</ask>
+            <cliOptionName>prefix</cliOptionName>
+            <mustBeWritable>yes</mustBeWritable>
+            <mustExist>0</mustExist>
+            <width>30</width>
+        </directoryParameter>
+    </parameterList>
+
+</project>

@@ -15,6 +15,8 @@ public class FormPartidoController {
     @FXML private TextField txtRival;
     @FXML private TextField txtResultado;
     @FXML private ComboBox<String> cmbLocalVisitante;
+    @FXML private TextField txtCompeticion;
+    @FXML private TextField txtTemporada;
     @FXML private TextArea txtObservaciones;
     @FXML private Label lblError;
 
@@ -55,6 +57,8 @@ public class FormPartidoController {
             if (partido.getTipo() != null) {
                 cmbLocalVisitante.setValue(partido.getTipo().toUpperCase());
             }
+            txtCompeticion.setText(partido.getCompeticion() != null ? partido.getCompeticion() : "");
+            txtTemporada.setText(partido.getTemporada() != null ? partido.getTemporada() : "");
             txtObservaciones.setText(partido.getNotas() != null ? partido.getNotas() : "");
         }
     }
@@ -79,6 +83,8 @@ public class FormPartidoController {
         partido.setFechaHora(fecha.atStartOfDay());
         partido.setRival(rival);
         partido.setTipo(cmbLocalVisitante.getValue() != null ? cmbLocalVisitante.getValue().toLowerCase() : "local");
+        partido.setCompeticion(txtCompeticion.getText() != null ? txtCompeticion.getText().trim() : null);
+        partido.setTemporada(txtTemporada.getText() != null ? txtTemporada.getText().trim() : null);
         partido.setNotas(txtObservaciones.getText() != null ? txtObservaciones.getText().trim() : null);
 
         String resultado = txtResultado.getText() != null ? txtResultado.getText().trim() : "";
