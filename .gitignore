@@ -5,5 +5,5 @@
 build
 .claude/
 
-# Installer binaries
-installer-output/
+# Installer assets
+installer/
