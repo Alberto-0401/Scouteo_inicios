@@ -1,10 +1,7 @@
 package com.javafx.scouteo.controller;
 
-import com.javafx.scouteo.dao.ClubesDAO;
-import com.javafx.scouteo.dao.UsuarioDAO;
 import com.javafx.scouteo.model.Usuario;
 import com.javafx.scouteo.util.ApiClient;
-import com.javafx.scouteo.util.ConexionBD;
 import com.javafx.scouteo.util.SesionUsuario;
 import com.javafx.scouteo.utils.StageUtils;
 import javafx.application.Platform;
@@ -26,9 +23,6 @@ public class LoginController {
     @FXML private Label lblError;
     @FXML private Button btnLogin;
     @FXML private ProgressIndicator progressIndicator;
-
-    private final UsuarioDAO usuarioDAO = new UsuarioDAO();
-    private final ClubesDAO  clubesDAO  = new ClubesDAO();
 
     @FXML
     public void initialize() {
@@ -136,14 +130,15 @@ public class LoginController {
 
     @FXML
     private void registrarse() {
-        if (ConexionBD.getConexion() == null) {
-            mostrarError("No se puede conectar a la base de datos.");
+        if (!ApiClient.getInstance().isDisponible()) {
+            mostrarError("No se puede conectar al servidor.\nVerifica que la API esta en marcha.");
             return;
         }
 
         // Campos del formulario
         TextField txtNombre      = new TextField(); txtNombre.setPromptText("Nombre");
         TextField txtApellidos   = new TextField(); txtApellidos.setPromptText("Apellidos");
+        TextField txtClub        = new TextField(); txtClub.setPromptText("Nombre del club");
         TextField txtEmailReg    = new TextField(); txtEmailReg.setPromptText("correo@club.es");
         PasswordField txtPass1   = new PasswordField(); txtPass1.setPromptText("Contrasena");
         PasswordField txtPass2   = new PasswordField(); txtPass2.setPromptText("Repetir contrasena");
@@ -155,13 +150,15 @@ public class LoginController {
         grid.setStyle("-fx-padding: 20;");
         grid.add(new Label("Nombre:"),     0, 0); grid.add(txtNombre,    1, 0);
         grid.add(new Label("Apellidos:"),  0, 1); grid.add(txtApellidos, 1, 1);
-        grid.add(new Label("Email:"),      0, 2); grid.add(txtEmailReg,  1, 2);
-        grid.add(new Label("Contrasena:"), 0, 3); grid.add(txtPass1,     1, 3);
-        grid.add(new Label("Repetir:"),    0, 4); grid.add(txtPass2,     1, 4);
-        grid.add(lblRegError,              0, 5, 2, 1);
+        grid.add(new Label("Club:"),       0, 2); grid.add(txtClub,      1, 2);
+        grid.add(new Label("Email:"),      0, 3); grid.add(txtEmailReg,  1, 3);
+        grid.add(new Label("Contrasena:"), 0, 4); grid.add(txtPass1,     1, 4);
+        grid.add(new Label("Repetir:"),    0, 5); grid.add(txtPass2,     1, 5);
+        grid.add(lblRegError,              0, 6, 2, 1);
 
         txtNombre.setPrefWidth(220);
         txtApellidos.setPrefWidth(220);
+        txtClub.setPrefWidth(220);
         txtEmailReg.setPrefWidth(220);
         txtPass1.setPrefWidth(220);
         txtPass2.setPrefWidth(220);
@@ -181,11 +178,12 @@ public class LoginController {
         btnOk.addEventFilter(javafx.event.ActionEvent.ACTION, e -> {
             String nombre    = txtNombre.getText().trim();
             String apellidos = txtApellidos.getText().trim();
+            String club      = txtClub.getText().trim();
             String email     = txtEmailReg.getText().trim();
             String pass1     = txtPass1.getText();
             String pass2     = txtPass2.getText();
 
-            if (nombre.isEmpty() || apellidos.isEmpty() || email.isEmpty() || pass1.isEmpty()) {
+            if (nombre.isEmpty() || apellidos.isEmpty() || club.isEmpty() || email.isEmpty() || pass1.isEmpty()) {
                 lblRegError.setText("Todos los campos son obligatorios.");
                 e.consume(); return;
             }
@@ -201,31 +199,19 @@ public class LoginController {
                 lblRegError.setText("Las contrasenas no coinciden.");
                 e.consume(); return;
             }
-            if (usuarioDAO.existeEmail(email)) {
-                lblRegError.setText("Ese email ya esta registrado.");
-                e.consume(); return;
-            }
         });
 
         Optional<ButtonType> result = dialog.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            String nombreClub = txtNombre.getText().trim() + " Club";
-            int clubId = clubesDAO.insertar(nombreClub);
-            if (clubId < 0) {
-                mostrarError("Error al crear el club. Revisa la conexion.");
-                return;
-            }
+            java.util.Map<String, Object> body = new java.util.HashMap<>();
+            body.put("email",      txtEmailReg.getText().trim());
+            body.put("password",   txtPass1.getText());
+            body.put("nombre",     txtNombre.getText().trim());
+            body.put("apellidos",  txtApellidos.getText().trim());
+            body.put("clubNombre", txtClub.getText().trim());
 
-            Usuario nuevo = new Usuario();
-            nuevo.setNombre(txtNombre.getText().trim());
-            nuevo.setApellidos(txtApellidos.getText().trim());
-            nuevo.setEmail(txtEmailReg.getText().trim());
-            nuevo.setRol("directiva");
-            nuevo.setActivo(true);
-            nuevo.setClubId(clubId);
-
-            int id = usuarioDAO.insertar(nuevo, txtPass1.getText());
-            if (id > 0) {
+            String json = ApiClient.getInstance().post("/auth/register", body);
+            if (json != null) {
                 Alert ok = new Alert(Alert.AlertType.INFORMATION);
                 ok.setTitle("Cuenta creada");
                 ok.setHeaderText(null);
@@ -235,7 +221,7 @@ public class LoginController {
                 txtEmail.setText(txtEmailReg.getText().trim());
                 txtPassword.requestFocus();
             } else {
-                mostrarError("Error al crear la cuenta. Revisa la conexion.");
+                mostrarError("Error al crear la cuenta. El email puede ya estar registrado.");
             }
         }
     }

@@ -117,17 +117,25 @@ public class InfoClubController {
 
     @FXML
     private void editarInfoClub() {
+        abrirModal("/views/ConfiguracionClub.fxml", "Configuracion del Club");
+        cargarInformacionClub();
+    }
+
+    @FXML
+    private void editarPerfil() {
+        abrirModal("/views/EditarPerfil.fxml", "Mi Perfil");
+    }
+
+    private void abrirModal(String fxml, String titulo) {
         try {
-            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/views/ConfiguracionClub.fxml"));
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource(fxml));
             javafx.stage.Stage stage = new javafx.stage.Stage();
             StageUtils.setAppIcon(stage);
             stage.setScene(new javafx.scene.Scene(loader.load()));
-            stage.setTitle("Configuración del Club");
+            stage.setTitle(titulo);
+            stage.initOwner(lblNombreClub.getScene().getWindow());
             stage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
             stage.showAndWait();
-
-            // Recargar datos después de cerrar la ventana
-            cargarInformacionClub();
         } catch (java.io.IOException e) {
             e.printStackTrace();
         }

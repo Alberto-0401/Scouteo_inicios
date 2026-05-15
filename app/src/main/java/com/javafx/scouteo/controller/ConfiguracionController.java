@@ -1,7 +1,7 @@
 package com.javafx.scouteo.controller;
 
-import com.javafx.scouteo.model.Configuracion;
 import com.javafx.scouteo.dao.ConfiguracionDAO;
+import com.javafx.scouteo.model.Configuracion;
 import com.javafx.scouteo.util.SesionUsuario;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,29 +19,14 @@ import java.nio.file.Files;
 
 public class ConfiguracionController {
 
-    @FXML
-    private ImageView imgEscudo;
-
-    @FXML
-    private Label lblMensaje;
-
-    @FXML
-    private TextField txtEmail;
-
-    @FXML
-    private TextField txtLocalidad;
-
-    @FXML
-    private TextField txtNombreClub;
-
-    @FXML
-    private TextField txtPresidente;
-
-    @FXML
-    private TextField txtTelefono;
-
-    @FXML
-    private TextField txtTemporada;
+    @FXML private ImageView imgEscudo;
+    @FXML private Label lblMensaje;
+    @FXML private TextField txtEmail;
+    @FXML private TextField txtLocalidad;
+    @FXML private TextField txtNombreClub;
+    @FXML private TextField txtPresidente;
+    @FXML private TextField txtTelefono;
+    @FXML private TextField txtTemporada;
 
     private ConfiguracionDAO configuracionDAO;
     private Configuracion configuracion;
@@ -67,7 +52,6 @@ public class ConfiguracionController {
             txtTelefono.setText(configuracion.getTelefono());
             txtTemporada.setText(configuracion.getTemporadaActual());
 
-            // Cargar escudo si existe
             if (configuracion.getEscudo() != null && configuracion.getEscudo().length > 0) {
                 escudoSeleccionado = configuracion.getEscudo();
                 Image imagen = new Image(new ByteArrayInputStream(configuracion.getEscudo()));
@@ -106,58 +90,48 @@ public class ConfiguracionController {
     void guardarCambios(ActionEvent event) {
         lblMensaje.setText("");
 
-        // Validar campos
         if (txtNombreClub.getText().trim().isEmpty()) {
             lblMensaje.setText("El nombre del club es obligatorio");
             lblMensaje.setStyle("-fx-text-fill: red;");
             txtNombreClub.requestFocus();
             return;
         }
-
         if (txtLocalidad.getText().trim().isEmpty()) {
             lblMensaje.setText("La localidad es obligatoria");
             lblMensaje.setStyle("-fx-text-fill: red;");
             txtLocalidad.requestFocus();
             return;
         }
-
         if (txtPresidente.getText().trim().isEmpty()) {
             lblMensaje.setText("El presidente es obligatorio");
             lblMensaje.setStyle("-fx-text-fill: red;");
             txtPresidente.requestFocus();
             return;
         }
-
         if (txtEmail.getText().trim().isEmpty()) {
             lblMensaje.setText("El email es obligatorio");
             lblMensaje.setStyle("-fx-text-fill: red;");
             txtEmail.requestFocus();
             return;
         }
-
-        // Validar formato email
         if (!txtEmail.getText().matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
             lblMensaje.setText("El formato del email no es valido");
             lblMensaje.setStyle("-fx-text-fill: red;");
             txtEmail.requestFocus();
             return;
         }
-
         if (txtTelefono.getText().trim().isEmpty()) {
             lblMensaje.setText("El telefono es obligatorio");
             lblMensaje.setStyle("-fx-text-fill: red;");
             txtTelefono.requestFocus();
             return;
         }
-
         if (txtTemporada.getText().trim().isEmpty()) {
             lblMensaje.setText("La temporada es obligatoria");
             lblMensaje.setStyle("-fx-text-fill: red;");
             txtTemporada.requestFocus();
             return;
         }
-
-        // Validar formato temporada
         if (!txtTemporada.getText().matches("^\\d{4}/\\d{2}$")) {
             lblMensaje.setText("La temporada debe tener el formato YYYY/YY (ej: 2024/25)");
             lblMensaje.setStyle("-fx-text-fill: red;");
@@ -165,7 +139,6 @@ public class ConfiguracionController {
             return;
         }
 
-        // Guardar configuracion
         int clubId = SesionUsuario.getInstance().getUsuarioActual().getClubId();
         if (configuracion == null) {
             configuracion = new Configuracion();
@@ -199,7 +172,6 @@ public class ConfiguracionController {
 
     @FXML
     void volverDashboard(ActionEvent event) {
-        Stage stage = (Stage) txtNombreClub.getScene().getWindow();
-        stage.close();
+        ((Stage) txtNombreClub.getScene().getWindow()).close();
     }
 }

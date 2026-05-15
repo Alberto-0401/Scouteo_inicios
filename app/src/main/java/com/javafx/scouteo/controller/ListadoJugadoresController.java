@@ -7,7 +7,7 @@ import com.javafx.scouteo.dao.JugadorDAO;
 import com.javafx.scouteo.dao.UsuarioDAO;
 import com.javafx.scouteo.utils.StageUtils;
 import com.javafx.scouteo.utils.TooltipUtils;
-import com.javafx.scouteo.util.ConexionBD;
+import com.javafx.scouteo.util.ApiClient;
 import com.javafx.scouteo.util.SesionUsuario;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -228,8 +228,8 @@ public class ListadoJugadoresController {
 
     public void cargarJugadores() {
         // Verificar conexión a la base de datos
-        if (!ConexionBD.isConexionValida()) {
-            Label errorLabel = new Label("❌ No es posible conectar con la base de datos");
+        if (!ApiClient.getInstance().isDisponible()) {
+            Label errorLabel = new Label("❌ No es posible conectar con el servidor");
             errorLabel.setStyle("-fx-text-fill: #d32f2f; -fx-font-size: 14px; -fx-font-weight: bold;");
             tablaJugadores.setPlaceholder(errorLabel);
             tablaJugadores.setItems(FXCollections.observableArrayList());

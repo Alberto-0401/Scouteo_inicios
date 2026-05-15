@@ -16,13 +16,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import net.sf.jasperreports.engine.JasperPrintManager;
+
+import java.awt.Desktop;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -329,15 +336,44 @@ public class InformesController {
                     JasperExportManager.exportReportToHtmlFile(jasperPrint, htmlPath);
                     JasperExportManager.exportReportToPdfFile(jasperPrint, pdfPath);
 
+                    final JasperPrint jp = jasperPrint;
+                    final File pdfFile   = new File(pdfPath);
                     Platform.runLater(() -> {
                         if (dashboardController != null) dashboardController.ocultarCargando();
+
                         WebView wv = new WebView();
                         wv.getEngine().load(new File(htmlPath).toURI().toString());
+                        VBox.setVgrow(wv, Priority.ALWAYS);
+
+                        Button btnImprimir = new Button("🖨 Imprimir");
+                        btnImprimir.setOnAction(e -> {
+                            try {
+                                JasperPrintManager.printReport(jp, true);
+                            } catch (Exception ex) {
+                                mostrarAlerta("Error al imprimir: " + ex.getMessage());
+                            }
+                        });
+
+                        Button btnAbrirPdf = new Button("📄 Abrir PDF");
+                        btnAbrirPdf.setOnAction(e -> {
+                            try {
+                                Desktop.getDesktop().open(pdfFile);
+                            } catch (Exception ex) {
+                                mostrarAlerta("Error al abrir PDF: " + ex.getMessage());
+                            }
+                        });
+
+                        HBox toolbar = new HBox(8, btnImprimir, btnAbrirPdf);
+                        toolbar.setAlignment(Pos.CENTER_RIGHT);
+                        toolbar.setPadding(new Insets(6, 12, 6, 12));
+                        toolbar.setStyle("-fx-background-color: #ECEFF1; -fx-border-color: #CFD8DC; -fx-border-width: 0 0 1 0;");
+
+                        VBox root = new VBox(toolbar, wv);
                         Stage stage = new Stage();
                         stage.setTitle(titulo + " — Scouteo");
                         stage.initModality(Modality.APPLICATION_MODAL);
                         stage.setResizable(true);
-                        stage.setScene(new Scene(new StackPane(wv), 950, 750));
+                        stage.setScene(new Scene(root, 950, 750));
                         StageUtils.setAppIcon(stage);
                         stage.show();
                         actualizarEstado("Informe generado: " + nombreArch + ".pdf", "#4CAF50");

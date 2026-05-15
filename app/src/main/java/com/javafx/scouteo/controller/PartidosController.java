@@ -5,7 +5,7 @@ import com.javafx.scouteo.model.Partido;
 import com.javafx.scouteo.dao.PartidoDAO;
 import com.javafx.scouteo.utils.StageUtils;
 import com.javafx.scouteo.utils.TooltipUtils;
-import com.javafx.scouteo.util.ConexionBD;
+import com.javafx.scouteo.util.ApiClient;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -84,8 +84,8 @@ public class PartidosController {
     }
 
     public void cargarPartidos() {
-        if (!ConexionBD.isConexionValida()) {
-            Label errorLabel = new Label("No es posible conectar con la base de datos");
+        if (!ApiClient.getInstance().isDisponible()) {
+            Label errorLabel = new Label("No es posible conectar con el servidor");
             errorLabel.setStyle("-fx-text-fill: #d32f2f; -fx-font-size: 14px; -fx-font-weight: bold;");
             tablaPartidos.setPlaceholder(errorLabel);
             listaPartidos = FXCollections.observableArrayList();

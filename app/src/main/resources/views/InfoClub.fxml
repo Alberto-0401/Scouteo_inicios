@@ -17,8 +17,14 @@
             <Label fx:id="tituloInfoClub" text="INFORMACION DEL CLUB" styleClass="page-title"/>
             <Label fx:id="subtituloHeaderClub" text="Datos generales" styleClass="page-subtitle"/>
         </VBox>
-        <Button fx:id="btnEditarInfoClub" text="Editar informacion"
+        <Button fx:id="btnEditarInfoClub" text="Editar club"
                 onAction="#editarInfoClub"
+                style="-fx-background-color: rgba(255,255,255,0.12); -fx-text-fill: white;
+                       -fx-border-color: rgba(255,255,255,0.30); -fx-border-radius: 4;
+                       -fx-background-radius: 4; -fx-font-size: 12px; -fx-padding: 6 14;
+                       -fx-effect: none;"/>
+        <Button fx:id="btnEditarPerfil" text="Mi perfil"
+                onAction="#editarPerfil"
                 style="-fx-background-color: rgba(255,255,255,0.12); -fx-text-fill: white;
                        -fx-border-color: rgba(255,255,255,0.30); -fx-border-radius: 4;
                        -fx-background-radius: 4; -fx-font-size: 12px; -fx-padding: 6 14;
