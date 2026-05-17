@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <shortName>scouteo</shortName>
+    <fullName>Scouteo</fullName>
+    <version>1.0.0</version>
+    <installerFilename>Scouteo-installer-windows.exe</installerFilename>
+    <outputDirectory>${build_project_directory}/installer-output</outputDirectory>
+    <compressionAlgorithm>lzma</compressionAlgorithm>
+
+    <logoImage>${build_project_directory}/installer/banner.png</logoImage>
+    <leftImage>${build_project_directory}/installer/sidebar.png</leftImage>
+
+    <preInstallationActionList>
+        <runProgram>
+            <program>powershell.exe</program>
+            <programArguments>-ExecutionPolicy Bypass -WindowStyle Hidden -Command "if (-not (Test-Path 'C:\Program Files\Java\jdk-24\bin\java.exe')) { $p = $env:TEMP + '\jdk24.msi'; Invoke-WebRequest -Uri 'https://github.com/adoptium/temurin24-binaries/releases/download/jdk-24.0.2%2B12/OpenJDK24U-jdk_x64_windows_hotspot_24.0.2_12.msi' -OutFile $p; Start-Process msiexec -ArgumentList '/i',$p,'/quiet','/norestart','ADDLOCAL=FeatureMain' -Wait; Remove-Item $p -Force }"</programArguments>
+        </runProgram>
+    </preInstallationActionList>
+
+    <componentList>
+        <component>
+            <name>default</name>
+            <description>Default</description>
+            <canBeEdited>0</canBeEdited>
+            <selected>1</selected>
+            <show>0</show>
+            <folderList>
+
+                <folder>
+                    <name>appfiles</name>
+                    <destination>${installdir}</destination>
+                    <distributionFileList>
+                        <distributionFile>
+                            <origin>${build_project_directory}/app/build/libs/app.jar</origin>
+                        </distributionFile>
+                        <distributionFile>
+                            <origin>${build_project_directory}/app/src/main/resources/images/favicon.ico</origin>
+                        </distributionFile>
+                        <distributionFile>
+                            <origin>${build_project_directory}/installer/launch.vbs</origin>
+                        </distributionFile>
+                    </distributionFileList>
+                </folder>
+
+                <folder>
+                    <name>lib</name>
+                    <destination>${installdir}</destination>
+                    <distributionFileList>
+                        <distributionDirectory>
+                            <origin>${build_project_directory}/app/build/libs/lib</origin>
+                        </distributionDirectory>
+                    </distributionFileList>
+                </folder>
+
+            </folderList>
+
+            <desktopShortcutList>
+                <shortcut>
+                    <comment>Scouteo - Gestión deportiva</comment>
+                    <name>Scouteo</name>
+                    <windowsExec>wscript.exe</windowsExec>
+                    <windowsExecArgs>"${installdir}/launch.vbs"</windowsExecArgs>
+                    <windowsIcon>${installdir}/favicon.ico</windowsIcon>
+                    <windowsPath>${installdir}</windowsPath>
+                    <platforms>windows</platforms>
+                </shortcut>
+            </desktopShortcutList>
+
+            <startMenuShortcutList>
+                <startMenuShortcut>
+                    <comment>Scouteo - Gestión deportiva</comment>
+                    <name>Scouteo</name>
+                    <windowsExec>wscript.exe</windowsExec>
+                    <windowsExecArgs>"${installdir}/launch.vbs"</windowsExecArgs>
+                    <windowsIcon>${installdir}/favicon.ico</windowsIcon>
+                    <windowsPath>${installdir}</windowsPath>
+                    <platforms>windows</platforms>
+                </startMenuShortcut>
+            </startMenuShortcutList>
+
+        </component>
+    </componentList>
+
+    <parameterList>
+        <directoryParameter>
+            <name>installdir</name>
+            <description>Installer.Parameter.installdir.description</description>
+            <explanation>Installer.Parameter.installdir.explanation</explanation>
+            <value></value>
+            <default>${windows_folder_program_files}/Scouteo</default>
+            <allowEmptyValue>0</allowEmptyValue>
+            <ask>yes</ask>
+            <cliOptionName>prefix</cliOptionName>
+            <mustBeWritable>yes</mustBeWritable>
+            <mustExist>0</mustExist>
+            <width>30</width>
+        </directoryParameter>
+    </parameterList>
+
+</project>

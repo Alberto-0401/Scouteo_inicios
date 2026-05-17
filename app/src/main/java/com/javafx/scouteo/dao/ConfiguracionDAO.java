@@ -5,6 +5,7 @@ import com.javafx.scouteo.model.Configuracion;
 import com.javafx.scouteo.util.ApiClient;
 
 import java.util.*;
+import java.util.Base64;
 
 public class ConfiguracionDAO {
 
@@ -46,7 +47,15 @@ public class ConfiguracionDAO {
         c.setEmail(getStr(o, "email"));
         c.setTelefono(getStr(o, "telefono"));
         c.setTemporadaActual(getStr(o, "temporadaActual"));
-        c.setEscudo(null); // API does not expose escudo blob
+        if (o.has("escudo") && !o.get("escudo").isJsonNull()) {
+            try {
+                c.setEscudo(Base64.getDecoder().decode(o.get("escudo").getAsString()));
+            } catch (Exception e) {
+                c.setEscudo(null);
+            }
+        } else {
+            c.setEscudo(null);
+        }
         return c;
     }
 
