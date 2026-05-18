@@ -1,5 +1,7 @@
 package com.javafx.scouteo.controller;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.javafx.scouteo.util.ApiClient;
 import com.javafx.scouteo.util.SesionUsuario;
 import com.javafx.scouteo.utils.StageUtils;
@@ -89,9 +91,21 @@ public class EditarPerfilController {
         if (confirm.showAndWait().orElse(ButtonType.CANCEL) != ButtonType.OK) return;
 
         int usuarioId = SesionUsuario.getInstance().getUsuarioActual().getId();
-        boolean ok = ApiClient.getInstance().delete("/usuarios/" + usuarioId);
+        String response = ApiClient.getInstance().deleteWithBody("/usuarios/" + usuarioId);
 
-        if (ok) {
+        if (response != null) {
+            try {
+                JsonObject json = JsonParser.parseString(response).getAsJsonObject();
+                if (json.has("clubDesactivado") && json.get("clubDesactivado").getAsBoolean()) {
+                    Alert info = new Alert(Alert.AlertType.INFORMATION);
+                    info.setTitle("Club desactivado");
+                    info.setHeaderText("El club ha sido desactivado");
+                    info.setContentText("No quedan directivos activos en el club.\nEl club ha sido desactivado automaticamente en el sistema.");
+                    info.setOnShowing(e -> StageUtils.setAppIcon((Stage) info.getDialogPane().getScene().getWindow()));
+                    info.showAndWait();
+                }
+            } catch (Exception ignored) {}
+
             SesionUsuario.getInstance().cerrarSesion();
             Stage modal = (Stage) txtNombre.getScene().getWindow();
             Window owner = modal.getOwner();

@@ -96,6 +96,10 @@ public class ApiClient {
         return result != null;
     }
 
+    public String deleteWithBody(String path) {
+        return request("DELETE", path, null);
+    }
+
     private String request(String method, String path, String bodyJson) {
         try {
             HttpRequest.Builder builder = HttpRequest.newBuilder()
