@@ -21,6 +21,20 @@
 
             <HBox HBox.hgrow="ALWAYS" />
 
+            <Button fx:id="btnRecargar" onAction="#recargarVista"
+                    style="-fx-background-color: rgba(255,255,255,0.12); -fx-text-fill: white;
+                           -fx-border-color: rgba(255,255,255,0.25); -fx-border-radius: 4;
+                           -fx-background-radius: 4; -fx-font-size: 12px; -fx-padding: 6 14; -fx-effect: none;"
+                    text="↺ Recargar" />
+
+            <Button fx:id="btnAjustes" onAction="#mostrarAjustes"
+                    style="-fx-background-color: rgba(255,255,255,0.12); -fx-text-fill: white;
+                           -fx-border-color: rgba(255,255,255,0.25); -fx-border-radius: 4;
+                           -fx-background-radius: 4; -fx-font-size: 12px; -fx-padding: 6 14; -fx-effect: none;"
+                    text="⚙ Ajustes" />
+
+            <Separator orientation="VERTICAL" style="-fx-background-color: rgba(255,255,255,0.25);" />
+
             <Label styleClass="app-bar-label" text="Equipo:" />
             <ComboBox fx:id="cmbEquipoActivo" prefWidth="200" style="-fx-background-color: rgba(255,255,255,0.12); -fx-text-fill: white; -fx-border-color: rgba(255,255,255,0.25); -fx-border-radius: 4; -fx-background-radius: 4;" />
 
@@ -71,6 +85,7 @@
                     <Button fx:id="btnEntrenamientos" maxWidth="Infinity" onAction="#mostrarEntrenamientos" styleClass="nav-item" text="Entrenamientos" />
                     <Button fx:id="btnObjetivos" maxWidth="Infinity" onAction="#mostrarObjetivos" styleClass="nav-item" text="Objetivos" />
                     <Button fx:id="btnInformes" maxWidth="Infinity" onAction="#mostrarInformes" styleClass="nav-item" text="Informes" />
+
                 </VBox>
             </ScrollPane>
 

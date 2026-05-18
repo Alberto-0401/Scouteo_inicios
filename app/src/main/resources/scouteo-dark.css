@@ -1,0 +1,743 @@
+/* ========================================
+   SCOUTEO - Tema Oscuro completo
+   Se carga encima de scouteo.css
+   ======================================== */
+
+/* ---- Paleta ----
+   Base:      #0D0F1A
+   Panel:     #161927
+   Card:      #1C2033
+   Elevated:  #222640
+   Border:    #2C304F
+   Border+:   #383D64
+   Text:      #E4E6F0
+   Muted:     #8B91B5
+   Very muted:#4F5470
+   Gold:      #C9A84C
+*/
+
+/* ==========================================
+   FONDO GLOBAL Y CONTENIDO
+   ========================================== */
+.root {
+    -fx-background-color: #0D0F1A;
+    -fx-background-base: #0D0F1A;
+    -fx-background-panel: #1C2033;
+    -fx-text-primary: #E4E6F0;
+    -fx-text-secondary: #8B91B5;
+}
+
+.content-area {
+    -fx-background-color: #0D0F1A;
+}
+
+.view-root {
+    -fx-background-color: #0D0F1A;
+}
+
+/* ==========================================
+   APP BAR (ya era oscura, pulir)
+   ========================================== */
+.app-bar {
+    -fx-background-color: #080A14;
+    -fx-border-color: transparent transparent rgba(201,168,76,0.18) transparent;
+}
+
+.app-bar-label {
+    -fx-text-fill: rgba(255,255,255,0.35);
+}
+
+.app-bar-user-name {
+    -fx-text-fill: #E4E6F0;
+}
+
+.app-bar-user-role {
+    -fx-text-fill: #C9A84C;
+}
+
+/* ==========================================
+   SIDEBAR (ya era oscuro, pulir)
+   ========================================== */
+.sidebar {
+    -fx-background-color: #080A14;
+}
+
+.sidebar-brand {
+    -fx-background-color: linear-gradient(to bottom, #04060E, #080A14);
+}
+
+.sidebar-stats {
+    -fx-background-color: rgba(0,0,0,0.30);
+}
+
+.stat-mini-value {
+    -fx-text-fill: #C9A84C;
+}
+
+.stat-mini-label {
+    -fx-text-fill: rgba(255,255,255,0.30);
+}
+
+/* ==========================================
+   CABECERA DE VISTA
+   ========================================== */
+.view-header {
+    -fx-background-color: linear-gradient(to right, #080A14, #0D1020);
+    -fx-border-color: transparent transparent rgba(201,168,76,0.15) transparent;
+}
+
+.page-title {
+    -fx-text-fill: #E4E6F0;
+}
+
+.page-subtitle {
+    -fx-text-fill: rgba(201,168,76,0.55);
+}
+
+/* ==========================================
+   CARDS / SECCIONES DE FORMULARIO
+   ========================================== */
+.form-section {
+    -fx-background-color: #1C2033;
+    -fx-border-color: #2C304F;
+}
+
+.form-section-title {
+    -fx-text-fill: #E4E6F0;
+    -fx-border-color: transparent transparent #2C304F transparent;
+}
+
+.view-card {
+    -fx-background-color: #1C2033;
+    -fx-border-color: #2C304F;
+}
+
+/* ==========================================
+   STAT CARDS
+   ========================================== */
+.stat-card {
+    -fx-background-color: #1C2033;
+    -fx-border-color: #2C304F;
+}
+
+.stat-card-value {
+    -fx-text-fill: #C9A84C;
+}
+
+.stat-card-label {
+    -fx-text-fill: #8B91B5;
+}
+
+/* ==========================================
+   FILTER BAR
+   ========================================== */
+.filter-bar {
+    -fx-background-color: #161927;
+    -fx-border-color: #2C304F;
+}
+
+.filter-bar .label {
+    -fx-text-fill: #8B91B5;
+}
+
+/* ==========================================
+   TABLA
+   ========================================== */
+.table-view {
+    -fx-background-color: #161927;
+    -fx-border-color: #2C304F;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #080A14;
+}
+
+.table-view .column-header-background .filler {
+    -fx-background-color: #080A14;
+}
+
+.table-view .column-header {
+    -fx-background-color: #080A14;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: rgba(201,168,76,0.75);
+}
+
+.table-view .column-header:hover .label {
+    -fx-text-fill: #C9A84C;
+}
+
+.table-view .table-cell {
+    -fx-text-fill: #C8CADE;
+    -fx-border-color: transparent transparent #1E2238 transparent;
+}
+
+.table-row-cell {
+    -fx-background-color: #161927;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #1A1D30;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #222640;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #2A2318;
+}
+
+.table-row-cell:selected .table-cell {
+    -fx-text-fill: #C9A84C;
+    -fx-border-color: transparent transparent rgba(201,168,76,0.12) transparent;
+}
+
+/* Botones dentro de celdas */
+.table-cell .button {
+    -fx-background-color: #222640;
+    -fx-text-fill: #8B91B5;
+    -fx-border-color: #383D64;
+}
+
+.table-cell .button:hover {
+    -fx-background-color: rgba(201,168,76,0.15);
+    -fx-text-fill: #C9A84C;
+    -fx-border-color: #C9A84C;
+}
+
+/* ==========================================
+   INPUTS — TextField, TextArea, DatePicker
+   ========================================== */
+.text-field {
+    -fx-background-color: #161927;
+    -fx-text-fill: #E4E6F0;
+    -fx-border-color: #2C304F;
+    -fx-prompt-text-fill: #4F5470;
+}
+
+.text-field:focused {
+    -fx-background-color: #1C2033;
+    -fx-border-color: #C9A84C;
+}
+
+.text-field:disabled {
+    -fx-background-color: #111320;
+    -fx-text-fill: #4F5470;
+    -fx-border-color: #1E2238;
+    -fx-opacity: 1.0;
+}
+
+.text-area {
+    -fx-background-color: #161927;
+    -fx-text-fill: #E4E6F0;
+    -fx-border-color: #2C304F;
+    -fx-prompt-text-fill: #4F5470;
+}
+
+.text-area .content {
+    -fx-background-color: #161927;
+}
+
+.text-area:focused {
+    -fx-border-color: #C9A84C;
+}
+
+.date-picker {
+    -fx-background-color: #161927;
+    -fx-border-color: #2C304F;
+}
+
+.date-picker .text-field {
+    -fx-background-color: #161927;
+    -fx-text-fill: #E4E6F0;
+    -fx-prompt-text-fill: #4F5470;
+}
+
+.date-picker:focused {
+    -fx-border-color: #C9A84C;
+}
+
+/* ==========================================
+   COMBO BOX
+   ========================================== */
+.combo-box {
+    -fx-background-color: #161927;
+    -fx-border-color: #2C304F;
+}
+
+.combo-box .list-cell {
+    -fx-background-color: #161927;
+    -fx-text-fill: #E4E6F0;
+}
+
+.combo-box:focused {
+    -fx-border-color: #C9A84C;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: #1C2033;
+    -fx-border-color: #383D64;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.55), 16, 0, 0, 4);
+}
+
+.combo-box-popup .list-cell {
+    -fx-background-color: #1C2033;
+    -fx-text-fill: #E4E6F0;
+}
+
+.combo-box-popup .list-cell:hover {
+    -fx-background-color: #222640;
+}
+
+.combo-box-popup .list-cell:selected {
+    -fx-background-color: #2A2318;
+    -fx-text-fill: #C9A84C;
+}
+
+/* ==========================================
+   SCROLL BARS
+   ========================================== */
+.scroll-bar {
+    -fx-background-color: #111320;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #2C304F;
+    -fx-background-radius: 5;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #383D64;
+}
+
+.scroll-bar .thumb:pressed {
+    -fx-background-color: #C9A84C;
+}
+
+.scroll-bar .track {
+    -fx-background-color: #111320;
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: #111320;
+}
+
+/* Scroll panes de contenido */
+.scroll-pane {
+    -fx-background: #0D0F1A;
+    -fx-background-color: #0D0F1A;
+    -fx-border-color: transparent;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: #0D0F1A;
+}
+
+/* ==========================================
+   LABELS
+   ========================================== */
+.label {
+    -fx-text-fill: #C8CADE;
+}
+
+.label-title {
+    -fx-text-fill: #C9A84C;
+}
+
+.label-subtitle {
+    -fx-text-fill: #E4E6F0;
+}
+
+.label-header {
+    -fx-text-fill: #E4E6F0;
+}
+
+.label-secondary {
+    -fx-text-fill: #8B91B5;
+}
+
+.label-error {
+    -fx-text-fill: #FF6B6B;
+}
+
+/* ==========================================
+   CHECK BOX Y RADIO BUTTON
+   ========================================== */
+.check-box {
+    -fx-text-fill: #C8CADE;
+}
+
+.check-box .box {
+    -fx-background-color: #161927;
+    -fx-border-color: #383D64;
+}
+
+.check-box:selected .box {
+    -fx-background-color: #C9A84C;
+    -fx-border-color: #C9A84C;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: #0D0F1A;
+}
+
+.check-box:hover .box {
+    -fx-border-color: #C9A84C;
+}
+
+.radio-button {
+    -fx-text-fill: #C8CADE;
+}
+
+.radio-button .radio {
+    -fx-background-color: #161927;
+    -fx-border-color: #383D64;
+}
+
+.radio-button:selected .radio {
+    -fx-background-color: #C9A84C;
+    -fx-border-color: #C9A84C;
+}
+
+.radio-button:selected .dot {
+    -fx-background-color: #0D0F1A;
+}
+
+.radio-button:hover .radio {
+    -fx-border-color: #C9A84C;
+}
+
+/* ==========================================
+   SPINNER
+   ========================================== */
+.spinner {
+    -fx-background-color: #161927;
+    -fx-border-color: #2C304F;
+}
+
+.spinner .text-field {
+    -fx-background-color: #161927;
+    -fx-text-fill: #E4E6F0;
+}
+
+.spinner:focused {
+    -fx-border-color: #C9A84C;
+}
+
+/* ==========================================
+   BOTONES
+   ========================================== */
+.button {
+    -fx-background-color: #C9A84C;
+    -fx-text-fill: #0D0F1A;
+    -fx-effect: dropshadow(gaussian, rgba(201,168,76,0.25), 8, 0, 0, 2);
+}
+
+.button:hover {
+    -fx-background-color: #DEC06A;
+}
+
+.button:pressed {
+    -fx-background-color: #A8873C;
+}
+
+.button:disabled {
+    -fx-background-color: #2C304F;
+    -fx-text-fill: #4F5470;
+    -fx-opacity: 1.0;
+    -fx-effect: none;
+}
+
+.button-outline {
+    -fx-background-color: transparent;
+    -fx-text-fill: #C9A84C;
+    -fx-border-color: rgba(201,168,76,0.40);
+}
+
+.button-outline:hover {
+    -fx-background-color: rgba(201,168,76,0.12);
+    -fx-border-color: #C9A84C;
+}
+
+.app-bar-logout:hover {
+    -fx-background-color: rgba(244,67,54,0.18);
+    -fx-text-fill: #FF8A80;
+    -fx-border-color: rgba(244,67,54,0.45);
+}
+
+/* ==========================================
+   FOOTERS
+   ========================================== */
+.table-footer {
+    -fx-background-color: #111320;
+    -fx-border-color: #2C304F;
+}
+
+.table-footer .label {
+    -fx-text-fill: #8B91B5;
+}
+
+.form-footer {
+    -fx-background-color: #111320;
+    -fx-border-color: #2C304F;
+}
+
+/* ==========================================
+   SEPARADORES
+   ========================================== */
+.separator {
+    -fx-background-color: #2C304F;
+}
+
+/* ==========================================
+   BADGES
+   ========================================== */
+.badge-activo {
+    -fx-background-color: #0E2218;
+    -fx-text-fill: #69F0AE;
+}
+
+.badge-inactivo {
+    -fx-background-color: #2E1212;
+    -fx-text-fill: #FF7070;
+}
+
+/* ==========================================
+   PANELES GENERICOS
+   ========================================== */
+.panel {
+    -fx-background-color: #1C2033;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.45), 12, 0, 0, 3);
+}
+
+/* ==========================================
+   TOOLTIP
+   ========================================== */
+.tooltip {
+    -fx-background-color: #222640;
+    -fx-text-fill: #E4E6F0;
+    -fx-border-color: #383D64;
+    -fx-border-width: 1;
+}
+
+/* ==========================================
+   TAB PANE
+   ========================================== */
+.tab-pane {
+    -fx-background-color: #0D0F1A;
+}
+
+.tab-pane .tab {
+    -fx-background-color: #161927;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: #C9A84C;
+}
+
+.tab-pane .tab .tab-label {
+    -fx-text-fill: #8B91B5;
+}
+
+.tab-pane .tab:selected .tab-label {
+    -fx-text-fill: #0D0F1A;
+}
+
+.tab-pane .tab:hover {
+    -fx-background-color: #222640;
+}
+
+.tab-pane .tab:hover .tab-label {
+    -fx-text-fill: #E4E6F0;
+}
+
+/* ==========================================
+   DIALOG / ALERT
+   ========================================== */
+.dialog-pane {
+    -fx-background-color: #1C2033;
+    -fx-border-color: #2C304F;
+}
+
+.dialog-pane .content {
+    -fx-background-color: #1C2033;
+}
+
+.dialog-pane .header-panel {
+    -fx-background-color: #161927;
+}
+
+.dialog-pane .header-panel .label {
+    -fx-text-fill: #E4E6F0;
+}
+
+.dialog-pane .button-bar .container {
+    -fx-background-color: #161927;
+}
+
+/* ==========================================
+   PROGRESS BAR
+   ========================================== */
+.progress-bar .track {
+    -fx-background-color: #1C2033;
+}
+
+.progress-bar .bar {
+    -fx-background-color: #C9A84C;
+}
+
+/* ==========================================
+   MENU BAR
+   ========================================== */
+.menu-bar {
+    -fx-background-color: #080A14;
+}
+
+.menu-item {
+    -fx-background-color: #1C2033;
+}
+
+.menu-item:hover {
+    -fx-background-color: #C9A84C;
+}
+
+.menu-item .label {
+    -fx-text-fill: #E4E6F0;
+}
+
+.menu-item:hover .label {
+    -fx-text-fill: #0D0F1A;
+}
+
+/* ==========================================
+   CHART
+   ========================================== */
+.chart {
+    -fx-background-color: transparent;
+}
+
+.chart-legend {
+    -fx-background-color: #1C2033;
+}
+
+.chart-legend-item {
+    -fx-text-fill: #C8CADE;
+}
+
+/* ==========================================
+   VALIDACION — error/success/warning
+   ========================================== */
+.text-field.error {
+    -fx-background-color: #2E1212;
+    -fx-border-color: #F44336;
+}
+
+.text-field.success {
+    -fx-background-color: #0E2218;
+    -fx-border-color: #4CAF50;
+}
+
+.text-field.warning {
+    -fx-background-color: #2E2010;
+    -fx-border-color: #FF9800;
+}
+
+/* ==========================================
+   INLINE STYLE OVERRIDES — clases ID especificas
+   ========================================== */
+#tituloListadoJugadores,
+#tituloPartidos,
+#tituloConvocatorias,
+#tituloRanking,
+#tituloInfoClub,
+#tituloFormEstadistica,
+#tituloConfiguracion,
+#lblTitulo {
+    -fx-text-fill: #C9A84C;
+}
+
+#barraFiltrosListado,
+#selectorJugadorEstBox,
+#selectorJugadorEstPartido,
+#filtrosRanking,
+#filtrosConvocatorias {
+    -fx-background-color: #161927;
+}
+
+#lblBuscarListado,
+#lblPosicionListado,
+#lblOrdenarRanking,
+#lblPosicionRanking,
+#lblPartidoConv,
+#lblSeleccionar,
+#lblPosicionJugador,
+#lblJugadorEstPartido,
+#lblObservaciones,
+#lblNombreForm,
+#lblApellidosForm {
+    -fx-text-fill: #C8CADE;
+}
+
+#lblNombreFoto,
+#lblInstrucciones {
+    -fx-text-fill: #8B91B5;
+}
+
+#lblError,
+#lblMensaje {
+    -fx-text-fill: #FF6B6B;
+}
+
+#modalConfirmacionContainer {
+    -fx-background-color: #1C2033;
+}
+
+#seccionEscudo {
+    -fx-background-color: #161927;
+    -fx-border-color: #2C304F;
+}
+
+#lblEscudoClub {
+    -fx-text-fill: #C8CADE;
+}
+
+/* Subtítulos de secciones */
+#subtituloEstadisticasClub,
+#subtituloEstadisticasPartido,
+#subtituloDatosPersonales,
+#subtituloDatosDeportivos,
+#subtituloDatosFisicos,
+#subtituloFotografia,
+#subtituloJugador,
+#subtituloDatosPartido,
+#subtituloEstGenerales,
+#subtituloEstEspecificas,
+#subtituloValoracion,
+#subtituloDatosInstitucionales,
+#subtituloTemporada {
+    -fx-text-fill: #C8CADE;
+}
+
+/* Stat labels del InfoClub */
+#lblNombreClub,
+#lblFundacion,
+#lblCiudad,
+#lblEstadio,
+#lblEntrenador,
+#lblCategoria {
+    -fx-text-fill: #C8CADE;
+}
+
+#lblTotalPlantilla,
+#lblVictorias,
+#lblEmpates,
+#lblDerrotas {
+    -fx-text-fill: #C9A84C;
+}
+
+#lblTotal {
+    -fx-text-fill: #8B91B5;
+}

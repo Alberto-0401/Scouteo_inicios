@@ -1,6 +1,7 @@
 package com.javafx.scouteo.controller;
 
 import com.javafx.scouteo.dao.EquipoDAO;
+import com.javafx.scouteo.util.Preferencias;
 import com.javafx.scouteo.dao.JugadorDAO;
 import com.javafx.scouteo.dao.PartidoDAO;
 import com.javafx.scouteo.model.Equipo;
@@ -60,6 +61,8 @@ public class DashboardController {
     @FXML private Button btnEntrenamientos;
     @FXML private Button btnObjetivos;
     @FXML private Button btnInformes;
+    @FXML private Button btnAjustes;
+    @FXML private Button btnRecargar;
 
     @FXML private StackPane contenedorCentral;
 
@@ -114,7 +117,12 @@ public class DashboardController {
                     }
                 });
                 cargarDatosAsync();
-                mostrarInfoClub();
+                switch (Preferencias.getVistaInicio()) {
+                    case "jugadores"      -> mostrarListadoJugadores();
+                    case "partidos"       -> mostrarPartidos();
+                    case "entrenamientos" -> mostrarEntrenamientos();
+                    default               -> mostrarInfoClub();
+                }
             });
         }, "equipos-loader");
         t.setDaemon(true);
@@ -319,6 +327,20 @@ public class DashboardController {
                 actualizarEstiloBotones(btnInformes);
             } catch (IOException e) { e.printStackTrace(); }
             ocultarCargando(); // Informes no auto-carga tabla; el overlay de generación lo gestiona ctrl
+        });
+    }
+
+    @FXML private void recargarVista() {
+        if (vistaActual != null) vistaActual.run();
+        else cargarDatosAsync();
+    }
+
+    @FXML private void mostrarAjustes() {
+        vistaActual = this::mostrarAjustes;
+        navegarConCarga("Cargando ajustes...", () -> {
+            cargarVista("/views/Ajustes.fxml");
+            actualizarEstiloBotones(btnAjustes);
+            ocultarCargando();
         });
     }
 

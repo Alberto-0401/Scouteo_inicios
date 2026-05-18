@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox styleClass="view-root" stylesheets="@../scouteo.css"
+      xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.javafx.scouteo.controller.AjustesController">
+
+    <HBox styleClass="view-header" alignment="CENTER_LEFT" spacing="20">
+        <VBox spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="AJUSTES" styleClass="page-title"/>
+            <Label text="Preferencias de la aplicacion" styleClass="page-subtitle"/>
+        </VBox>
+    </HBox>
+
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                style="-fx-background-color: #F0F2F5; -fx-background: #F0F2F5; -fx-border-color: transparent;">
+        <VBox spacing="16">
+            <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+
+            <!-- Seccion: Informes PDF -->
+            <VBox styleClass="form-section" spacing="14">
+                <Label text="Informes PDF" styleClass="form-section-title"/>
+
+                <VBox spacing="6">
+                    <Label text="Carpeta de destino"
+                           style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #546E7A;"/>
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <TextField fx:id="txtRutaPdf" editable="false" HBox.hgrow="ALWAYS"
+                                   style="-fx-font-size: 12px;"/>
+                        <Button text="Cambiar" onAction="#cambiarCarpetaPdf" styleClass="button-outline"/>
+                    </HBox>
+                    <Label fx:id="lblMensajePdf" style="-fx-font-size: 11px;"/>
+                </VBox>
+
+                <VBox spacing="6">
+                    <Label text="Firmante del informe"
+                           style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #546E7A;"/>
+                    <Label text="Nombre y cargo que aparece como firmante en los informes generados"
+                           style="-fx-font-size: 11px; -fx-text-fill: #90A4AE;"/>
+                    <TextField fx:id="txtFirmante" promptText="Ej: Director Deportivo — Juan Garcia"/>
+                </VBox>
+
+                <VBox spacing="6">
+                    <Label text="Pie de pagina"
+                           style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #546E7A;"/>
+                    <Label text="Texto adicional al final de cada informe (aviso legal, confidencialidad, etc.)"
+                           style="-fx-font-size: 11px; -fx-text-fill: #90A4AE;"/>
+                    <TextField fx:id="txtPiePdf" promptText="Ej: Documento confidencial — uso interno"/>
+                </VBox>
+
+                <VBox spacing="4">
+                    <CheckBox fx:id="chkAbrirPdfAuto"
+                              text="Abrir PDF automaticamente al generarlo"/>
+                    <Label text="El PDF se abre en el visor del sistema en cuanto se genera, sin tener que pulsar el boton"
+                           style="-fx-font-size: 11px; -fx-text-fill: #90A4AE; -fx-padding: 0 0 0 24;"/>
+                </VBox>
+            </VBox>
+
+            <!-- Seccion: Navegacion -->
+            <VBox styleClass="form-section" spacing="14">
+                <Label text="Navegacion" styleClass="form-section-title"/>
+
+                <VBox spacing="6">
+                    <Label text="Pantalla al iniciar sesion"
+                           style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #546E7A;"/>
+                    <Label text="Vista que se carga automaticamente al entrar a la aplicacion"
+                           style="-fx-font-size: 11px; -fx-text-fill: #90A4AE;"/>
+                    <ComboBox fx:id="cmbVistaInicio" prefWidth="220"/>
+                </VBox>
+            </VBox>
+
+            <!-- Seccion: Comportamiento -->
+            <VBox styleClass="form-section" spacing="14">
+                <Label text="Comportamiento" styleClass="form-section-title"/>
+
+                <VBox spacing="4">
+                    <CheckBox fx:id="chkConfirmarEliminar"
+                              text="Pedir confirmacion antes de eliminar registros"/>
+                    <Label text="Si esta desactivado, los registros se eliminan directamente sin dialogo previo"
+                           style="-fx-font-size: 11px; -fx-text-fill: #90A4AE; -fx-padding: 0 0 0 24;"/>
+                </VBox>
+
+                <VBox spacing="4">
+                    <CheckBox fx:id="chkOcultarBajas"
+                              text="Ocultar jugadores de baja en la tabla de jugadores"/>
+                    <Label text="Los jugadores con estado 'Baja' no aparecen en el listado por defecto"
+                           style="-fx-font-size: 11px; -fx-text-fill: #90A4AE; -fx-padding: 0 0 0 24;"/>
+                </VBox>
+            </VBox>
+
+            <!-- Boton Aplicar -->
+            <HBox alignment="CENTER_RIGHT" spacing="12">
+                <Label fx:id="lblEstado" style="-fx-font-size: 12px; -fx-font-weight: bold;" HBox.hgrow="ALWAYS"/>
+                <Button text="Aplicar cambios" onAction="#aplicar" styleClass="button"/>
+            </HBox>
+
+        </VBox>
+    </ScrollPane>
+
+</VBox>

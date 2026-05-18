@@ -213,7 +213,10 @@ public class ListadoJugadoresController {
                     posicionSeleccionada.equals("Todas") ||
                     posicionSeleccionada.equals(posicionAGrupo(jugador.getPosicion()));
 
-            return coincideTexto && coincidePosicion;
+            boolean noEsBaja = !com.javafx.scouteo.util.Preferencias.getOcultarJugadoresBaja()
+                    || !"baja".equals(jugador.getEstado());
+
+            return coincideTexto && coincidePosicion && noEsBaja;
         });
 
         actualizarTotal();

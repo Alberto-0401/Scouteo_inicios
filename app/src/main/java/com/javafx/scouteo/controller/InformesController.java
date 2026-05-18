@@ -329,7 +329,7 @@ public class InformesController {
                 if (!jasperPrint.getPages().isEmpty()) {
                     String titulo     = (String) parametros.getOrDefault("TituloInforme", "informe");
                     String nombreArch = limpiarNombreArchivo(titulo);
-                    String outputDir  = System.getProperty("user.home") + File.separator + "Documents" + File.separator + "Scouteo";
+                    String outputDir  = com.javafx.scouteo.util.Preferencias.getPdfDirectory();
                     new File(outputDir).mkdirs();
                     String htmlPath = outputDir + File.separator + nombreArch + ".html";
                     String pdfPath  = outputDir + File.separator + nombreArch + ".pdf";
@@ -376,6 +376,9 @@ public class InformesController {
                         stage.setScene(new Scene(root, 950, 750));
                         StageUtils.setAppIcon(stage);
                         stage.show();
+                        if (com.javafx.scouteo.util.Preferencias.getAbrirPdfAuto()) {
+                            try { Desktop.getDesktop().open(pdfFile); } catch (Exception ignored) {}
+                        }
                         actualizarEstado("Informe generado: " + nombreArch + ".pdf", "#4CAF50");
                     });
                 } else {
