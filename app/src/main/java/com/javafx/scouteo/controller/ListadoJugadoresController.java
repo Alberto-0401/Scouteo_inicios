@@ -405,7 +405,7 @@ public class ListadoJugadoresController {
         }
 
         // Campos del formulario
-        TextField txtEmail    = new TextField(jugador.getNombre().toLowerCase().replace(" ", ".") + "." + jugador.getApellidos().split(" ")[0].toLowerCase() + "@fcbarcelona.cat");
+        TextField txtEmail    = new TextField(normalizeForEmail(jugador.getNombre()) + "." + normalizeForEmail(jugador.getApellidos().split(" ")[0]) + "@scouteo.app");
         PasswordField txtPass = new PasswordField();
         txtPass.setText("Scouteo2024!");
         txtPass.setPromptText("Contraseña");
@@ -498,6 +498,13 @@ public class ListadoJugadoresController {
             default:
                 return posicion;
         }
+    }
+
+    private String normalizeForEmail(String text) {
+        if (text == null) return "";
+        String normalized = java.text.Normalizer.normalize(text, java.text.Normalizer.Form.NFD)
+                .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+        return normalized.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
     }
 
     private String estadoDisplay(String estado) {
